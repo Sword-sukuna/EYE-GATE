@@ -1,0 +1,852 @@
+
+<!-- ========================= -->
+<!-- 📄 cadastro.html -->
+<!-- ========================= -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+  />
+
+  <title>
+    EYE GATE • Cadastro
+  </title>
+
+  <!-- css -->
+  <link
+    rel="stylesheet"
+    href="./css/global.css"
+  />
+
+</head>
+
+<body>
+
+
+<!-- ========================= -->
+<!-- 🌌 BACKGROUND -->
+<!-- ========================= -->
+<div class="bg"></div>
+
+<div class="particles"></div>
+
+
+
+<!-- ========================= -->
+<!-- 📱 LAYOUT -->
+<!-- ========================= -->
+<div class="layout">
+
+
+  <!-- ===================== -->
+  <!-- 📚 SIDEBAR -->
+  <!-- ===================== -->
+  <aside class="sidebar">
+
+
+    <!-- logo -->
+    <div class="logo">
+
+      <div class="logo-circle">
+        👁
+      </div>
+
+      <div>
+
+        <h1>
+          EYE GATE
+        </h1>
+
+        <p>
+          Smart School System
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- menu -->
+    <nav class="menu">
+
+      <a href="./dashboard.html">
+
+        📊
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <a
+        href="./cadastro.html"
+        class="active"
+      >
+
+        👤
+        <span>
+          Cadastro
+        </span>
+
+      </a>
+
+
+      <a href="./monitor.html">
+
+        👀
+        <span>
+          Monitor
+        </span>
+
+      </a>
+
+
+      <a href="./registros.html">
+
+        📋
+        <span>
+          Registros
+        </span>
+
+      </a>
+
+
+      <a href="./configuracoes.html">
+
+        ⚙
+        <span>
+          Config
+        </span>
+
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+
+  <!-- ===================== -->
+  <!-- 🖥 CONTENT -->
+  <!-- ===================== -->
+  <main class="content">
+
+
+    <!-- ================= -->
+    <!-- 🧠 TOPBAR -->
+    <!-- ================= -->
+    <section class="topbar">
+
+      <div>
+
+        <h2>
+          Cadastro de Alunos
+        </h2>
+
+        <p>
+          Registrar novos alunos no sistema
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= -->
+    <!-- 📦 GRID -->
+    <!-- ================= -->
+    <section
+      style="
+        display:grid;
+        grid-template-columns:
+        1fr 420px;
+        gap:25px;
+      "
+    >
+
+
+      <!-- ================= -->
+      <!-- 👤 FORM -->
+      <!-- ================= -->
+      <div class="card">
+
+
+        <h3
+          style="
+            margin-bottom:25px;
+          "
+        >
+          👤 Informações do Aluno
+        </h3>
+
+
+
+        <!-- nome -->
+        <div
+          style="
+            margin-bottom:18px;
+          "
+        >
+
+          <label>
+
+            Nome Completo
+
+          </label>
+
+          <input
+            type="text"
+            placeholder="Digite o nome do aluno"
+            style="
+              width:100%;
+              margin-top:10px;
+            "
+          />
+
+        </div>
+
+
+
+        <!-- matrícula -->
+        <div
+          style="
+            margin-bottom:18px;
+          "
+        >
+
+          <label>
+
+            Matrícula
+
+          </label>
+
+          <input
+            type="text"
+            placeholder="000000"
+            style="
+              width:100%;
+              margin-top:10px;
+            "
+          />
+
+        </div>
+
+
+
+        <!-- turma -->
+        <div
+          style="
+            margin-bottom:18px;
+          "
+        >
+
+          <label>
+
+            Turma
+
+          </label>
+
+          <select
+            style="
+              width:100%;
+              margin-top:10px;
+            "
+          >
+
+            <option>
+              Selecionar turma
+            </option>
+
+            <option>
+              1º Ano A
+            </option>
+
+            <option>
+              2º Ano B
+            </option>
+
+            <option>
+              3º Ano C
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <!-- responsável -->
+        <div
+          style="
+            margin-bottom:18px;
+          "
+        >
+
+          <label>
+
+            Responsável
+
+          </label>
+
+          <input
+            type="text"
+            placeholder="Nome do responsável"
+            style="
+              width:100%;
+              margin-top:10px;
+            "
+          />
+
+        </div>
+
+
+
+        <!-- telefone -->
+        <div
+          style="
+            margin-bottom:18px;
+          "
+        >
+
+          <label>
+
+            Telefone
+
+          </label>
+
+          <input
+            type="text"
+            placeholder="(00) 00000-0000"
+            style="
+              width:100%;
+              margin-top:10px;
+            "
+          />
+
+        </div>
+
+
+
+        <!-- email -->
+        <div
+          style="
+            margin-bottom:25px;
+          "
+        >
+
+          <label>
+
+            Email
+
+          </label>
+
+          <input
+            type="email"
+            placeholder="email@email.com"
+            style="
+              width:100%;
+              margin-top:10px;
+            "
+          />
+
+        </div>
+
+
+
+        <!-- botão -->
+        <button
+          style="
+            width:100%;
+            height:58px;
+
+            border:none;
+
+            border-radius:18px;
+
+            background:
+            linear-gradient(
+              135deg,
+              var(--primary),
+              var(--primary2)
+            );
+
+            color:white;
+
+            font-size:17px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+          "
+        >
+
+          ➕ Cadastrar Aluno
+
+        </button>
+
+      </div>
+
+
+
+      <!-- ================= -->
+      <!-- 🎥 FACE -->
+      <!-- ================= -->
+      <div class="card">
+
+
+        <h3
+          style="
+            margin-bottom:20px;
+          "
+        >
+          📸 Captura Facial
+        </h3>
+
+
+
+        <!-- fake camera -->
+        <div
+          style="
+            width:100%;
+            height:420px;
+
+            border-radius:24px;
+
+            background:
+            #02040c;
+
+            position:relative;
+
+            overflow:hidden;
+
+            border:
+            1px solid
+            rgba(255,255,255,.06);
+          "
+        >
+
+
+          <!-- camera -->
+          <div
+            style="
+              position:absolute;
+              inset:0;
+
+              display:flex;
+
+              align-items:center;
+
+              justify-content:center;
+
+              color:
+              rgba(255,255,255,.25);
+
+              font-size:
+              24px;
+
+              background:
+
+              radial-gradient(
+                circle at center,
+                rgba(0,212,255,.12),
+                transparent 60%
+              );
+            "
+          >
+
+            CAMERA
+
+          </div>
+
+
+
+          <!-- frame -->
+          <div
+            style="
+              position:absolute;
+
+              width:200px;
+              height:270px;
+
+              border:
+              3px solid
+              rgba(0,212,255,.7);
+
+              border-radius:
+              25px;
+
+              top:50%;
+              left:50%;
+
+              transform:
+              translate(-50%,-50%);
+            "
+          ></div>
+
+
+
+          <!-- line -->
+          <div
+            style="
+              position:absolute;
+
+              left:50%;
+
+              transform:
+              translateX(-50%);
+
+              width:200px;
+              height:3px;
+
+              background:
+              linear-gradient(
+                90deg,
+                transparent,
+                #00d4ff,
+                transparent
+              );
+
+              top:20%;
+
+              animation:
+              scanMove 2s infinite;
+            "
+          ></div>
+
+        </div>
+
+
+
+        <!-- info -->
+        <div
+          style="
+            margin-top:20px;
+
+            display:flex;
+
+            flex-direction:
+            column;
+
+            gap:12px;
+          "
+        >
+
+          <div
+            style="
+              background:
+              rgba(255,255,255,.04);
+
+              padding:15px;
+
+              border-radius:16px;
+            "
+          >
+
+            📡 IA pronta para captura
+
+          </div>
+
+
+
+          <div
+            style="
+              background:
+              rgba(255,255,255,.04);
+
+              padding:15px;
+
+              border-radius:16px;
+            "
+          >
+
+            👁 Reconhecimento multi-face
+
+          </div>
+
+
+
+          <div
+            style="
+              background:
+              rgba(255,255,255,.04);
+
+              padding:15px;
+
+              border-radius:16px;
+            "
+          >
+
+            ⚡ Captura em tempo real
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= -->
+    <!-- 👥 ALUNOS -->
+    <!-- ================= -->
+    <section
+      class="card"
+      style="
+        margin-top:25px;
+      "
+    >
+
+      <h3
+        style="
+          margin-bottom:20px;
+        "
+      >
+        👥 Últimos Cadastros
+      </h3>
+
+
+
+      <div
+        style="
+          display:flex;
+          flex-direction:column;
+          gap:15px;
+        "
+      >
+
+
+        <!-- aluno -->
+        <div
+          style="
+            display:flex;
+
+            justify-content:
+            space-between;
+
+            align-items:center;
+
+            background:
+            rgba(255,255,255,.04);
+
+            padding:18px;
+
+            border-radius:18px;
+          "
+        >
+
+          <div
+            style="
+              display:flex;
+              align-items:center;
+              gap:15px;
+            "
+          >
+
+            <div
+              style="
+                width:55px;
+                height:55px;
+
+                border-radius:
+                50%;
+
+                background:
+                linear-gradient(
+                  135deg,
+                  var(--primary),
+                  var(--primary2)
+                );
+
+                display:flex;
+
+                align-items:center;
+
+                justify-content:center;
+
+                font-size:22px;
+              "
+            >
+
+              👤
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                João Silva
+              </strong>
+
+              <p
+                style="
+                  color:var(--muted);
+                  margin-top:5px;
+                "
+              >
+                2º Ano B
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <button
+            style="
+              border:none;
+
+              background:
+              rgba(255,77,109,.12);
+
+              color:
+              #ff4d6d;
+
+              padding:
+              12px 18px;
+
+              border-radius:
+              14px;
+
+              cursor:pointer;
+            "
+          >
+
+            Excluir
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+
+<!-- ========================= -->
+<!-- ✨ PARTICLES -->
+<!-- ========================= -->
+<script>
+
+for(let i=0;i<40;i++){
+
+  const p =
+  document.createElement("div");
+
+  p.className =
+  "particle";
+
+  p.style.left =
+  Math.random()*100+"%";
+
+  p.style.animationDuration =
+  5 + Math.random()*10 + "s";
+
+  p.style.animationDelay =
+  Math.random()*5+"s";
+
+  document
+  .querySelector(".particles")
+  .appendChild(p);
+
+}
+
+</script>
+
+
+
+<!-- ========================= -->
+<!-- 🎥 SCAN -->
+<!-- ========================= -->
+<style>
+
+input,
+select{
+
+  height:
+  55px;
+
+  border:none;
+
+  outline:none;
+
+  border-radius:
+  16px;
+
+  padding:
+  0 18px;
+
+  background:
+  rgba(255,255,255,.04);
+
+  color:white;
+
+  border:
+  1px solid
+  rgba(255,255,255,.06);
+
+}
+
+
+label{
+
+  color:
+  var(--muted);
+
+  font-size:
+  14px;
+
+}
+
+
+@keyframes scanMove{
+
+  0%{
+    top:20%;
+  }
+
+  50%{
+    top:75%;
+  }
+
+  100%{
+    top:20%;
+  }
+
+}
+
+
+@media(max-width:1000px){
+
+  section[style*="grid-template-columns"]{
+
+    grid-template-columns:
+    1fr !important;
+
+  }
+
+}
+
+</style>
+
+</body>
+</html>
