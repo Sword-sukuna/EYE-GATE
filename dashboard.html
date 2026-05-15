@@ -57,24 +57,19 @@
 
 
     <!-- 🔐 ADMIN PANEL NOVO (UI MELHORADO) -->
-    <div id="adminPanel" class="admin-panel">
+    <div id="adminPanel" class="admin-panel" style="display:none;">
 
-      <div class="admin-header">
-        🔐 ADMIN CONTROL
-      </div>
+  <div class="admin-header">
+    🔐 ADMIN PANEL
+  </div>
 
-      <button onclick="listarUsuarios()">👥 Ver usuários</button>
-      <button onclick="abrirGerenciador()">🗑 Gerenciar contas</button>
-      <button onclick="resetSistema()" class="danger">⚠ Reset sistema</button>
+  <div id="userList" class="user-list"></div>
 
-    </div>
+  <button onclick="resetSistema()" class="danger">
+    ⚠ Reset sistema
+  </button>
 
-
-    <div class="sidebar-footer">
-      <button class="logout-btn" onclick="logout()">🚪 Sair</button>
-    </div>
-
-  </aside>
+</div>
 
 
 

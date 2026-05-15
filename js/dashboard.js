@@ -158,3 +158,98 @@ function toggleAdminPanel(){
     : "none";
 
 }
+
+// =========================
+// 🔐 LISTAR USUÁRIOS (UI)
+// =========================
+function listarUsuarios(){
+
+  const usuarios =
+    JSON.parse(
+      localStorage.getItem("usuariosEyeGate")
+    ) || [];
+
+  const container =
+    document.getElementById("userList");
+
+  container.innerHTML = "";
+
+
+  if(usuarios.length === 0){
+
+    container.innerHTML = `
+      <p style="color:#94a3b8;font-size:13px;">
+        Nenhum usuário encontrado
+      </p>
+    `;
+
+    return;
+
+  }
+
+
+  usuarios.forEach((u,index)=>{
+
+    const card =
+      document.createElement("div");
+
+    card.className = "user-card";
+
+    card.innerHTML = `
+
+      <div class="info">
+
+        <strong>${u.nome}</strong>
+
+        <span>${u.email}</span>
+
+      </div>
+
+      <button class="delete-btn"
+        onclick="deletarUsuario(${index})"
+      >
+        🗑
+      </button>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+// =========================
+// 🗑 DELETAR USUÁRIO REAL
+// =========================
+function deletarUsuario(index){
+
+  const usuarios =
+    JSON.parse(
+      localStorage.getItem("usuariosEyeGate")
+    ) || [];
+
+
+  const confirmacao =
+    confirm("Tem certeza que deseja deletar este usuário?");
+
+
+  if(!confirmacao) return;
+
+
+  usuarios.splice(index,1);
+
+
+  localStorage.setItem(
+    "usuariosEyeGate",
+    JSON.stringify(usuarios)
+  );
+
+
+  listarUsuarios();
+
+  document.getElementById("totalUsers").innerText =
+    usuarios.length;
+
+}
