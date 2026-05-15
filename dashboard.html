@@ -1,7 +1,3 @@
-<!-- ========================= -->
-<!-- 📄 dashboard.html -->
-<!-- ========================= -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -11,47 +7,37 @@
 
   <meta
     name="viewport"
-    content="width=device-width,initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0"
   />
 
-  <title>
-    EYE GATE • Dashboard
-  </title>
+  <title>EYE GATE • Dashboard</title>
 
-  <!-- css -->
   <link
     rel="stylesheet"
-    href="./css/global.css"
+    href="./css/dashboard.css"
+  />
+
+  <link
+    rel="icon"
+    href="data:,"
   />
 
 </head>
 
 <body>
 
-
-<!-- ========================= -->
-<!-- 🌌 BACKGROUND -->
-<!-- ========================= -->
-<div class="bg"></div>
-
-<div class="particles"></div>
+  <!-- ========================= -->
+  <!-- 🌌 BACKGROUND -->
+  <!-- ========================= -->
+  <div class="bg"></div>
 
 
-
-<!-- ========================= -->
-<!-- 📱 LAYOUT -->
-<!-- ========================= -->
-<div class="layout">
-
-
-  <!-- ===================== -->
-  <!-- 📚 SIDEBAR -->
-  <!-- ===================== -->
+  <!-- ========================= -->
+  <!-- 📱 SIDEBAR -->
+  <!-- ========================= -->
   <aside class="sidebar">
 
-
-    <!-- logo -->
-    <div class="logo">
+    <div class="logo-area">
 
       <div class="logo-circle">
         👁
@@ -59,12 +45,10 @@
 
       <div>
 
-        <h1>
-          EYE GATE
-        </h1>
+        <h1>EYE GATE</h1>
 
         <p>
-          Smart School System
+          Smart Access
         </p>
 
       </div>
@@ -72,78 +56,88 @@
     </div>
 
 
-
-    <!-- menu -->
     <nav class="menu">
 
       <a
         href="./dashboard.html"
-        class="active"
+        class="menu-item active"
       >
 
-        📊
-        <span>
-          Dashboard
-        </span>
+        🏠 Dashboard
 
       </a>
 
+      <a
+        href="./students.html"
+        class="menu-item"
+      >
 
-      <a href="./cadastro.html">
-
-        👤
-        <span>
-          Cadastro
-        </span>
-
-      </a>
-
-
-      <a href="./monitor.html">
-
-        👀
-        <span>
-          Monitor
-        </span>
+        👨‍🎓 Alunos
 
       </a>
 
+      <a
+        href="./register.html"
+        class="menu-item"
+      >
 
-      <a href="./registros.html">
-
-        📋
-        <span>
-          Registros
-        </span>
+        📸 Cadastro Facial
 
       </a>
 
+      <a
+        href="./monitor.html"
+        class="menu-item"
+      >
 
-      <a href="./configuracoes.html">
+        👀 Monitor
 
-        ⚙
-        <span>
-          Config
-        </span>
+      </a>
+
+      <a
+        href="./history.html"
+        class="menu-item"
+      >
+
+        🕒 Histórico
+
+      </a>
+
+      <a
+        href="./settings.html"
+        class="menu-item"
+      >
+
+        ⚙ Configurações
 
       </a>
 
     </nav>
 
+
+    <button
+      class="logout-btn"
+      onclick="logout()"
+    >
+
+      Sair
+
+    </button>
+
   </aside>
 
 
 
-  <!-- ===================== -->
-  <!-- 🖥 CONTENT -->
-  <!-- ===================== -->
-  <main class="content">
+  <!-- ========================= -->
+  <!-- 📊 CONTEÚDO -->
+  <!-- ========================= -->
+  <main class="main-content">
 
 
-    <!-- ================= -->
-    <!-- 🧠 TOPBAR -->
-    <!-- ================= -->
-    <section class="topbar">
+    <!-- ===================== -->
+    <!-- 🔝 TOPBAR -->
+    <!-- ===================== -->
+    <header class="topbar">
 
       <div>
 
@@ -152,140 +146,113 @@
         </h2>
 
         <p>
-          Painel principal do sistema
+          Controle inteligente de entrada e saída
         </p>
 
       </div>
 
-    </section>
+
+      <div class="topbar-right">
+
+        <div class="status-online">
+
+          <span class="dot"></span>
+
+          Sistema Online
+
+        </div>
+
+      </div>
+
+    </header>
 
 
 
-    <!-- ================= -->
+    <!-- ===================== -->
     <!-- 📊 CARDS -->
-    <!-- ================= -->
-    <section
-      style="
-        display:grid;
-        grid-template-columns:
-        repeat(auto-fit,minmax(240px,1fr));
-        gap:20px;
-      "
-    >
+    <!-- ===================== -->
+    <section class="stats-grid">
 
+      <div class="stat-card">
 
-      <!-- presentes -->
-      <div class="card">
+        <div class="stat-icon">
+          👨‍🎓
+        </div>
 
-        <h3>
-          👥 Presentes
-        </h3>
+        <div>
 
-        <h1
-          style="
-            margin-top:15px;
-            font-size:42px;
-          "
-        >
-          128
-        </h1>
+          <h3 id="totalStudents">
+            0
+          </h3>
 
-        <p
-          style="
-            margin-top:10px;
-            color:var(--muted);
-          "
-        >
-          alunos na escola
-        </p>
+          <p>
+            Alunos
+          </p>
+
+        </div>
 
       </div>
 
 
+      <div class="stat-card">
 
-      <!-- entradas -->
-      <div class="card">
+        <div class="stat-icon">
+          ✅
+        </div>
 
-        <h3>
-          🚪 Entradas
-        </h3>
+        <div>
 
-        <h1
-          style="
-            margin-top:15px;
-            font-size:42px;
-          "
-        >
-          312
-        </h1>
+          <h3 id="presentStudents">
+            0
+          </h3>
 
-        <p
-          style="
-            margin-top:10px;
-            color:var(--muted);
-          "
-        >
-          registros hoje
-        </p>
+          <p>
+            Presentes
+          </p>
+
+        </div>
 
       </div>
 
 
+      <div class="stat-card">
 
-      <!-- saidas -->
-      <div class="card">
+        <div class="stat-icon">
+          🚪
+        </div>
 
-        <h3>
-          🕒 Saídas
-        </h3>
+        <div>
 
-        <h1
-          style="
-            margin-top:15px;
-            font-size:42px;
-          "
-        >
-          97
-        </h1>
+          <h3 id="entriesToday">
+            0
+          </h3>
 
-        <p
-          style="
-            margin-top:10px;
-            color:var(--muted);
-          "
-        >
-          alunos liberados
-        </p>
+          <p>
+            Entradas Hoje
+          </p>
+
+        </div>
 
       </div>
 
 
+      <div class="stat-card">
 
-      <!-- status -->
-      <div class="card">
+        <div class="stat-icon">
+          ⚠
+        </div>
 
-        <h3>
-          📡 Sistema
-        </h3>
+        <div>
 
-        <h1
-          style="
-            margin-top:15px;
-            font-size:34px;
-            color:var(--success);
-          "
-        >
-          ONLINE
-        </h1>
+          <h3 id="alerts">
+            0
+          </h3>
 
-        <p
-          style="
-            margin-top:10px;
-            color:var(--muted);
-          "
-        >
-          reconhecimento ativo
-        </p>
+          <p>
+            Alertas
+          </p>
+
+        </div>
 
       </div>
 
@@ -293,127 +260,48 @@
 
 
 
-    <!-- ================= -->
-    <!-- 🎥 CAMERA -->
-    <!-- ================= -->
-    <section
-      class="card"
-      style="
-        margin-top:25px;
-      "
-    >
+    <!-- ===================== -->
+    <!-- 🎥 CÂMERA -->
+    <!-- ===================== -->
+    <section class="camera-section">
 
-      <h3
-        style="
-          margin-bottom:20px;
-        "
-      >
-        🎥 Câmera Principal
-      </h3>
+      <div class="section-title">
+
+        <h3>
+          📷 Reconhecimento Facial
+        </h3>
+
+      </div>
 
 
-      <div
-        style="
-          width:100%;
-          height:420px;
-          border-radius:24px;
-          overflow:hidden;
-          position:relative;
-          background:#02040c;
-          border:
-          1px solid
-          rgba(255,255,255,.06);
-        "
-      >
+      <div class="camera-box">
+
+        <video
+          id="video"
+          autoplay
+          playsinline
+          muted
+        ></video>
 
 
-        <!-- fake camera -->
-        <div
-          style="
-            position:absolute;
-            inset:0;
+        <div class="camera-overlay">
 
-            background:
+          <div class="scan-line"></div>
 
-            radial-gradient(
-              circle at center,
-              rgba(0,212,255,.12),
-              transparent 60%
-            );
-
-            display:flex;
-            align-items:center;
-            justify-content:center;
-
-            font-size:28px;
-
-            color:
-            rgba(255,255,255,.3);
-          "
-        >
-
-          CAMERA FEED
+          <div class="face-frame"></div>
 
         </div>
 
+      </div>
 
 
-        <!-- face frame -->
-        <div
-          style="
-            position:absolute;
+      <div class="camera-status">
 
-            width:220px;
-            height:300px;
+        <div id="status">
 
-            border:
-            3px solid
-            rgba(0,212,255,.7);
+          🔎 Aguardando reconhecimento...
 
-            border-radius:
-            25px;
-
-            top:50%;
-            left:50%;
-
-            transform:
-            translate(-50%,-50%);
-
-            box-shadow:
-            0 0 30px
-            rgba(0,212,255,.25);
-          "
-        ></div>
-
-
-
-        <!-- scan -->
-        <div
-          style="
-            position:absolute;
-
-            left:50%;
-
-            transform:
-            translateX(-50%);
-
-            width:220px;
-            height:3px;
-
-            background:
-            linear-gradient(
-              90deg,
-              transparent,
-              #00d4ff,
-              transparent
-            );
-
-            top:20%;
-
-            animation:
-            scanMove 2s infinite;
-          "
-        ></div>
+        </div>
 
       </div>
 
@@ -421,118 +309,26 @@
 
 
 
-    <!-- ================= -->
-    <!-- 📋 ATIVIDADE -->
-    <!-- ================= -->
-    <section
-      class="card"
-      style="
-        margin-top:25px;
-      "
-    >
+    <!-- ===================== -->
+    <!-- 🕒 REGISTROS -->
+    <!-- ===================== -->
+    <section class="live-section">
 
-      <h3
-        style="
-          margin-bottom:20px;
-        "
-      >
-        📋 Atividade Recente
-      </h3>
+      <div class="section-title">
+
+        <h3>
+          🕒 Últimos Registros
+        </h3>
+
+      </div>
 
 
       <div
-        style="
-          display:flex;
-          flex-direction:column;
-          gap:15px;
-        "
+        class="live-list"
+        id="liveList"
       >
 
-
-        <div
-          style="
-            background:
-            rgba(255,255,255,.04);
-
-            padding:18px;
-
-            border-radius:18px;
-
-            display:flex;
-
-            justify-content:
-            space-between;
-
-            align-items:center;
-          "
-        >
-
-          <div>
-
-            <strong>
-              João Silva
-            </strong>
-
-            <p
-              style="
-                color:var(--muted);
-                margin-top:5px;
-              "
-            >
-              Entrada registrada
-            </p>
-
-          </div>
-
-          <span>
-            07:15
-          </span>
-
-        </div>
-
-
-
-        <div
-          style="
-            background:
-            rgba(255,255,255,.04);
-
-            padding:18px;
-
-            border-radius:18px;
-
-            display:flex;
-
-            justify-content:
-            space-between;
-
-            align-items:center;
-          "
-        >
-
-          <div>
-
-            <strong>
-              Maria Souza
-            </strong>
-
-            <p
-              style="
-                color:var(--muted);
-                margin-top:5px;
-              "
-            >
-              Saída registrada
-            </p>
-
-          </div>
-
-          <span>
-            11:32
-          </span>
-
-        </div>
-
+        <!-- registros -->
 
       </div>
 
@@ -541,64 +337,13 @@
 
   </main>
 
-</div>
 
 
-
-<!-- ========================= -->
-<!-- ✨ PARTICLES SCRIPT -->
-<!-- ========================= -->
-<script>
-
-for(let i=0;i<40;i++){
-
-  const p =
-  document.createElement("div");
-
-  p.className =
-  "particle";
-
-  p.style.left =
-  Math.random()*100+"%";
-
-  p.style.animationDuration =
-  5 + Math.random()*10 + "s";
-
-  p.style.animationDelay =
-  Math.random()*5+"s";
-
-  document
-  .querySelector(".particles")
-  .appendChild(p);
-
-}
-
-</script>
-
-
-
-<!-- ========================= -->
-<!-- 🎥 SCAN ANIMATION -->
-<!-- ========================= -->
-<style>
-
-@keyframes scanMove{
-
-  0%{
-    top:20%;
-  }
-
-  50%{
-    top:75%;
-  }
-
-  100%{
-    top:20%;
-  }
-
-}
-
-</style>
+  <!-- ========================= -->
+  <!-- 📦 SCRIPT -->
+  <!-- ========================= -->
+  <script src="./js/dashboard.js"></script>
 
 </body>
+
 </html>

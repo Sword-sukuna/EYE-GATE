@@ -1,1 +1,852 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="
+      width=device-width,
+      initial-scale=1.0
+    "
+  />
+
+  <title>
+    EYE GATE • Monitor
+  </title>
+
+  <!-- css -->
+  <link
+    rel="stylesheet"
+    href="./css/global.css"
+  />
+
+</head>
+
+<body>
+
+
+<!-- ========================= -->
+<!-- 🌌 BG -->
+<!-- ========================= -->
+<div class="bg"></div>
+
+<div class="particles"></div>
+
+
+
+<!-- ========================= -->
+<!-- 📱 LAYOUT -->
+<!-- ========================= -->
+<div class="layout">
+
+
+  <!-- ===================== -->
+  <!-- 📚 SIDEBAR -->
+  <!-- ===================== -->
+  <aside class="sidebar">
+
+
+    <!-- logo -->
+    <div class="logo">
+
+      <div class="logo-circle">
+        👁
+      </div>
+
+      <div>
+
+        <h1>
+          EYE GATE
+        </h1>
+
+        <p>
+          Smart School System
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- menu -->
+    <nav class="menu">
+
+      <a href="./dashboard.html">
+
+        📊
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <a href="./cadastro.html">
+
+        👤
+        <span>
+          Cadastro
+        </span>
+
+      </a>
+
+
+      <a
+        href="./monitor.html"
+        class="active"
+      >
+
+        👀
+        <span>
+          Monitor
+        </span>
+
+      </a>
+
+
+      <a href="./registros.html">
+
+        📋
+        <span>
+          Registros
+        </span>
+
+      </a>
+
+
+      <a href="./configuracoes.html">
+
+        ⚙
+        <span>
+          Config
+        </span>
+
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+
+  <!-- ===================== -->
+  <!-- 🖥 CONTENT -->
+  <!-- ===================== -->
+  <main class="content">
+
+
+    <!-- ================= -->
+    <!-- 🧠 TOPBAR -->
+    <!-- ================= -->
+    <section class="topbar">
+
+      <div>
+
+        <h2>
+          Monitor em Tempo Real
+        </h2>
+
+        <p>
+          Reconhecimento facial ativo
+        </p>
+
+      </div>
+
+
+
+      <!-- status -->
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          gap:10px;
+
+          background:
+          rgba(0,255,140,.08);
+
+          border:
+          1px solid
+          rgba(0,255,140,.15);
+
+          padding:
+          12px 18px;
+
+          border-radius:
+          16px;
+        "
+      >
+
+        <div
+          style="
+            width:12px;
+            height:12px;
+
+            border-radius:
+            50%;
+
+            background:
+            #00ff99;
+
+            box-shadow:
+            0 0 15px
+            #00ff99;
+          "
+        ></div>
+
+        <span>
+          Sistema Online
+        </span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= -->
+    <!-- 📦 GRID -->
+    <!-- ================= -->
+    <section
+      style="
+        display:grid;
+        grid-template-columns:
+        1.5fr 400px;
+
+        gap:25px;
+      "
+    >
+
+
+
+      <!-- ================= -->
+      <!-- 🎥 CAMERA -->
+      <!-- ================= -->
+      <div class="card">
+
+
+        <div
+          style="
+            display:flex;
+
+            justify-content:
+            space-between;
+
+            align-items:center;
+
+            margin-bottom:20px;
+          "
+        >
+
+          <h3>
+            🎥 Câmera Principal
+          </h3>
+
+
+          <div
+            style="
+              color:
+              var(--success);
+
+              font-size:14px;
+            "
+          >
+
+            ● IA Ativa
+
+          </div>
+
+        </div>
+
+
+
+        <!-- camera -->
+        <div
+          style="
+            width:100%;
+            height:620px;
+
+            border-radius:28px;
+
+            overflow:hidden;
+
+            position:relative;
+
+            background:
+            #02040c;
+
+            border:
+            1px solid
+            rgba(255,255,255,.06);
+          "
+        >
+
+
+          <!-- fake video -->
+          <div
+            style="
+              position:absolute;
+              inset:0;
+
+              background:
+
+              radial-gradient(
+                circle at center,
+                rgba(0,212,255,.14),
+                transparent 60%
+              );
+
+              display:flex;
+
+              align-items:center;
+              justify-content:center;
+
+              color:
+              rgba(255,255,255,.25);
+
+              font-size:30px;
+            "
+          >
+
+            LIVE CAMERA
+
+          </div>
+
+
+
+          <!-- rosto 1 -->
+          <div
+            style="
+              position:absolute;
+
+              width:180px;
+              height:240px;
+
+              border:
+              3px solid
+              #00d4ff;
+
+              border-radius:
+              24px;
+
+              top:18%;
+              left:20%;
+
+              box-shadow:
+              0 0 30px
+              rgba(0,212,255,.3);
+            "
+          >
+
+
+            <div
+              style="
+                position:absolute;
+
+                bottom:-50px;
+                left:0;
+
+                background:
+                rgba(0,212,255,.12);
+
+                border:
+                1px solid
+                rgba(0,212,255,.3);
+
+                padding:
+                10px 16px;
+
+                border-radius:
+                14px;
+
+                backdrop-filter:
+                blur(10px);
+              "
+            >
+
+              👤 João Silva
+
+            </div>
+
+          </div>
+
+
+
+          <!-- rosto 2 -->
+          <div
+            style="
+              position:absolute;
+
+              width:180px;
+              height:240px;
+
+              border:
+              3px solid
+              #00ff99;
+
+              border-radius:
+              24px;
+
+              top:35%;
+              right:18%;
+
+              box-shadow:
+              0 0 30px
+              rgba(0,255,153,.3);
+            "
+          >
+
+
+            <div
+              style="
+                position:absolute;
+
+                bottom:-50px;
+                left:0;
+
+                background:
+                rgba(0,255,153,.12);
+
+                border:
+                1px solid
+                rgba(0,255,153,.3);
+
+                padding:
+                10px 16px;
+
+                border-radius:
+                14px;
+
+                backdrop-filter:
+                blur(10px);
+              "
+            >
+
+              👤 Maria Souza
+
+            </div>
+
+          </div>
+
+
+
+          <!-- scan -->
+          <div
+            style="
+              position:absolute;
+
+              width:100%;
+              height:4px;
+
+              top:0;
+
+              background:
+              linear-gradient(
+                90deg,
+                transparent,
+                #00d4ff,
+                transparent
+              );
+
+              animation:
+              scan 3s linear infinite;
+            "
+          ></div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ================= -->
+      <!-- 📋 LATERAL -->
+      <!-- ================= -->
+      <div
+        style="
+          display:flex;
+          flex-direction:column;
+          gap:25px;
+        "
+      >
+
+
+
+        <!-- relógio -->
+        <div class="card">
+
+
+          <h3
+            style="
+              margin-bottom:20px;
+            "
+          >
+            🕒 Horário
+          </h3>
+
+
+          <h1
+            id="clock"
+            style="
+              font-size:54px;
+              margin-bottom:10px;
+            "
+          >
+            00:00:00
+          </h1>
+
+
+          <p
+            id="date"
+            style="
+              color:var(--muted);
+            "
+          >
+            00/00/0000
+          </p>
+
+        </div>
+
+
+
+        <!-- atividade -->
+        <div class="card">
+
+
+          <h3
+            style="
+              margin-bottom:20px;
+            "
+          >
+            📋 Atividade Ao Vivo
+          </h3>
+
+
+
+          <div
+            style="
+              display:flex;
+              flex-direction:column;
+              gap:15px;
+            "
+          >
+
+
+            <!-- item -->
+            <div
+              style="
+                background:
+                rgba(255,255,255,.04);
+
+                border:
+                1px solid
+                rgba(255,255,255,.05);
+
+                padding:18px;
+
+                border-radius:18px;
+              "
+            >
+
+              <strong>
+                João Silva
+              </strong>
+
+              <p
+                style="
+                  color:var(--muted);
+                  margin-top:6px;
+                "
+              >
+                Entrada registrada
+              </p>
+
+              <span
+                style="
+                  color:
+                  var(--primary);
+
+                  display:block;
+
+                  margin-top:10px;
+                "
+              >
+                07:15:22
+              </span>
+
+            </div>
+
+
+
+            <!-- item -->
+            <div
+              style="
+                background:
+                rgba(255,255,255,.04);
+
+                border:
+                1px solid
+                rgba(255,255,255,.05);
+
+                padding:18px;
+
+                border-radius:18px;
+              "
+            >
+
+              <strong>
+                Maria Souza
+              </strong>
+
+              <p
+                style="
+                  color:var(--muted);
+                  margin-top:6px;
+                "
+              >
+                Saída registrada
+              </p>
+
+              <span
+                style="
+                  color:
+                  var(--primary);
+
+                  display:block;
+
+                  margin-top:10px;
+                "
+              >
+                11:48:02
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- status -->
+        <div class="card">
+
+
+          <h3
+            style="
+              margin-bottom:20px;
+            "
+          >
+            📡 Status IA
+          </h3>
+
+
+          <div
+            style="
+              display:flex;
+              flex-direction:column;
+              gap:14px;
+            "
+          >
+
+
+            <div
+              style="
+                display:flex;
+                justify-content:
+                space-between;
+              "
+            >
+
+              <span>
+                Multi-Face
+              </span>
+
+              <strong
+                style="
+                  color:var(--success);
+                "
+              >
+                ATIVO
+              </strong>
+
+            </div>
+
+
+
+            <div
+              style="
+                display:flex;
+                justify-content:
+                space-between;
+              "
+            >
+
+              <span>
+                Detecção
+              </span>
+
+              <strong
+                style="
+                  color:var(--success);
+                "
+              >
+                ONLINE
+              </strong>
+
+            </div>
+
+
+
+            <div
+              style="
+                display:flex;
+                justify-content:
+                space-between;
+              "
+            >
+
+              <span>
+                Catraca
+              </span>
+
+              <strong
+                style="
+                  color:#ffd166;
+                "
+              >
+                AGUARDANDO
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+
+<!-- ========================= -->
+<!-- ✨ PARTICLES -->
+<!-- ========================= -->
+<script>
+
+for(let i=0;i<40;i++){
+
+  const p =
+  document.createElement("div");
+
+  p.className =
+  "particle";
+
+  p.style.left =
+  Math.random()*100+"%";
+
+  p.style.animationDuration =
+  5 + Math.random()*10 + "s";
+
+  p.style.animationDelay =
+  Math.random()*5+"s";
+
+  document
+  .querySelector(".particles")
+  .appendChild(p);
+
+}
+
+
+
+// relógio
+function atualizarRelogio(){
+
+  const agora =
+  new Date();
+
+  document
+  .getElementById("clock")
+  .innerText =
+  agora.toLocaleTimeString(
+    "pt-BR"
+  );
+
+  document
+  .getElementById("date")
+  .innerText =
+  agora.toLocaleDateString(
+    "pt-BR"
+  );
+
+}
+
+setInterval(
+  atualizarRelogio,
+  1000
+);
+
+atualizarRelogio();
+
+</script>
+
+
+
+<!-- ========================= -->
+<!-- 🎥 ANIMAÇÃO -->
+<!-- ========================= -->
+<style>
+
+@keyframes scan{
+
+  0%{
+    top:0;
+  }
+
+  100%{
+    top:100%;
+  }
+
+}
+
+
+@media(max-width:1100px){
+
+  section[style*="grid-template-columns"]{
+
+    grid-template-columns:
+    1fr !important;
+
+  }
+
+}
+
+
+@media(max-width:700px){
+
+  .content{
+
+    padding:20px !important;
+
+  }
+
+  h1{
+
+    font-size:35px !important;
+
+  }
+
+}
+
+</style>
+
+</body>
+</html>
