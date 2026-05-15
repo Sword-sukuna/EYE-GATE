@@ -1,0 +1,653 @@
+/* ========================= */
+/* 🌍 RESET */
+/* ========================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  background:
+    #070b17;
+
+  color:white;
+
+  min-height:100vh;
+
+  overflow-x:hidden;
+
+  display:flex;
+}
+
+
+/* ========================= */
+/* 🌌 BG */
+/* ========================= */
+.bg{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(0,180,255,.15),
+      transparent 40%
+    ),
+    #070b17;
+
+  z-index:-1;
+}
+
+
+/* ========================= */
+/* 📱 SIDEBAR */
+/* ========================= */
+.sidebar{
+
+  width:280px;
+
+  min-height:100vh;
+
+  background:
+    rgba(255,255,255,.04);
+
+  backdrop-filter:
+    blur(18px);
+
+  border-right:
+    1px solid rgba(255,255,255,.08);
+
+  padding:25px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:space-between;
+}
+
+
+/* ========================= */
+/* 👁 LOGO */
+/* ========================= */
+.logo-area{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+  margin-bottom:40px;
+}
+
+.logo-circle{
+
+  width:55px;
+
+  height:55px;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00c3ff,
+      #0066ff
+    );
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:24px;
+
+  box-shadow:
+    0 0 20px rgba(0,195,255,.5);
+}
+
+.logo-area h1{
+
+  font-size:22px;
+
+  font-weight:700;
+}
+
+.logo-area p{
+
+  color:#9aa4c7;
+
+  font-size:13px;
+}
+
+
+/* ========================= */
+/* 📋 MENU */
+/* ========================= */
+.menu{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:12px;
+}
+
+.menu-item{
+
+  text-decoration:none;
+
+  color:#cfd8ff;
+
+  padding:14px 18px;
+
+  border-radius:14px;
+
+  transition:.25s;
+
+  background:
+    rgba(255,255,255,.03);
+}
+
+.menu-item:hover{
+
+  background:
+    rgba(0,195,255,.12);
+
+  transform:
+    translateX(5px);
+}
+
+.menu-item.active{
+
+  background:
+    linear-gradient(
+      135deg,
+      #00c3ff,
+      #0066ff
+    );
+
+  color:white;
+
+  box-shadow:
+    0 10px 25px rgba(0,102,255,.35);
+}
+
+
+/* ========================= */
+/* 🚪 LOGOUT */
+/* ========================= */
+.logout-btn{
+
+  border:none;
+
+  padding:15px;
+
+  border-radius:14px;
+
+  cursor:pointer;
+
+  color:white;
+
+  background:
+    rgba(255,70,70,.15);
+
+  transition:.25s;
+}
+
+.logout-btn:hover{
+
+  background:
+    rgba(255,70,70,.3);
+}
+
+
+/* ========================= */
+/* 📄 MAIN */
+/* ========================= */
+.main-content{
+
+  flex:1;
+
+  padding:30px;
+}
+
+
+/* ========================= */
+/* 🔝 TOPO */
+/* ========================= */
+.topbar{
+
+  margin-bottom:30px;
+}
+
+.topbar h2{
+
+  font-size:34px;
+
+  margin-bottom:8px;
+}
+
+.topbar p{
+
+  color:#95a0c3;
+}
+
+
+/* ========================= */
+/* 🧠 FORM */
+/* ========================= */
+.form-card{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:25px;
+
+  margin-bottom:35px;
+}
+
+
+/* ========================= */
+/* 📦 CARD */
+/* ========================= */
+.form-left,
+.form-right{
+
+  background:
+    rgba(255,255,255,.05);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:28px;
+
+  padding:25px;
+
+  backdrop-filter:
+    blur(15px);
+}
+
+.form-left h3{
+
+  margin-bottom:25px;
+
+  font-size:24px;
+}
+
+
+/* ========================= */
+/* 📝 INPUTS */
+/* ========================= */
+.input-group{
+
+  margin-bottom:22px;
+}
+
+.input-group label{
+
+  display:block;
+
+  margin-bottom:10px;
+
+  color:#cfd8ff;
+}
+
+.input-group input{
+
+  width:100%;
+
+  border:none;
+
+  outline:none;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  background:
+    rgba(255,255,255,.05);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  color:white;
+
+  font-size:15px;
+}
+
+.input-group input:focus{
+
+  border-color:
+    rgba(0,195,255,.5);
+}
+
+
+/* ========================= */
+/* 📸 BOTÃO */
+/* ========================= */
+.capture-btn{
+
+  width:100%;
+
+  border:none;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  cursor:pointer;
+
+  font-size:16px;
+
+  font-weight:700;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00c3ff,
+      #0066ff
+    );
+
+  transition:.25s;
+}
+
+.capture-btn:hover{
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 10px 30px rgba(0,102,255,.35);
+}
+
+
+/* ========================= */
+/* 📷 CAMERA */
+/* ========================= */
+.camera-box{
+
+  position:relative;
+
+  width:100%;
+
+  height:420px;
+
+  border-radius:25px;
+
+  overflow:hidden;
+
+  background:black;
+}
+
+.camera-box video{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+}
+
+
+/* ========================= */
+/* 🧠 OVERLAY */
+/* ========================= */
+.camera-overlay{
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+}
+
+.face-frame{
+
+  position:absolute;
+
+  top:50%;
+
+  left:50%;
+
+  transform:
+    translate(-50%,-50%);
+
+  width:240px;
+
+  height:320px;
+
+  border:
+    3px solid rgba(0,255,170,.8);
+
+  border-radius:25px;
+
+  box-shadow:
+    0 0 25px rgba(0,255,170,.35);
+}
+
+.scan-line{
+
+  position:absolute;
+
+  top:0;
+
+  left:0;
+
+  width:100%;
+
+  height:4px;
+
+  background:
+    rgba(0,255,170,.8);
+
+  box-shadow:
+    0 0 20px rgba(0,255,170,.8);
+
+  animation:
+    scan 3s linear infinite;
+}
+
+@keyframes scan{
+
+  0%{
+    top:0;
+  }
+
+  100%{
+    top:100%;
+  }
+}
+
+
+/* ========================= */
+/* 📡 STATUS */
+/* ========================= */
+.camera-status{
+
+  margin-top:18px;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  color:#dce3ff;
+}
+
+
+/* ========================= */
+/* 👥 STUDENTS */
+/* ========================= */
+.students-section{
+
+  background:
+    rgba(255,255,255,.05);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:28px;
+
+  padding:25px;
+
+  backdrop-filter:
+    blur(15px);
+}
+
+.section-header{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:25px;
+}
+
+.refresh-btn{
+
+  border:none;
+
+  padding:12px 18px;
+
+  border-radius:14px;
+
+  cursor:pointer;
+
+  color:white;
+
+  background:
+    rgba(0,195,255,.15);
+}
+
+
+/* ========================= */
+/* 👤 GRID */
+/* ========================= */
+.students-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(240px,1fr));
+
+  gap:18px;
+}
+
+.student-card{
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:22px;
+
+  padding:20px;
+
+  transition:.25s;
+}
+
+.student-card:hover{
+
+  transform:
+    translateY(-4px);
+
+  border-color:
+    rgba(0,195,255,.35);
+}
+
+.student-avatar{
+
+  width:65px;
+
+  height:65px;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00c3ff,
+      #0066ff
+    );
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:28px;
+
+  margin-bottom:18px;
+}
+
+.student-card h4{
+
+  margin-bottom:10px;
+
+  font-size:18px;
+}
+
+.student-card p{
+
+  color:#aab5d8;
+
+  margin-bottom:6px;
+
+  font-size:14px;
+}
+
+
+/* ========================= */
+/* 📱 RESPONSIVO */
+/* ========================= */
+@media(max-width:1000px){
+
+  body{
+
+    flex-direction:column;
+  }
+
+  .sidebar{
+
+    width:100%;
+
+    min-height:auto;
+  }
+
+  .main-content{
+
+    padding:20px;
+  }
+
+  .form-card{
+
+    grid-template-columns:
+      1fr;
+  }
+
+  
