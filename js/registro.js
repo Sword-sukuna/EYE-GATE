@@ -108,11 +108,15 @@ function criarConta(event){
   // =========================
   const novoUsuario = {
 
-    nome,
-    email,
-    senha
+  nome,
+  email,
+  senha,
 
-  };
+  foto: "",
+
+  tipo: "user"
+
+};
 
 
   usuarios.push(novoUsuario);
@@ -127,6 +131,25 @@ function criarConta(event){
     )
 
   );
+
+const admin = {
+
+  nome: "Administrador",
+
+  email: "raul.carmo.rosa@adm.com",
+
+  senha: "Silvano@rosa10",
+
+  foto: "",
+
+  tipo: "admin"
+
+};
+
+localStorage.setItem(
+  "adminEyeGate",
+  JSON.stringify(admin)
+);
 
 
   // =========================

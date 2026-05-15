@@ -1,92 +1,72 @@
 // =========================
-// 👁 EYE GATE DASHBOARD
+// 👁 DASHBOARD EYE GATE
 // =========================
 
 
-// =========================
-// 🚀 INICIAR
-// =========================
-window.addEventListener(
+window.addEventListener("DOMContentLoaded", ()=>{
 
-  "DOMContentLoaded",
+  carregarUsuario();
+  carregarStats();
+  verificarAdmin();
 
-  ()=>{
-
-    carregarUsuario();
-
-    atualizarStats();
-
-  }
-
-);
+});
 
 
 // =========================
-// 👤 USUÁRIO LOGADO
+// 👤 USUÁRIO
 // =========================
 function carregarUsuario(){
 
-  const usuario =
-    JSON.parse(
-      localStorage.getItem(
-        "usuarioLogado"
-      )
-    );
+  const user =
+    JSON.parse(localStorage.getItem("usuarioLogado"));
 
-
-  if(!usuario){
-
-    window.location.href =
-      "./login.html";
-
+  if(!user){
+    window.location.href = "./login.html";
     return;
-
   }
 
 
-  // nome
-  const nomeEl =
-    document.querySelector(
-      ".top-user strong"
-    );
+  document.getElementById("userName").innerText = user.nome;
+
+  document.getElementById("userType").innerText =
+    user.tipo === "admin" ? "Administrador" : "Usuário";
 
 
-  if(nomeEl){
+  const avatar = document.querySelector(".user-avatar");
 
-    nomeEl.innerText =
-      usuario.nome;
-
+  if(user.foto){
+    avatar.innerHTML = `
+      <img src="${user.foto}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+    `;
   }
 
-
-  // avatar
-  const avatar =
-    document.querySelector(
-      ".user-avatar"
-    );
+}
 
 
-  if(avatar){
+// =========================
+// 📊 STATS
+// =========================
+function carregarStats(){
 
-    avatar.innerHTML =
+  const users =
+    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
 
-      usuario.foto
+  document.getElementById("totalUsers").innerText = users.length;
 
-      ?
+}
 
-      `<img
-        src="${usuario.foto}"
-        style="
-          width:100%;
-          height:100%;
-          border-radius:50%;
-          object-fit:cover;
-        "
-      />`
 
-      :
+// =========================
+// 🔐 ADMIN PANEL
+// =========================
+function verificarAdmin(){
 
-      "👤";
+  const user =
+    JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  if(user && user.tipo === "admin"){
+
+    document.getElementById("adminPanel").style.display = "block";
 
   }
 
@@ -94,28 +74,61 @@ function carregarUsuario(){
 
 
 // =========================
-// 📊 STATS (BÁSICO)
+// 👥 LISTAR USERS
 // =========================
-function atualizarStats(){
+function listarUsuarios(){
 
-  const alunos =
-    JSON.parse(
-      localStorage.getItem(
-        "alunosEyeGate"
-      )
-    ) || [];
+  const users =
+    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
 
+  console.log(users);
+  alert("Usuários no console (F12)");
 
-  const alunosEl =
-    document.querySelectorAll(
-      ".stat-card h2"
-    );
+}
 
 
-  if(alunosEl[0]){
+// =========================
+// 🗑 GERENCIAR CONTAS
+// =========================
+function abrirGerenciador(){
 
-    alunosEl[0].innerText =
-      alunos.length;
+  const users =
+    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+
+  const lista =
+    users.map((u,i)=>
+      `${i} - ${u.nome} (${u.email})`
+    ).join("\n");
+
+  const index = prompt(
+    "Digite o número do usuário para deletar:\n\n" + lista
+  );
+
+  if(index === null) return;
+
+  users.splice(index,1);
+
+  localStorage.setItem(
+    "usuariosEyeGate",
+    JSON.stringify(users)
+  );
+
+  alert("Usuário removido!");
+
+  location.reload();
+
+}
+
+
+// =========================
+// ⚠ RESET SISTEMA
+// =========================
+function resetSistema(){
+
+  if(confirm("Resetar TUDO?")){
+
+    localStorage.clear();
+    window.location.href = "./login.html";
 
   }
 
@@ -127,12 +140,8 @@ function atualizarStats(){
 // =========================
 function logout(){
 
-  localStorage.removeItem(
-    "usuarioLogado"
-  );
+  localStorage.removeItem("usuarioLogado");
 
-
-  window.location.href =
-    "./login.html";
+  window.location.href = "./login.html";
 
 }

@@ -52,44 +52,18 @@ function iniciarLogin(){
 function fazerLogin(){
 
   const email =
-    document
-      .getElementById("email")
-      .value
-      .trim();
+    document.getElementById("email").value.trim();
 
   const senha =
-    document
-      .getElementById("senha")
-      .value
-      .trim();
+    document.getElementById("senha").value.trim();
 
 
-  // =====================
-  // ⚠ VALIDAÇÃO
-  // =====================
-  if(!email || !senha){
-
-    mostrarToast(
-      "⚠ Preencha todos os campos"
-    );
-
-    return;
-
-  }
-
-
-  // =====================
-  // 📦 PEGAR USUÁRIOS
-  // =====================
   const usuarios =
     JSON.parse(
       localStorage.getItem("usuariosEyeGate")
     ) || [];
 
 
-  // =====================
-  // 🔎 PROCURAR USUÁRIO
-  // =====================
   const usuario =
     usuarios.find(
       u =>
@@ -99,13 +73,17 @@ function fazerLogin(){
 
 
   // =====================
-  // ❌ ERRO
+  // 👤 USUÁRIO NORMAL
   // =====================
-  if(!usuario){
+  if(usuario){
 
-    mostrarToast(
-      "❌ Email ou senha inválidos"
+    localStorage.setItem(
+      "usuarioLogado",
+      JSON.stringify(usuario)
     );
+
+    window.location.href =
+      "./dashboard.html";
 
     return;
 
@@ -113,31 +91,36 @@ function fazerLogin(){
 
 
   // =====================
-  // ✅ LOGIN OK
+  // 🔐 ADMIN
   // =====================
-  mostrarToast(
-    `✅ Bem-vindo, ${usuario.nome}`
-  );
+  const admin =
+    JSON.parse(
+      localStorage.getItem("adminEyeGate")
+    );
 
 
-  // =====================
-  // 💾 SALVAR SESSÃO
-  // =====================
-  localStorage.setItem(
-    "usuarioLogado",
-    JSON.stringify(usuario)
-  );
+  if(
+    admin &&
+    email === admin.email &&
+    senha === admin.senha
+  ){
 
+    admin.tipo = "admin";
 
-  // =====================
-  // 🚀 REDIRECIONAR
-  // =====================
-  setTimeout(()=>{
+    localStorage.setItem(
+      "usuarioLogado",
+      JSON.stringify(admin)
+    );
 
     window.location.href =
       "./dashboard.html";
 
-  },1200);
+    return;
+
+  }
+
+
+  alert("Login inválido");
 
 }
 
