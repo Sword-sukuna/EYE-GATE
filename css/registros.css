@@ -245,26 +245,15 @@ body{
 
 
 /* ========================= */
-/* 🧠 FORM */
+/* 🔍 FILTROS */
 /* ========================= */
-.form-card{
+.filters-card{
 
-  display:grid;
+  display:flex;
 
-  grid-template-columns:
-    1fr 1fr;
+  gap:20px;
 
-  gap:25px;
-
-  margin-bottom:35px;
-}
-
-
-/* ========================= */
-/* 📦 CARD */
-/* ========================= */
-.form-left,
-.form-right{
+  margin-bottom:30px;
 
   background:
     rgba(255,255,255,.05);
@@ -272,31 +261,20 @@ body{
   border:
     1px solid rgba(255,255,255,.08);
 
-  border-radius:28px;
+  border-radius:24px;
 
-  padding:25px;
+  padding:22px;
 
   backdrop-filter:
     blur(15px);
 }
 
-.form-left h3{
+.filter-group{
 
-  margin-bottom:25px;
-
-  font-size:24px;
+  flex:1;
 }
 
-
-/* ========================= */
-/* 📝 INPUTS */
-/* ========================= */
-.input-group{
-
-  margin-bottom:22px;
-}
-
-.input-group label{
+.filter-group label{
 
   display:block;
 
@@ -305,7 +283,8 @@ body{
   color:#cfd8ff;
 }
 
-.input-group input{
+.filter-group input,
+.filter-group select{
 
   width:100%;
 
@@ -313,7 +292,7 @@ body{
 
   outline:none;
 
-  padding:16px;
+  padding:15px;
 
   border-radius:16px;
 
@@ -324,181 +303,13 @@ body{
     1px solid rgba(255,255,255,.08);
 
   color:white;
-
-  font-size:15px;
-}
-
-.input-group input:focus{
-
-  border-color:
-    rgba(0,195,255,.5);
 }
 
 
 /* ========================= */
-/* 📸 BOTÃO */
+/* 📋 TABLE */
 /* ========================= */
-.capture-btn{
-
-  width:100%;
-
-  border:none;
-
-  padding:18px;
-
-  border-radius:18px;
-
-  cursor:pointer;
-
-  font-size:16px;
-
-  font-weight:700;
-
-  color:white;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
-
-  transition:.25s;
-}
-
-.capture-btn:hover{
-
-  transform:
-    translateY(-3px);
-
-  box-shadow:
-    0 10px 30px rgba(0,102,255,.35);
-}
-
-
-/* ========================= */
-/* 📷 CAMERA */
-/* ========================= */
-.camera-box{
-
-  position:relative;
-
-  width:100%;
-
-  height:420px;
-
-  border-radius:25px;
-
-  overflow:hidden;
-
-  background:black;
-}
-
-.camera-box video{
-
-  width:100%;
-
-  height:100%;
-
-  object-fit:cover;
-}
-
-
-/* ========================= */
-/* 🧠 OVERLAY */
-/* ========================= */
-.camera-overlay{
-
-  position:absolute;
-
-  inset:0;
-
-  pointer-events:none;
-}
-
-.face-frame{
-
-  position:absolute;
-
-  top:50%;
-
-  left:50%;
-
-  transform:
-    translate(-50%,-50%);
-
-  width:240px;
-
-  height:320px;
-
-  border:
-    3px solid rgba(0,255,170,.8);
-
-  border-radius:25px;
-
-  box-shadow:
-    0 0 25px rgba(0,255,170,.35);
-}
-
-.scan-line{
-
-  position:absolute;
-
-  top:0;
-
-  left:0;
-
-  width:100%;
-
-  height:4px;
-
-  background:
-    rgba(0,255,170,.8);
-
-  box-shadow:
-    0 0 20px rgba(0,255,170,.8);
-
-  animation:
-    scan 3s linear infinite;
-}
-
-@keyframes scan{
-
-  0%{
-    top:0;
-  }
-
-  100%{
-    top:100%;
-  }
-}
-
-
-/* ========================= */
-/* 📡 STATUS */
-/* ========================= */
-.camera-status{
-
-  margin-top:18px;
-
-  padding:16px;
-
-  border-radius:16px;
-
-  background:
-    rgba(255,255,255,.04);
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-  color:#dce3ff;
-}
-
-
-/* ========================= */
-/* 👥 STUDENTS */
-/* ========================= */
-.students-section{
+.table-card{
 
   background:
     rgba(255,255,255,.05);
@@ -514,7 +325,7 @@ body{
     blur(15px);
 }
 
-.section-header{
+.table-header{
 
   display:flex;
 
@@ -543,82 +354,80 @@ body{
 
 
 /* ========================= */
-/* 👤 GRID */
+/* 📋 TABLE WRAP */
 /* ========================= */
-.students-grid{
+.table-wrapper{
 
-  display:grid;
-
-  grid-template-columns:
-    repeat(auto-fit,minmax(240px,1fr));
-
-  gap:18px;
+  overflow:auto;
 }
 
-.student-card{
+table{
+
+  width:100%;
+
+  border-collapse:collapse;
+}
+
+thead{
 
   background:
-    rgba(255,255,255,.04);
+    rgba(255,255,255,.05);
+}
 
-  border:
+th{
+
+  padding:18px;
+
+  text-align:left;
+
+  color:#cfd8ff;
+
+  font-size:14px;
+}
+
+td{
+
+  padding:18px;
+
+  border-top:
     1px solid rgba(255,255,255,.08);
 
-  border-radius:22px;
-
-  padding:20px;
-
-  transition:.25s;
+  color:#eef2ff;
 }
 
-.student-card:hover{
 
-  transform:
-    translateY(-4px);
+/* ========================= */
+/* 🟢 STATUS */
+/* ========================= */
+.status{
 
-  border-color:
-    rgba(0,195,255,.35);
-}
+  padding:8px 14px;
 
-.student-avatar{
+  border-radius:999px;
 
-  width:65px;
+  font-size:13px;
 
-  height:65px;
-
-  border-radius:50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
-
-  display:flex;
+  display:inline-flex;
 
   align-items:center;
 
   justify-content:center;
-
-  font-size:28px;
-
-  margin-bottom:18px;
 }
 
-.student-card h4{
+.status.online{
 
-  margin-bottom:10px;
+  background:
+    rgba(0,255,170,.12);
 
-  font-size:18px;
+  color:#00ffaa;
 }
 
-.student-card p{
+.status.offline{
 
-  color:#aab5d8;
+  background:
+    rgba(255,70,70,.12);
 
-  margin-bottom:6px;
-
-  font-size:14px;
+  color:#ff6a6a;
 }
 
 
@@ -644,15 +453,9 @@ body{
     padding:20px;
   }
 
-  .form-card{
+  .filters-card{
 
-    grid-template-columns:
-      1fr;
-  }
-
-  .camera-box{
-
-    height:300px;
+    flex-direction:column;
   }
 
 }

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8"/>
+
+  <meta
+    name="viewport"
+    content="
+      width=device-width,
+      initial-scale=1.0
+    "
+  />
+
+  <title>
+    EYE GATE • Registros
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="./css/registros.css"
+  />
+
+</head>
+
+<body>
+
+
+<!-- ========================= -->
+<!-- 🌌 BG -->
+<!-- ========================= -->
+<div class="bg"></div>
+
+
+
+<!-- ========================= -->
+<!-- 📱 SIDEBAR -->
+<!-- ========================= -->
+<aside class="sidebar">
+
+  <div>
+
+    <!-- logo -->
+    <div class="logo-area">
+
+      <div class="logo-circle">
+        👁
+      </div>
+
+      <div>
+
+        <h1>
+          EYE GATE
+        </h1>
+
+        <p>
+          Smart School Security
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- menu -->
+    <nav class="menu">
+
+      <a
+        href="./dashboard.html"
+        class="menu-item"
+      >
+        📊 Dashboard
+      </a>
+
+      <a
+        href="./cadastro.html"
+        class="menu-item"
+      >
+        👤 Cadastro
+      </a>
+
+      <a
+        href="./registros.html"
+        class="menu-item active"
+      >
+        📋 Registros
+      </a>
+
+      <a
+        href="#"
+        class="menu-item"
+      >
+        👀 Monitor
+      </a>
+
+      <a
+        href="#"
+        class="menu-item"
+      >
+        ⚙ Configurações
+      </a>
+
+    </nav>
+
+  </div>
+
+
+
+  <!-- logout -->
+  <button
+    class="logout-btn"
+    onclick="logout()"
+  >
+
+    Sair
+
+  </button>
+
+</aside>
+
+
+
+<!-- ========================= -->
+<!-- 📄 MAIN -->
+<!-- ========================= -->
+<main class="main-content">
+
+
+  <!-- topo -->
+  <section class="topbar">
+
+    <div>
+
+      <h2>
+        Registros do Sistema
+      </h2>
+
+      <p>
+        Entradas e saídas dos alunos
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================== -->
+  <!-- 🔍 FILTROS -->
+  <!-- ===================== -->
+  <section class="filters-card">
+
+    <div class="filter-group">
+
+      <label>
+        Buscar aluno
+      </label>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="
+          Digite o nome...
+        "
+        onkeyup="filtrarRegistros()"
+      />
+
+    </div>
+
+
+
+    <div class="filter-group">
+
+      <label>
+        Tipo
+      </label>
+
+      <select
+        id="typeFilter"
+        onchange="filtrarRegistros()"
+      >
+
+        <option value="">
+          Todos
+        </option>
+
+        <option value="Entrada">
+          Entrada
+        </option>
+
+        <option value="Saída">
+          Saída
+        </option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================== -->
+  <!-- 📋 TABELA -->
+  <!-- ===================== -->
+  <section class="table-card">
+
+    <div class="table-header">
+
+      <h3>
+        📋 Histórico Completo
+      </h3>
+
+      <button
+        class="refresh-btn"
+        onclick="carregarRegistros()"
+      >
+
+        Atualizar
+
+      </button>
+
+    </div>
+
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Aluno
+            </th>
+
+            <th>
+              Matrícula
+            </th>
+
+            <th>
+              Tipo
+            </th>
+
+            <th>
+              Horário
+            </th>
+
+            <th>
+              Data
+            </th>
+
+            <th>
+              Status
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="tableBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+
+<!-- ========================= -->
+<!-- 📦 SCRIPT -->
+<!-- ========================= -->
+<script src="./js/registros.js"></script>
+
+</body>
+</html>
