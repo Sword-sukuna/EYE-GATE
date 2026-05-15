@@ -1,7 +1,7 @@
+
 // =========================
 // 👁 EYE GATE LOGIN
 // =========================
-
 
 window.addEventListener("DOMContentLoaded", ()=>{
 
@@ -52,75 +52,67 @@ function fazerLogin(){
 
 
   // =====================
-  // 🔎 BUSCA USUÁRIO OU ADMIN
+  // 🔎 USUÁRIO NORMAL
   // =====================
   const usuario =
     usuarios.find(
       u =>
         u.email === email &&
-        u.senha === senha
+        u.senha === senha &&
+        u.tipo !== "admin"
     );
 
 
   // =====================
-  // ❌ INVÁLIDO
+  // 🔐 ADMIN FIXO (GARANTIDO)
   // =====================
-  if(!usuario){
-    alert("Email ou senha inválidos");
+  const adminFix = {
+    email: "Raul@ADM.local",
+    senha: "Silvano@rosa10",
+    tipo: "admin",
+    nome: "Administrador"
+  };
+
+
+  // =====================
+  // ✔ LOGIN ADMIN
+  // =====================
+  if(email === adminFix.email && senha === adminFix.senha){
+
+    localStorage.setItem(
+      "usuarioLogado",
+      JSON.stringify(adminFix)
+    );
+
+    alert("Bem-vindo Admin!");
+
+    window.location.href = "./dashboard.html";
+
     return;
   }
 
 
   // =====================
-  // 🔐 LOGIN OK
+  // ✔ LOGIN USUÁRIO
   // =====================
-  localStorage.setItem(
-    "usuarioLogado",
-    JSON.stringify(usuario)
-  );
+  if(usuario){
+
+    localStorage.setItem(
+      "usuarioLogado",
+      JSON.stringify(usuario)
+    );
+
+    alert("Login realizado com sucesso");
+
+    window.location.href = "./dashboard.html";
+
+    return;
+  }
 
 
-  alert("Login realizado com sucesso");
-
-
-  window.location.href =
-    "./dashboard.html";
-
-}
-
-
-// =========================
-// 🍞 TOAST (opcional mantido)
-// =========================
-function mostrarToast(texto){
-
-  const toast =
-    document.createElement("div");
-
-  toast.className = "toast";
-
-  toast.innerText = texto;
-
-  document.body.appendChild(toast);
-
-
-  setTimeout(()=>{
-
-    toast.classList.add("show");
-
-  },100);
-
-
-  setTimeout(()=>{
-
-    toast.classList.remove("show");
-
-    setTimeout(()=>{
-
-      toast.remove();
-
-    },300);
-
-  },2500);
+  // =====================
+  // ❌ INVÁLIDO
+  // =====================
+  alert("Email ou senha inválidos");
 
 }
