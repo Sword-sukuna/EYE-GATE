@@ -213,3 +213,30 @@ function logout(){
   window.location.href = "./login.html";
 
 }
+
+
+function controlarPermissoes(){
+
+  const user =
+    JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  if(!user) return;
+
+  if(user.tipo === "admin"){
+
+    const adminLinks =
+      document.querySelectorAll(".admin-only");
+
+    adminLinks.forEach(el=>{
+      el.style.display = "block";
+    });
+
+  }
+
+}
+
+window.addEventListener("DOMContentLoaded", ()=>{
+
+  controlarPermissoes();
+
+});
