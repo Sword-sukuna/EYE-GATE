@@ -645,3 +645,143 @@
   background:rgba(255,0,80,.25);
 
 }
+
+/* ========================= */
+/* 🔐 ADMIN BUTTON */
+/* ========================= */
+.admin-btn{
+
+  color:#ff4d7a !important;
+
+  font-weight:700;
+
+  position:relative;
+
+}
+
+.admin-btn::after{
+
+  content:"";
+
+  position:absolute;
+
+  right:14px;
+  top:50%;
+
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:#ff4d7a;
+
+  transform:translateY(-50%);
+
+  box-shadow:0 0 10px rgba(255,77,122,.6);
+
+}
+
+
+/* ========================= */
+/* 🔐 ADMIN PANEL ANIMADO */
+/* ========================= */
+.admin-panel{
+
+  margin-top:25px;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(15px);
+
+  transform:scale(0.95);
+
+  opacity:0;
+
+  max-height:0;
+
+  overflow:hidden;
+
+  transition:all .25s ease;
+
+  pointer-events:none;
+
+}
+
+
+/* quando abre */
+.admin-panel.show{
+
+  transform:scale(1);
+
+  opacity:1;
+
+  max-height:500px;
+
+  pointer-events:auto;
+
+}
+
+
+/* ========================= */
+/* 👥 USER LIST SCROLL */
+/* ========================= */
+.user-list{
+
+  margin-top:10px;
+
+  max-height:250px;
+
+  overflow:auto;
+
+  padding-right:5px;
+
+}
+
+.user-list::-webkit-scrollbar{
+  width:6px;
+}
+
+.user-list::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.15);
+  border-radius:10px;
+}
+
+.user-list::-webkit-scrollbar-thumb:hover{
+  background:rgba(255,255,255,.25);
+}
+
+
+/* ========================= */
+/* 🗑 BOTÃO DELETE */
+/* ========================= */
+.delete-btn{
+
+  background:rgba(255,0,80,.15);
+
+  border:1px solid rgba(255,0,80,.3);
+
+  color:#ff4d7a;
+
+  padding:6px 10px;
+
+  border-radius:8px;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+}
+
+.delete-btn:hover{
+
+  transform:scale(1.05);
+
+  background:rgba(255,0,80,.25);
+
+}

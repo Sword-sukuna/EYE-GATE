@@ -16,6 +16,7 @@
 <body>
 
 
+<!-- BACKGROUND -->
 <div class="background">
   <div class="glow glow-one"></div>
   <div class="glow glow-two"></div>
@@ -56,21 +57,35 @@
     </nav>
 
 
-    <!-- 🔐 ADMIN PANEL NOVO (UI MELHORADO) -->
+    <!-- 🔐 ADMIN PANEL -->
     <div id="adminPanel" class="admin-panel" style="display:none;">
 
-  <div class="admin-header">
-    🔐 ADMIN PANEL
-  </div>
+      <div class="admin-header">
+        🔐 ADMIN PANEL
+      </div>
 
-  <div id="userList" class="user-list"></div>
+      <!-- lista usuários -->
+      <div id="userList" class="user-list"></div>
 
-  <button onclick="resetSistema()" class="danger">
-    ⚠ Reset sistema
-  </button>
+      <!-- ações -->
+      <button onclick="listarUsuarios()">
+        👥 Atualizar lista
+      </button>
 
-</div>
+      <button onclick="resetSistema()" class="danger">
+        ⚠ Reset sistema
+      </button>
 
+    </div>
+
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        🚪 Sair
+      </button>
+    </div>
+
+  </aside>
 
 
 
@@ -78,6 +93,7 @@
   <main class="dashboard-content">
 
 
+    <!-- TOP -->
     <header class="topbar">
 
       <div>
@@ -86,6 +102,7 @@
       </div>
 
 
+      <!-- USER -->
       <div class="top-user">
 
         <div class="user-avatar">👤</div>
@@ -101,6 +118,7 @@
 
 
 
+    <!-- STATS -->
     <section class="stats-grid">
 
       <div class="stat-card">
@@ -119,7 +137,7 @@
 
 
 
-
+    <!-- ACTIVITY -->
     <section class="activity-section">
 
       <div class="section-title">

@@ -16,23 +16,42 @@
 <body>
 
 
+<!-- BACKGROUND (caso seu login use efeito igual dashboard) -->
+<div class="background">
+  <div class="glow glow-one"></div>
+  <div class="glow glow-two"></div>
+</div>
+
+
+
+<!-- LOGIN -->
 <div class="login-container">
 
   <div class="login-card">
 
     <div class="logo">🔐</div>
 
-    <h1>Admin</h1>
-    <p>Acesso restrito</p>
+    <h1>Admin Panel</h1>
+    <p>Acesso restrito ao sistema</p>
 
 
     <form id="adminForm">
 
       <label>Email</label>
-      <input type="email" id="email" required/>
+      <input
+        type="email"
+        id="email"
+        placeholder="Digite o email admin"
+        required
+      />
 
       <label>Senha</label>
-      <input type="password" id="senha" required/>
+      <input
+        type="password"
+        id="senha"
+        placeholder="Digite a senha"
+        required
+      />
 
       <button class="login-btn" type="submit">
         Entrar como ADM

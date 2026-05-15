@@ -3,20 +3,11 @@
 // =========================
 
 
-// =========================
-// 🚀 INICIAR
-// =========================
-window.addEventListener(
+window.addEventListener("DOMContentLoaded", ()=>{
 
-  "DOMContentLoaded",
+  iniciarLogin();
 
-  ()=>{
-
-    iniciarLogin();
-
-  }
-
-);
+});
 
 
 // =========================
@@ -25,29 +16,21 @@ window.addEventListener(
 function iniciarLogin(){
 
   const form =
-    document.getElementById(
-      "loginForm"
-    );
+    document.getElementById("loginForm");
 
-  form.addEventListener(
+  form.addEventListener("submit", (e)=>{
 
-    "submit",
+    e.preventDefault();
 
-    (e)=>{
+    fazerLogin();
 
-      e.preventDefault();
-
-      fazerLogin();
-
-    }
-
-  );
+  });
 
 }
 
 
 // =========================
-// 🚪 LOGIN REAL
+// 🚪 LOGIN REAL (CORRIGIDO)
 // =========================
 function fazerLogin(){
 
@@ -58,12 +41,19 @@ function fazerLogin(){
     document.getElementById("senha").value.trim();
 
 
+  if(!email || !senha){
+    alert("Preencha todos os campos");
+    return;
+  }
+
+
   const usuarios =
-    JSON.parse(
-      localStorage.getItem("usuariosEyeGate")
-    ) || [];
+    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
 
 
+  // =====================
+  // 🔎 BUSCA USUÁRIO OU ADMIN
+  // =====================
   const usuario =
     usuarios.find(
       u =>
@@ -73,60 +63,34 @@ function fazerLogin(){
 
 
   // =====================
-  // 👤 USUÁRIO NORMAL
+  // ❌ INVÁLIDO
   // =====================
-  if(usuario){
-
-    localStorage.setItem(
-      "usuarioLogado",
-      JSON.stringify(usuario)
-    );
-
-    window.location.href =
-      "./dashboard.html";
-
+  if(!usuario){
+    alert("Email ou senha inválidos");
     return;
-
   }
 
 
   // =====================
-  // 🔐 ADMIN
+  // 🔐 LOGIN OK
   // =====================
-  const admin =
-    JSON.parse(
-      localStorage.getItem("adminEyeGate")
-    );
+  localStorage.setItem(
+    "usuarioLogado",
+    JSON.stringify(usuario)
+  );
 
 
-  if(
-    admin &&
-    email === admin.email &&
-    senha === admin.senha
-  ){
-
-    admin.tipo = "admin";
-
-    localStorage.setItem(
-      "usuarioLogado",
-      JSON.stringify(admin)
-    );
-
-    window.location.href =
-      "./dashboard.html";
-
-    return;
-
-  }
+  alert("Login realizado com sucesso");
 
 
-  alert("Login inválido");
+  window.location.href =
+    "./dashboard.html";
 
 }
 
 
 // =========================
-// 🍞 TOAST
+// 🍞 TOAST (opcional mantido)
 // =========================
 function mostrarToast(texto){
 
