@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8"/>
+
+  <meta
+    name="viewport"
+    content="
+      width=device-width,
+      initial-scale=1.0
+    "
+  />
+
+  <title>
+    EYE GATE • Configurações
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="./css/configuracoes.css"
+  />
+
+</head>
+
+<body>
+
+
+<!-- ========================= -->
+<!-- 🌌 BG -->
+<!-- ========================= -->
+<div class="bg"></div>
+
+
+
+<!-- ========================= -->
+<!-- 📱 SIDEBAR -->
+<!-- ========================= -->
+<aside class="sidebar">
+
+  <div>
+
+    <!-- logo -->
+    <div class="logo-area">
+
+      <div class="logo-circle">
+        👁
+      </div>
+
+      <div>
+
+        <h1>
+          EYE GATE
+        </h1>
+
+        <p>
+          Smart School Security
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- menu -->
+    <nav class="menu">
+
+      <a
+        href="./dashboard.html"
+        class="menu-item"
+      >
+        📊 Dashboard
+      </a>
+
+      <a
+        href="./cadastro.html"
+        class="menu-item"
+      >
+        👤 Cadastro
+      </a>
+
+      <a
+        href="./registros.html"
+        class="menu-item"
+      >
+        📋 Registros
+      </a>
+
+      <a
+        href="./monitor.html"
+        class="menu-item"
+      >
+        👀 Monitor
+      </a>
+
+      <a
+        href="./configuracoes.html"
+        class="menu-item active"
+      >
+        ⚙ Configurações
+      </a>
+
+    </nav>
+
+  </div>
+
+
+
+  <!-- logout -->
+  <button
+    class="logout-btn"
+    onclick="logout()"
+  >
+
+    Sair
+
+  </button>
+
+</aside>
+
+
+
+<!-- ========================= -->
+<!-- 📄 MAIN -->
+<!-- ========================= -->
+<main class="main-content">
+
+
+  <!-- topo -->
+  <section class="topbar">
+
+    <div>
+
+      <h2>
+        Configurações do Sistema
+      </h2>
+
+      <p>
+        Controle geral do EYE GATE
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================== -->
+  <!-- ⚙ CONFIG -->
+  <!-- ===================== -->
+  <section class="settings-grid">
+
+
+    <!-- segurança -->
+    <div class="settings-card">
+
+      <h3>
+        🔐 Segurança
+      </h3>
+
+      <div class="setting-item">
+
+        <div>
+
+          <h4>
+            Reconhecimento Facial
+          </h4>
+
+          <p>
+            Ativar detecção facial
+          </p>
+
+        </div>
+
+        <label class="switch">
+
+          <input
+            type="checkbox"
+            checked
+          />
+
+          <span class="slider"></span>
+
+        </label>
+
+      </div>
+
+
+
+      <div class="setting-item">
+
+        <div>
+
+          <h4>
+            Modo Anti-Fraude
+          </h4>
+
+          <p>
+            Bloqueia fotos e telas
+          </p>
+
+        </div>
+
+        <label class="switch">
+
+          <input
+            type="checkbox"
+            checked
+          />
+
+          <span class="slider"></span>
+
+        </label>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- notificações -->
+    <div class="settings-card">
+
+      <h3>
+        🔔 Notificações
+      </h3>
+
+      <div class="setting-item">
+
+        <div>
+
+          <h4>
+            Alertas em Tempo Real
+          </h4>
+
+          <p>
+            Enviar notificações
+          </p>
+
+        </div>
+
+        <label class="switch">
+
+          <input
+            type="checkbox"
+            checked
+          />
+
+          <span class="slider"></span>
+
+        </label>
+
+      </div>
+
+
+
+      <div class="setting-item">
+
+        <div>
+
+          <h4>
+            Sons do Sistema
+          </h4>
+
+          <p>
+            Sons ao reconhecer rosto
+          </p>
+
+        </div>
+
+        <label class="switch">
+
+          <input
+            type="checkbox"
+            checked
+          />
+
+          <span class="slider"></span>
+
+        </label>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- catraca -->
+    <div class="settings-card">
+
+      <h3>
+        🚪 Catraca
+      </h3>
+
+      <div class="setting-item">
+
+        <div>
+
+          <h4>
+            Liberação Automática
+          </h4>
+
+          <p>
+            Abrir após reconhecimento
+          </p>
+
+        </div>
+
+        <label class="switch">
+
+          <input
+            type="checkbox"
+            checked
+          />
+
+          <span class="slider"></span>
+
+        </label>
+
+      </div>
+
+
+
+      <div class="setting-item">
+
+        <div>
+
+          <h4>
+            Tempo de Abertura
+          </h4>
+
+          <p>
+            3 segundos
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- conta -->
+    <div class="settings-card">
+
+      <h3>
+        👤 Conta Admin
+      </h3>
+
+      <div class="profile-box">
+
+        <div class="profile-avatar">
+          👨‍💼
+        </div>
+
+        <div>
+
+          <h4>
+            Administrador
+          </h4>
+
+          <p>
+            admin@eyegate.com
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button class="save-btn">
+
+        Salvar Alterações
+
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+
+<!-- ========================= -->
+<!-- 📦 SCRIPT -->
+<!-- ========================= -->
+<script src="./js/configuracoes.js"></script>
+
+</body>
+</html>
