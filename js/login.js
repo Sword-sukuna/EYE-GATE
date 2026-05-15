@@ -20,7 +20,7 @@ window.addEventListener(
 
 
 // =========================
-// 🔐 LOGIN
+// 🔐 INICIAR LOGIN
 // =========================
 function iniciarLogin(){
 
@@ -47,36 +47,27 @@ function iniciarLogin(){
 
 
 // =========================
-// 🚪 LOGIN
+// 🚪 LOGIN REAL
 // =========================
 function fazerLogin(){
 
   const email =
     document
-    .getElementById(
-      "email"
-    )
-    .value
-    .trim();
+      .getElementById("email")
+      .value
+      .trim();
 
   const senha =
     document
-    .getElementById(
-      "senha"
-    )
-    .value
-    .trim();
+      .getElementById("senha")
+      .value
+      .trim();
 
 
   // =====================
-  // ⚠ CAMPOS
+  // ⚠ VALIDAÇÃO
   // =====================
-  if(
-
-    !email ||
-    !senha
-
-  ){
+  if(!email || !senha){
 
     mostrarToast(
       "⚠ Preencha todos os campos"
@@ -88,41 +79,65 @@ function fazerLogin(){
 
 
   // =====================
-  // 🔐 LOGIN FAKE
+  // 📦 PEGAR USUÁRIOS
   // =====================
-  // depois vamos ligar
-  // com banco real
+  const usuarios =
+    JSON.parse(
+      localStorage.getItem("usuariosEyeGate")
+    ) || [];
 
-  if(
 
-    email ===
-    "admin@eyegate.com"
-
-    &&
-
-    senha ===
-    "123456"
-
-  ){
-
-    mostrarToast(
-      "✅ Login realizado"
+  // =====================
+  // 🔎 PROCURAR USUÁRIO
+  // =====================
+  const usuario =
+    usuarios.find(
+      u =>
+        u.email === email &&
+        u.senha === senha
     );
 
-    setTimeout(()=>{
 
-      window.location.href =
-        "./dashboard.html";
-
-    },1200);
-
-  }else{
+  // =====================
+  // ❌ ERRO
+  // =====================
+  if(!usuario){
 
     mostrarToast(
       "❌ Email ou senha inválidos"
     );
 
+    return;
+
   }
+
+
+  // =====================
+  // ✅ LOGIN OK
+  // =====================
+  mostrarToast(
+    `✅ Bem-vindo, ${usuario.nome}`
+  );
+
+
+  // =====================
+  // 💾 SALVAR SESSÃO
+  // =====================
+  localStorage.setItem(
+    "usuarioLogado",
+    JSON.stringify(usuario)
+  );
+
+
+  // =====================
+  // 🚀 REDIRECIONAR
+  // =====================
+  setTimeout(()=>{
+
+    window.location.href =
+      "./dashboard.html";
+
+  },1200);
 
 }
 
@@ -133,35 +148,25 @@ function fazerLogin(){
 function mostrarToast(texto){
 
   const toast =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
-  toast.className =
-    "toast";
+  toast.className = "toast";
 
-  toast.innerText =
-    texto;
+  toast.innerText = texto;
 
-  document.body.appendChild(
-    toast
-  );
+  document.body.appendChild(toast);
 
 
   setTimeout(()=>{
 
-    toast.classList.add(
-      "show"
-    );
+    toast.classList.add("show");
 
   },100);
 
 
   setTimeout(()=>{
 
-    toast.classList.remove(
-      "show"
-    );
+    toast.classList.remove("show");
 
     setTimeout(()=>{
 
