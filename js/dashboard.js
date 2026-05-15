@@ -12,11 +12,9 @@ window.addEventListener(
 
   ()=>{
 
-    verificarLogin();
-
     carregarUsuario();
 
-    iniciarDashboard();
+    atualizarStats();
 
   }
 
@@ -24,54 +22,71 @@ window.addEventListener(
 
 
 // =========================
-// 🔐 VERIFICAR LOGIN
-// =========================
-function verificarLogin(){
-
-  const usuario =
-    localStorage.getItem(
-      "usuarioLogado"
-    );
-
-  // sem login
-  if(!usuario){
-
-    window.location.href =
-      "./login.html";
-
-  }
-
-}
-
-
-// =========================
-// 👤 CARREGAR USER
+// 👤 USUÁRIO LOGADO
 // =========================
 function carregarUsuario(){
 
   const usuario =
     JSON.parse(
-
       localStorage.getItem(
         "usuarioLogado"
       )
-
     );
 
-  // sem user
-  if(!usuario) return;
+
+  if(!usuario){
+
+    window.location.href =
+      "./login.html";
+
+    return;
+
+  }
 
 
   // nome
-  const nomeBox =
+  const nomeEl =
     document.querySelector(
       ".top-user strong"
     );
 
-  if(nomeBox){
 
-    nomeBox.innerText =
+  if(nomeEl){
+
+    nomeEl.innerText =
       usuario.nome;
+
+  }
+
+
+  // avatar
+  const avatar =
+    document.querySelector(
+      ".user-avatar"
+    );
+
+
+  if(avatar){
+
+    avatar.innerHTML =
+
+      usuario.foto
+
+      ?
+
+      `<img
+        src="${usuario.foto}"
+        style="
+          width:100%;
+          height:100%;
+          border-radius:50%;
+          object-fit:cover;
+        "
+      />`
+
+      :
+
+      "👤";
 
   }
 
@@ -79,45 +94,28 @@ function carregarUsuario(){
 
 
 // =========================
-// 📊 DASHBOARD
+// 📊 STATS (BÁSICO)
 // =========================
-function iniciarDashboard(){
+function atualizarStats(){
 
-  atualizarHorario();
-
-  setInterval(
-
-    atualizarHorario,
-
-    1000
-
-  );
-
-}
+  const alunos =
+    JSON.parse(
+      localStorage.getItem(
+        "alunosEyeGate"
+      )
+    ) || [];
 
 
-// =========================
-// 🕒 HORÁRIO
-// =========================
-function atualizarHorario(){
-
-  const agora =
-    new Date();
-
-  const hora =
-    agora.toLocaleTimeString(
-      "pt-BR"
+  const alunosEl =
+    document.querySelectorAll(
+      ".stat-card h2"
     );
 
-  const atividade =
-    document.querySelector(
-      ".activity-item span"
-    );
 
-  if(atividade){
+  if(alunosEl[0]){
 
-    atividade.innerText =
-      hora;
+    alunosEl[0].innerText =
+      alunos.length;
 
   }
 
@@ -132,6 +130,7 @@ function logout(){
   localStorage.removeItem(
     "usuarioLogado"
   );
+
 
   window.location.href =
     "./login.html";
