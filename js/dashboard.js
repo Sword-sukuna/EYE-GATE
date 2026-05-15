@@ -240,3 +240,40 @@ window.addEventListener("DOMContentLoaded", ()=>{
   controlarPermissoes();
 
 });
+
+
+function controlarMenu(){
+
+  const user =
+    JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  if(!user) return;
+
+
+  const isAdmin = user.tipo === "admin";
+
+
+  // CONFIGURAÇÕES (exemplo)
+  const configLink =
+    document.querySelector('a[href="./configuracoes.html"]');
+
+
+  // ADMIN PANEL LINK
+  const adminLink =
+    document.querySelector('.admin-only');
+
+
+  if(!isAdmin){
+
+    if(configLink) configLink.style.display = "none";
+    if(adminLink) adminLink.style.display = "none";
+
+  }
+
+}
+
+window.addEventListener("DOMContentLoaded", ()=>{
+
+  controlarMenu();
+
+});

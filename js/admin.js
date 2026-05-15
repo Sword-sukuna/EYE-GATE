@@ -67,3 +67,25 @@ function deletar(index){
   }
 
 }
+
+
+function sairAdmin(){
+
+  const user =
+    JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  // volta usuário normal (remove modo admin)
+  if(user){
+
+    user.tipo = "user";
+
+    localStorage.setItem(
+      "usuarioLogado",
+      JSON.stringify(user)
+    );
+
+  }
+
+  window.location.href = "./dashboard.html";
+
+}
