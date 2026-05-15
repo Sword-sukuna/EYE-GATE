@@ -48,17 +48,24 @@
       <a href="./registros.html" class="menu-item">🕒 Registros</a>
       <a href="./configuracoes.html" class="menu-item">⚙ Configurações</a>
 
+      <!-- 🔐 BOTÃO ADMIN -->
+      <a href="#" class="menu-item admin-btn" onclick="toggleAdminPanel()">
+        🔐 Painel ADM
+      </a>
+
     </nav>
 
 
-    <!-- 🔐 ADMIN PANEL (oculto por padrão) -->
-    <div id="adminPanel" class="admin-panel" style="display:none;">
+    <!-- 🔐 ADMIN PANEL NOVO (UI MELHORADO) -->
+    <div id="adminPanel" class="admin-panel">
 
-      <h3>🔐 ADMIN</h3>
+      <div class="admin-header">
+        🔐 ADMIN CONTROL
+      </div>
 
       <button onclick="listarUsuarios()">👥 Ver usuários</button>
       <button onclick="abrirGerenciador()">🗑 Gerenciar contas</button>
-      <button onclick="resetSistema()">⚠ Reset sistema</button>
+      <button onclick="resetSistema()" class="danger">⚠ Reset sistema</button>
 
     </div>
 
@@ -76,7 +83,6 @@
   <main class="dashboard-content">
 
 
-    <!-- TOP -->
     <header class="topbar">
 
       <div>
@@ -85,7 +91,6 @@
       </div>
 
 
-      <!-- 👤 USER DINÂMICO -->
       <div class="top-user">
 
         <div class="user-avatar">👤</div>
@@ -101,7 +106,6 @@
 
 
 
-    <!-- CARDS -->
     <section class="stats-grid">
 
       <div class="stat-card">
@@ -121,7 +125,6 @@
 
 
 
-    <!-- ATIVIDADE -->
     <section class="activity-section">
 
       <div class="section-title">

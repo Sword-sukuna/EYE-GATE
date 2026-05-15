@@ -462,3 +462,95 @@
   }
 
 }
+
+/* ========================= */
+/* 🔐 ADMIN PANEL */
+/* ========================= */
+
+.admin-panel{
+
+  margin-top:25px;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(15px);
+
+}
+
+
+/* header */
+.admin-header{
+
+  font-weight:800;
+
+  color:#ff4d7a;
+
+  margin-bottom:12px;
+
+  font-size:14px;
+
+  letter-spacing:1px;
+
+}
+
+
+/* buttons */
+.admin-panel button{
+
+  width:100%;
+
+  margin-top:10px;
+
+  padding:12px;
+
+  border:none;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  color:white;
+
+  background:rgba(255,255,255,.08);
+
+  transition:.3s;
+
+}
+
+
+/* hover */
+.admin-panel button:hover{
+
+  background:rgba(255,255,255,.15);
+
+  transform:translateY(-2px);
+
+}
+
+
+/* botão perigoso */
+.admin-panel .danger{
+
+  background:rgba(255,0,80,.15);
+
+  border:1px solid rgba(255,0,80,.3);
+
+}
+
+
+/* botão ADM sidebar */
+.admin-btn{
+
+  color:#ff4d7a !important;
+
+  font-weight:700;
+
+}

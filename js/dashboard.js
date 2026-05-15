@@ -145,3 +145,16 @@ function logout(){
   window.location.href = "./login.html";
 
 }
+
+function toggleAdminPanel(){
+
+  const panel =
+    document.getElementById("adminPanel");
+
+  panel.style.display =
+    panel.style.display === "none"
+    || panel.style.display === ""
+    ? "block"
+    : "none";
+
+}
