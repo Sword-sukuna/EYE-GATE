@@ -7,14 +7,11 @@
 
   <meta
     name="viewport"
-    content="
-      width=device-width,
-      initial-scale=1.0
-    "
+    content="width=device-width, initial-scale=1.0"
   />
 
   <title>
-    EYE GATE • Registros
+    EYE GATE • Criar Conta
   </title>
 
   <!-- CSS -->
@@ -25,12 +22,12 @@
 
   <link
     rel="stylesheet"
-    href="./css/dashboard.css"
+    href="./css/login.css"
   />
 
   <link
     rel="stylesheet"
-    href="./css/registros.css"
+    href="./css/registro.css"
   />
 
 </head>
@@ -54,294 +51,132 @@
 
 
 <!-- ========================= -->
-<!-- 📱 APP -->
+<!-- 📦 CONTAINER -->
 <!-- ========================= -->
-<div class="dashboard-layout">
+<div class="login-container">
 
 
   <!-- ===================== -->
-  <!-- 📚 SIDEBAR -->
+  <!-- 🧠 CARD -->
   <!-- ===================== -->
-  <aside class="sidebar">
+  <div class="login-card">
 
-    <div class="sidebar-logo">
 
-      <div class="eye-logo">
-        👁
-      </div>
+    <!-- logo -->
+    <div class="logo">
 
-      <div>
-
-        <h2>
-          EYE GATE
-        </h2>
-
-        <p>
-          Painel Escolar
-        </p>
-
-      </div>
+      👁
 
     </div>
 
 
-
-    <nav class="menu">
-
-      <a
-        href="./dashboard.html"
-        class="menu-item"
-      >
-
-        🏠 Dashboard
-
-      </a>
+    <h1>
+      EYE GATE
+    </h1>
 
 
-      <a
-        href="./cadastro.html"
-        class="menu-item"
-      >
-
-        👤 Cadastro Facial
-
-      </a>
-
-
-      <a
-        href="./monitor.html"
-        class="menu-item"
-      >
-
-        👀 Monitoramento
-
-      </a>
-
-
-      <a
-        href="./registros.html"
-        class="menu-item active"
-      >
-
-        🕒 Registros
-
-      </a>
-
-
-      <a
-        href="./configuracoes.html"
-        class="menu-item"
-      >
-
-        ⚙ Configurações
-
-      </a>
-
-    </nav>
+    <p>
+      Criar nova conta
+    </p>
 
 
 
-    <div class="sidebar-footer">
+    <!-- ===================== -->
+    <!-- FORM -->
+    <!-- ===================== -->
+    <form id="registroForm">
 
+
+      <label>
+        Nome completo
+      </label>
+
+      <input
+        type="text"
+        id="nome"
+        placeholder="Digite seu nome"
+        required
+      />
+
+
+
+      <label>
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Digite seu email"
+        required
+      />
+
+
+
+      <label>
+        Senha
+      </label>
+
+      <input
+        type="password"
+        id="senha"
+        placeholder="Crie uma senha"
+        required
+      />
+
+
+
+      <label>
+        Confirmar senha
+      </label>
+
+      <input
+        type="password"
+        id="confirmarSenha"
+        placeholder="Confirme sua senha"
+        required
+      />
+
+
+
+      <!-- BOTÃO -->
       <button
-        class="logout-btn"
-        onclick="logout()"
+        type="submit"
+        class="login-btn"
       >
 
-        🚪 Sair
+        Criar Conta
 
       </button>
 
-    </div>
-
-  </aside>
 
 
+      <!-- LINK LOGIN -->
+      <div class="extra">
 
+        Já tem conta?
 
-  <!-- ===================== -->
-  <!-- 📋 CONTENT -->
-  <!-- ===================== -->
-  <main class="dashboard-content">
+        <a href="./login.html">
 
+          Entrar
 
-    <!-- topo -->
-    <header class="topbar">
-
-      <div>
-
-        <h1>
-          Registros
-        </h1>
-
-        <p>
-          Histórico de entradas e saídas
-        </p>
-
-      </div>
-
-    </header>
-
-
-
-
-    <!-- filtros -->
-    <section class="filtros-section">
-
-
-      <div class="filtro-group">
-
-        <label>
-          Buscar aluno
-        </label>
-
-        <input
-          type="text"
-          placeholder="
-            Nome do aluno
-          "
-        />
+        </a>
 
       </div>
 
 
+    </form>
 
-      <div class="filtro-group">
-
-        <label>
-          Tipo
-        </label>
-
-        <select>
-
-          <option>
-            Todos
-          </option>
-
-          <option>
-            Entrada
-          </option>
-
-          <option>
-            Saída
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <button class="buscar-btn">
-
-        🔎 Buscar
-
-      </button>
-
-    </section>
-
-
-
-
-    <!-- tabela -->
-    <section class="table-section">
-
-      <div class="table-header">
-
-        <h2>
-          📋 Histórico
-        </h2>
-
-      </div>
-
-
-
-      <div class="table-wrapper">
-
-        <table>
-
-
-          <thead>
-
-            <tr>
-
-              <th>
-                Aluno
-              </th>
-
-              <th>
-                Turma
-              </th>
-
-              <th>
-                Tipo
-              </th>
-
-              <th>
-                Horário
-              </th>
-
-              <th>
-                Status
-              </th>
-
-            </tr>
-
-          </thead>
-
-
-
-          <tbody id="registrosBody">
-
-
-            <tr>
-
-              <td>
-                Sistema
-              </td>
-
-              <td>
-                ---
-              </td>
-
-              <td>
-                Inicialização
-              </td>
-
-              <td>
-                Agora
-              </td>
-
-              <td>
-
-                <span class="status success">
-
-                  ONLINE
-
-                </span>
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-  </main>
+  </div>
 
 </div>
 
 
 
-<!-- SCRIPTS -->
-<script src="./js/dashboard.js"></script>
-
-<script src="./js/registros.js"></script>
+<!-- ========================= -->
+<!-- JS -->
+<!-- ========================= -->
+<script src="./js/registro.js"></script>
 
 </body>
 </html>

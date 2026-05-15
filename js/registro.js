@@ -1,5 +1,5 @@
 // =========================
-// 👁 EYE GATE REGISTROS
+// 👁 EYE GATE - REGISTRO
 // =========================
 
 
@@ -12,9 +12,15 @@ window.addEventListener(
 
   ()=>{
 
-    carregarRegistros();
+    const form =
+      document.getElementById(
+        "registroForm"
+      );
 
-    iniciarBusca();
+    form.addEventListener(
+      "submit",
+      criarConta
+    );
 
   }
 
@@ -22,226 +28,119 @@ window.addEventListener(
 
 
 // =========================
-// 📋 CARREGAR
+// 👤 CRIAR CONTA
 // =========================
-function carregarRegistros(){
+function criarConta(event){
 
-  const body =
+  event.preventDefault();
+
+
+  const nome =
     document.getElementById(
-      "registrosBody"
+      "nome"
+    ).value;
+
+  const email =
+    document.getElementById(
+      "email"
+    ).value;
+
+  const senha =
+    document.getElementById(
+      "senha"
+    ).value;
+
+  const confirmar =
+    document.getElementById(
+      "confirmarSenha"
+    ).value;
+
+
+  // =========================
+  // 🔒 VALIDAÇÃO
+  // =========================
+  if(senha !== confirmar){
+
+    alert(
+      "As senhas não coincidem!"
     );
-
-  const alunos =
-    JSON.parse(
-
-      localStorage.getItem(
-        "alunosEyeGate"
-      )
-
-    ) || [];
-
-
-  // limpa
-  body.innerHTML = "";
-
-
-  // vazio
-  if(alunos.length === 0){
-
-    body.innerHTML = `
-
-      <tr>
-
-        <td colspan="5">
-
-          Nenhum registro encontrado
-
-        </td>
-
-      </tr>
-
-    `;
 
     return;
 
   }
 
 
-  // render
-  alunos.forEach((aluno,index)=>{
+  // =========================
+  // 📦 PEGAR USUÁRIOS
+  // =========================
+  const usuarios =
+    JSON.parse(
 
-    const tipo =
+      localStorage.getItem(
+        "usuariosEyeGate"
+      )
 
-      index % 2 === 0
-
-      ?
-
-      "Entrada"
-
-      :
-
-      "Saída";
+    ) || [];
 
 
-    const status =
-
-      tipo === "Entrada"
-
-      ?
-
-      "success"
-
-      :
-
-      "warning";
-
-
-    const hora =
-      gerarHorarioFake();
-
-
-    body.innerHTML += `
-
-      <tr>
-
-        <td>
-          ${aluno.nome}
-        </td>
-
-        <td>
-          ${aluno.turma}
-        </td>
-
-        <td>
-          ${tipo}
-        </td>
-
-        <td>
-          ${hora}
-        </td>
-
-        <td>
-
-          <span
-            class="
-              status
-              ${status}
-            "
-          >
-
-            ${tipo}
-
-          </span>
-
-        </td>
-
-      </tr>
-
-    `;
-
-  });
-
-}
-
-
-// =========================
-// 🔎 BUSCA
-// =========================
-function iniciarBusca(){
-
-  const botao =
-    document.querySelector(
-      ".buscar-btn"
+  // =========================
+  // ❌ VERIFICAR DUPLICADO
+  // =========================
+  const existe =
+    usuarios.find(
+      u => u.email === email
     );
 
-  botao.addEventListener(
 
-    "click",
+  if(existe){
 
-    buscarAluno
+    alert(
+      "Este email já está cadastrado!"
+    );
+
+    return;
+
+  }
+
+
+  // =========================
+  // ➕ CRIAR USUÁRIO
+  // =========================
+  const novoUsuario = {
+
+    nome,
+    email,
+    senha
+
+  };
+
+
+  usuarios.push(novoUsuario);
+
+
+  localStorage.setItem(
+
+    "usuariosEyeGate",
+
+    JSON.stringify(
+      usuarios
+    )
 
   );
 
-}
+
+  // =========================
+  // ✅ SUCESSO
+  // =========================
+  alert(
+    "Conta criada com sucesso!"
+  );
 
 
-// =========================
-// 👤 BUSCAR
-// =========================
-function buscarAluno(){
-
-  const texto =
-    document
-    .querySelector(
-      ".filtro-group input"
-    )
-    .value
-    .toLowerCase();
-
-
-  const linhas =
-    document.querySelectorAll(
-      "#registrosBody tr"
-    );
-
-
-  linhas.forEach((linha)=>{
-
-    const nome =
-      linha.innerText
-      .toLowerCase();
-
-    // mostrar
-    if(
-
-      nome.includes(texto)
-
-    ){
-
-      linha.style.display =
-        "";
-
-    }else{
-
-      linha.style.display =
-        "none";
-
-    }
-
-  });
-
-}
-
-
-// =========================
-// 🕒 HORÁRIO FAKE
-// =========================
-function gerarHorarioFake(){
-
-  const hora =
-    Math.floor(
-      Math.random() * 24
-    );
-
-  const minuto =
-    Math.floor(
-      Math.random() * 60
-    );
-
-  return `
-
-    ${
-      String(hora)
-      .padStart(2,"0")
-    }
-
-    :
-
-    ${
-      String(minuto)
-      .padStart(2,"0")
-    }
-
-  `;
+  // =========================
+  // 🔁 IR PARA LOGIN
+  // =========================
+  window.location.href =
+    "./login.html";
 
 }

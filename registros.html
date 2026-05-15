@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8"/>
+
+  <meta
+    name="viewport"
+    content="
+      width=device-width,
+      initial-scale=1.0
+    "
+  />
+
+  <title>
+    EYE GATE • Registros
+  </title>
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/global.css"
+  />
+
+  <link
+    rel="stylesheet"
+    href="./css/dashboard.css"
+  />
+
+  <link
+    rel="stylesheet"
+    href="./css/registros.css"
+  />
+
+</head>
+
+<body>
+
+
+<!-- ========================= -->
+<!-- 🌌 BACKGROUND -->
+<!-- ========================= -->
+<div class="background">
+
+  <div class="glow glow-one"></div>
+
+  <div class="glow glow-two"></div>
+
+  <div class="grid"></div>
+
+</div>
+
+
+
+<!-- ========================= -->
+<!-- 📱 APP -->
+<!-- ========================= -->
+<div class="dashboard-layout">
+
+
+  <!-- ===================== -->
+  <!-- 📚 SIDEBAR -->
+  <!-- ===================== -->
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+      <div class="eye-logo">
+        👁
+      </div>
+
+      <div>
+
+        <h2>
+          EYE GATE
+        </h2>
+
+        <p>
+          Painel Escolar
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <nav class="menu">
+
+      <a
+        href="./dashboard.html"
+        class="menu-item"
+      >
+
+        🏠 Dashboard
+
+      </a>
+
+
+      <a
+        href="./cadastro.html"
+        class="menu-item"
+      >
+
+        👤 Cadastro Facial
+
+      </a>
+
+
+      <a
+        href="./monitor.html"
+        class="menu-item"
+      >
+
+        👀 Monitoramento
+
+      </a>
+
+
+      <a
+        href="./registros.html"
+        class="menu-item active"
+      >
+
+        🕒 Registros
+
+      </a>
+
+
+      <a
+        href="./configuracoes.html"
+        class="menu-item"
+      >
+
+        ⚙ Configurações
+
+      </a>
+
+    </nav>
+
+
+
+    <div class="sidebar-footer">
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+
+        🚪 Sair
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+
+
+  <!-- ===================== -->
+  <!-- 📋 CONTENT -->
+  <!-- ===================== -->
+  <main class="dashboard-content">
+
+
+    <!-- topo -->
+    <header class="topbar">
+
+      <div>
+
+        <h1>
+          Registros
+        </h1>
+
+        <p>
+          Histórico de entradas e saídas
+        </p>
+
+      </div>
+
+    </header>
+
+
+
+
+    <!-- filtros -->
+    <section class="filtros-section">
+
+
+      <div class="filtro-group">
+
+        <label>
+          Buscar aluno
+        </label>
+
+        <input
+          type="text"
+          placeholder="
+            Nome do aluno
+          "
+        />
+
+      </div>
+
+
+
+      <div class="filtro-group">
+
+        <label>
+          Tipo
+        </label>
+
+        <select>
+
+          <option>
+            Todos
+          </option>
+
+          <option>
+            Entrada
+          </option>
+
+          <option>
+            Saída
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      <button class="buscar-btn">
+
+        🔎 Buscar
+
+      </button>
+
+    </section>
+
+
+
+
+    <!-- tabela -->
+    <section class="table-section">
+
+      <div class="table-header">
+
+        <h2>
+          📋 Histórico
+        </h2>
+
+      </div>
+
+
+
+      <div class="table-wrapper">
+
+        <table>
+
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Aluno
+              </th>
+
+              <th>
+                Turma
+              </th>
+
+              <th>
+                Tipo
+              </th>
+
+              <th>
+                Horário
+              </th>
+
+              <th>
+                Status
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+
+          <tbody id="registrosBody">
+
+
+            <tr>
+
+              <td>
+                Sistema
+              </td>
+
+              <td>
+                ---
+              </td>
+
+              <td>
+                Inicialização
+              </td>
+
+              <td>
+                Agora
+              </td>
+
+              <td>
+
+                <span class="status success">
+
+                  ONLINE
+
+                </span>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+
+<!-- SCRIPTS -->
+<script src="./js/dashboard.js"></script>
+
+<script src="./js/registros.js"></script>
+
+</body>
+</html>
