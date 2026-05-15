@@ -1,351 +1,143 @@
 /* ========================= */
-/* 🌍 RESET */
+/* 👀 GRID */
 /* ========================= */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+.monitor-grid{
 
-body{
+  display:grid;
 
-  font-family:
-    Arial,
-    sans-serif;
+  grid-template-columns:
+    1.3fr .7fr;
 
-  background:
-    #070b17;
+  gap:30px;
 
-  color:white;
+  margin-bottom:35px;
 
-  min-height:100vh;
-
-  overflow-x:hidden;
-
-  display:flex;
 }
 
 
 /* ========================= */
-/* 🌌 BG */
+/* 📷 CAMERA CARD */
 /* ========================= */
-.bg{
-
-  position:fixed;
-
-  inset:0;
+.monitor-camera-card{
 
   background:
-    radial-gradient(
-      circle at top,
-      rgba(0,180,255,.15),
-      transparent 40%
-    ),
-    #070b17;
+    rgba(255,255,255,.05);
 
-  z-index:-1;
-}
-
-
-/* ========================= */
-/* 📱 SIDEBAR */
-/* ========================= */
-.sidebar{
-
-  width:280px;
-
-  min-height:100vh;
-
-  background:
-    rgba(255,255,255,.04);
-
-  backdrop-filter:
-    blur(18px);
-
-  border-right:
+  border:
     1px solid rgba(255,255,255,.08);
+
+  border-radius:28px;
 
   padding:25px;
 
+  backdrop-filter:blur(15px);
+
+}
+
+
+/* ========================= */
+/* 🔝 HEADER */
+/* ========================= */
+.camera-header{
+
   display:flex;
-
-  flex-direction:column;
-
+  align-items:center;
   justify-content:space-between;
+
+  gap:20px;
+
+  margin-bottom:20px;
+
 }
 
 
-/* ========================= */
-/* 👁 LOGO */
-/* ========================= */
-.logo-area{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
-
-  margin-bottom:40px;
-}
-
-.logo-circle{
-
-  width:55px;
-
-  height:55px;
-
-  border-radius:50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
+.camera-header h2{
 
   font-size:24px;
 
-  box-shadow:
-    0 0 20px rgba(0,195,255,.5);
-}
-
-.logo-area h1{
-
-  font-size:22px;
-
-  font-weight:700;
-}
-
-.logo-area p{
-
-  color:#9aa4c7;
-
-  font-size:13px;
 }
 
 
 /* ========================= */
-/* 📋 MENU */
+/* 🟢 STATUS */
 /* ========================= */
-.menu{
+.camera-status{
 
   display:flex;
-
-  flex-direction:column;
-
-  gap:12px;
-}
-
-.menu-item{
-
-  text-decoration:none;
-
-  color:#cfd8ff;
-
-  padding:14px 18px;
-
-  border-radius:14px;
-
-  transition:.25s;
-
-  background:
-    rgba(255,255,255,.03);
-}
-
-.menu-item:hover{
-
-  background:
-    rgba(0,195,255,.12);
-
-  transform:
-    translateX(5px);
-}
-
-.menu-item.active{
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
-
-  color:white;
-
-  box-shadow:
-    0 10px 25px rgba(0,102,255,.35);
-}
-
-
-/* ========================= */
-/* 🚪 LOGOUT */
-/* ========================= */
-.logout-btn{
-
-  border:none;
-
-  padding:15px;
-
-  border-radius:14px;
-
-  cursor:pointer;
-
-  color:white;
-
-  background:
-    rgba(255,70,70,.15);
-
-  transition:.25s;
-}
-
-.logout-btn:hover{
-
-  background:
-    rgba(255,70,70,.3);
-}
-
-
-/* ========================= */
-/* 📄 MAIN */
-/* ========================= */
-.main-content{
-
-  flex:1;
-
-  padding:30px;
-}
-
-
-/* ========================= */
-/* 🔝 TOPO */
-/* ========================= */
-.topbar{
-
-  display:flex;
-
   align-items:center;
 
-  justify-content:space-between;
+  gap:10px;
 
-  margin-bottom:30px;
-}
-
-.topbar h2{
-
-  font-size:34px;
-
-  margin-bottom:8px;
-}
-
-.topbar p{
-
-  color:#95a0c3;
-}
-
-
-/* ========================= */
-/* 🟢 LIVE */
-/* ========================= */
-.live-status{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  padding:14px 20px;
+  padding:
+    10px 16px;
 
   border-radius:999px;
 
   background:
     rgba(0,255,170,.12);
 
+  border:
+    1px solid rgba(0,255,170,.2);
+
   color:#00ffaa;
 
-  border:
-    1px solid rgba(0,255,170,.3);
+  font-size:13px;
+
+  font-weight:700;
+
 }
 
-.pulse{
 
-  width:12px;
+.status-dot{
 
-  height:12px;
+  width:10px;
+  height:10px;
 
   border-radius:50%;
 
   background:#00ffaa;
 
-  animation:
-    pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-
-  0%{
-    transform:scale(1);
-    opacity:1;
-  }
-
-  100%{
-    transform:scale(2.4);
-    opacity:0;
-  }
+  box-shadow:
+    0 0 15px #00ffaa;
 
 }
 
 
 /* ========================= */
-/* 📷 CAMERA */
+/* 📹 CAMERA */
 /* ========================= */
-.camera-section{
-
-  display:grid;
-
-  grid-template-columns:
-    2fr 1fr;
-
-  gap:25px;
-
-  margin-bottom:30px;
-}
-
-.camera-card{
-
-  position:relative;
-
-  overflow:hidden;
-
-  border-radius:28px;
-
-  background:black;
-
-  min-height:520px;
-
-  border:
-    1px solid rgba(255,255,255,.08);
-}
-
-.camera-card video{
+.monitor-camera-box{
 
   width:100%;
 
+  aspect-ratio:16/9;
+
+  overflow:hidden;
+
+  border-radius:24px;
+
+  position:relative;
+
+  background:#020617;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+}
+
+
+.monitor-camera-box video{
+
+  width:100%;
   height:100%;
 
   object-fit:cover;
+
 }
 
 
 /* ========================= */
-/* 🧠 OVERLAY */
+/* 👁 OVERLAY */
 /* ========================= */
 .camera-overlay{
 
@@ -354,69 +146,74 @@ body{
   inset:0;
 
   pointer-events:none;
+
 }
 
-.face-frame{
 
-  position:absolute;
-
-  top:50%;
-
-  left:50%;
-
-  transform:
-    translate(-50%,-50%);
-
-  width:260px;
-
-  height:340px;
-
-  border:
-    3px solid rgba(0,255,170,.8);
-
-  border-radius:28px;
-
-  box-shadow:
-    0 0 25px rgba(0,255,170,.35);
-}
-
+/* scan */
 .scan-line{
 
   position:absolute;
 
-  top:0;
+  left:0;
 
   width:100%;
-
   height:4px;
 
   background:
-    rgba(0,255,170,.8);
-
-  box-shadow:
-    0 0 20px rgba(0,255,170,.8);
+    linear-gradient(
+      90deg,
+      transparent,
+      #00ffff,
+      transparent
+    );
 
   animation:
     scan 3s linear infinite;
+
 }
+
 
 @keyframes scan{
 
   0%{
-    top:0;
+
+    top:5%;
+
+  }
+
+  50%{
+
+    top:92%;
+
   }
 
   100%{
-    top:100%;
+
+    top:5%;
+
   }
 
 }
 
 
 /* ========================= */
-/* 📡 RECOGNITION */
+/* 📦 SIDE */
 /* ========================= */
-.recognition-card{
+.monitor-side{
+
+  display:flex;
+  flex-direction:column;
+
+  gap:25px;
+
+}
+
+
+/* ========================= */
+/* 🧠 STATUS CARD */
+/* ========================= */
+.status-card{
 
   background:
     rgba(255,255,255,.05);
@@ -426,98 +223,142 @@ body{
 
   border-radius:28px;
 
-  padding:25px;
+  padding:28px;
 
-  backdrop-filter:
-    blur(15px);
+  backdrop-filter:blur(15px);
+
 }
 
-.recognition-card h3{
 
-  margin-bottom:20px;
-}
-
-.recognition-status{
-
-  padding:18px;
-
-  border-radius:18px;
-
-  background:
-    rgba(255,255,255,.04);
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-  color:#dce3ff;
+.status-card h2{
 
   margin-bottom:25px;
+
 }
 
 
-/* ========================= */
-/* 👤 STUDENT */
-/* ========================= */
-.student-detected{
+/* reconhecimento */
+.recognition-box{
 
-  display:flex;
+  text-align:center;
 
-  align-items:center;
-
-  gap:18px;
-
-  padding:20px;
-
-  border-radius:20px;
-
-  background:
-    rgba(255,255,255,.04);
-
-  border:
-    1px solid rgba(255,255,255,.08);
 }
 
-.student-avatar{
 
-  width:70px;
+.recognition-avatar{
 
-  height:70px;
+  width:100px;
+  height:100px;
 
   border-radius:50%;
 
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
+  margin:auto;
 
   display:flex;
-
   align-items:center;
-
   justify-content:center;
 
-  font-size:30px;
+  font-size:42px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #06b6d4,
+      #4f46e5
+    );
+
+  margin-bottom:20px;
+
+  box-shadow:
+    0 0 35px
+    rgba(79,70,229,.3);
+
 }
 
-.student-detected h4{
 
-  margin-bottom:8px;
+.recognition-box h3{
 
-  font-size:18px;
+  font-size:22px;
+
+  margin-bottom:10px;
+
 }
 
-.student-detected p{
 
-  color:#aab5d8;
+.recognition-box p{
+
+  color:#94a3b8;
+
+}
+
+
+/* ========================= */
+/* 📊 MINI STATS */
+/* ========================= */
+.mini-stats{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:20px;
+
+}
+
+
+.mini-card{
+
+  background:
+    rgba(255,255,255,.05);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:24px;
+
+  padding:24px;
+
+  text-align:center;
+
+  backdrop-filter:blur(15px);
+
+}
+
+
+.mini-card span{
+
+  display:block;
+
+  font-size:34px;
+
+  margin-bottom:12px;
+
+}
+
+
+.mini-card strong{
+
+  display:block;
+
+  font-size:28px;
+
+  margin-bottom:6px;
+
+}
+
+
+.mini-card p{
+
+  color:#94a3b8;
+
 }
 
 
 /* ========================= */
 /* 📋 LOGS */
 /* ========================= */
-.logs-card{
+.monitor-logs{
 
   background:
     rgba(255,255,255,.05);
@@ -527,112 +368,78 @@ body{
 
   border-radius:28px;
 
-  padding:25px;
+  padding:30px;
 
-  backdrop-filter:
-    blur(15px);
+  backdrop-filter:blur(15px);
+
 }
 
-.logs-header{
 
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
+.section-title{
 
   margin-bottom:25px;
-}
 
-.refresh-btn{
-
-  border:none;
-
-  padding:12px 18px;
-
-  border-radius:14px;
-
-  cursor:pointer;
-
-  color:white;
-
-  background:
-    rgba(0,195,255,.15);
 }
 
 
-/* ========================= */
-/* 📋 LIST */
-/* ========================= */
 .logs-list{
 
   display:flex;
-
   flex-direction:column;
 
-  gap:16px;
+  gap:18px;
+
 }
 
+
+/* item */
 .log-item{
 
   display:flex;
-
   align-items:center;
-
   justify-content:space-between;
 
-  padding:18px;
-
-  border-radius:18px;
+  gap:18px;
 
   background:
     rgba(255,255,255,.04);
 
-  border:
-    1px solid rgba(255,255,255,.08);
+  padding:18px;
+
+  border-radius:20px;
+
 }
 
-.log-left{
 
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
-}
-
-.log-avatar{
+.log-icon{
 
   width:55px;
-
   height:55px;
 
-  border-radius:50%;
+  border-radius:16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:24px;
 
   background:
     linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
+      90deg,
+      #06b6d4,
+      #4f46e5
     );
 
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
 }
 
-.log-item h4{
-
-  margin-bottom:6px;
-}
 
 .log-item p{
 
-  color:#9aa4c7;
+  color:#94a3b8;
 
-  font-size:14px;
+  margin-top:5px;
+
 }
 
 
@@ -641,41 +448,28 @@ body{
 /* ========================= */
 @media(max-width:1100px){
 
-  body{
+  .monitor-grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+}
+
+
+@media(max-width:700px){
+
+  .mini-stats{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .camera-header{
 
     flex-direction:column;
-  }
-
-  .sidebar{
-
-    width:100%;
-
-    min-height:auto;
-  }
-
-  .main-content{
-
-    padding:20px;
-  }
-
-  .camera-section{
-
-    grid-template-columns:
-      1fr;
-  }
-
-  .camera-card{
-
-    min-height:320px;
-  }
-
-  .topbar{
-
-    flex-direction:column;
-
     align-items:flex-start;
 
-    gap:20px;
   }
 
 }

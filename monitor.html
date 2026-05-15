@@ -14,18 +14,24 @@
   />
 
   <title>
-    EYE GATE • Monitor
+    EYE GATE • Monitoramento
   </title>
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/global.css"
+  />
+
+  <link
+    rel="stylesheet"
+    href="./css/dashboard.css"
+  />
 
   <link
     rel="stylesheet"
     href="./css/monitor.css"
   />
-
-  <link
-  rel="stylesheet"
-  href="./css/toast.css"
-/>
 
 </head>
 
@@ -33,34 +39,45 @@
 
 
 <!-- ========================= -->
-<!-- 🌌 BG -->
+<!-- 🌌 BACKGROUND -->
 <!-- ========================= -->
-<div class="bg"></div>
+<div class="background">
+
+  <div class="glow glow-one"></div>
+
+  <div class="glow glow-two"></div>
+
+  <div class="grid"></div>
+
+</div>
 
 
 
 <!-- ========================= -->
-<!-- 📱 SIDEBAR -->
+<!-- 📱 APP -->
 <!-- ========================= -->
-<aside class="sidebar">
+<div class="dashboard-layout">
 
-  <div>
 
-    <!-- logo -->
-    <div class="logo-area">
+  <!-- ===================== -->
+  <!-- 📚 SIDEBAR -->
+  <!-- ===================== -->
+  <aside class="sidebar">
 
-      <div class="logo-circle">
+    <div class="sidebar-logo">
+
+      <div class="eye-logo">
         👁
       </div>
 
       <div>
 
-        <h1>
+        <h2>
           EYE GATE
-        </h1>
+        </h2>
 
         <p>
-          Smart School Security
+          Painel Escolar
         </p>
 
       </div>
@@ -69,210 +86,285 @@
 
 
 
-    <!-- menu -->
     <nav class="menu">
 
       <a
         href="./dashboard.html"
         class="menu-item"
       >
-        📊 Dashboard
+
+        🏠 Dashboard
+
       </a>
+
 
       <a
         href="./cadastro.html"
         class="menu-item"
       >
-        👤 Cadastro
+
+        👤 Cadastro Facial
+
       </a>
 
-      <a
-        href="./registros.html"
-        class="menu-item"
-      >
-        📋 Registros
-      </a>
 
       <a
         href="./monitor.html"
         class="menu-item active"
       >
-        👀 Monitor
+
+        👀 Monitoramento
+
       </a>
 
+
       <a
-        href="#"
+        href="./registros.html"
         class="menu-item"
       >
+
+        🕒 Registros
+
+      </a>
+
+
+      <a
+        href="./configuracoes.html"
+        class="menu-item"
+      >
+
         ⚙ Configurações
+
       </a>
 
     </nav>
 
-  </div>
 
 
-
-  <!-- logout -->
-  <button
-    class="logout-btn"
-    onclick="logout()"
-  >
-
-    Sair
-
-  </button>
-
-</aside>
-
-
-
-<!-- ========================= -->
-<!-- 📄 MAIN -->
-<!-- ========================= -->
-<main class="main-content">
-
-
-  <!-- ===================== -->
-  <!-- 🔝 TOPO -->
-  <!-- ===================== -->
-  <section class="topbar">
-
-    <div>
-
-      <h2>
-        Monitor em Tempo Real
-      </h2>
-
-      <p>
-        Reconhecimento facial ativo
-      </p>
-
-    </div>
-
-
-    <div class="live-status">
-
-      <span class="pulse"></span>
-
-      Sistema Online
-
-    </div>
-
-  </section>
-
-
-
-  <!-- ===================== -->
-  <!-- 📷 CAMERA -->
-  <!-- ===================== -->
-  <section class="camera-section">
-
-    <div class="camera-card">
-
-      <video
-        id="video"
-        autoplay
-        muted
-        playsinline
-      ></video>
-
-
-      <!-- overlay -->
-      <div class="camera-overlay">
-
-        <div class="scan-line"></div>
-
-        <div class="face-frame"></div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- status -->
-    <div class="recognition-card">
-
-      <h3>
-        📡 Status do Reconhecimento
-      </h3>
-
-      <div
-        class="recognition-status"
-        id="recognitionStatus"
-      >
-
-        🔎 Aguardando rosto...
-
-      </div>
-
-
-
-      <!-- aluno -->
-      <div class="student-detected">
-
-        <div class="student-avatar">
-          👤
-        </div>
-
-        <div>
-
-          <h4 id="studentName">
-            Nenhum aluno
-          </h4>
-
-          <p id="studentInfo">
-            Aguardando reconhecimento
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- ===================== -->
-  <!-- 📋 LOGS -->
-  <!-- ===================== -->
-  <section class="logs-card">
-
-    <div class="logs-header">
-
-      <h3>
-        📋 Últimos Registros
-      </h3>
+    <div class="sidebar-footer">
 
       <button
-        class="refresh-btn"
-        onclick="carregarLogs()"
+        class="logout-btn"
+        onclick="logout()"
       >
 
-        Atualizar
+        🚪 Sair
 
       </button>
 
     </div>
 
-
-    <div
-      class="logs-list"
-      id="logsList"
-    ></div>
-
-  </section>
-
-</main>
+  </aside>
 
 
 
-<!-- ========================= -->
-<!-- 📦 SCRIPT -->
-<!-- ========================= -->
+
+  <!-- ===================== -->
+  <!-- 👀 CONTENT -->
+  <!-- ===================== -->
+  <main class="dashboard-content">
+
+
+    <!-- topo -->
+    <header class="topbar">
+
+      <div>
+
+        <h1>
+          Monitoramento Facial
+        </h1>
+
+        <p>
+          Reconhecimento em tempo real
+        </p>
+
+      </div>
+
+    </header>
+
+
+
+
+    <!-- monitor -->
+    <section class="monitor-grid">
+
+
+      <!-- câmera -->
+      <div class="monitor-camera-card">
+
+        <div class="camera-header">
+
+          <h2>
+            📷 Câmera Inteligente
+          </h2>
+
+          <div class="camera-status">
+
+            <span class="status-dot"></span>
+
+            ONLINE
+
+          </div>
+
+        </div>
+
+
+
+        <div class="monitor-camera-box">
+
+          <video
+            id="monitorVideo"
+            autoplay
+            muted
+            playsinline
+          ></video>
+
+
+
+          <div class="camera-overlay">
+
+            <div class="scan-line"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+
+      <!-- status -->
+      <div class="monitor-side">
+
+
+        <!-- reconhecimento -->
+        <div class="status-card">
+
+          <h2>
+            🧠 Reconhecimento
+          </h2>
+
+
+          <div class="recognition-box">
+
+            <div class="recognition-avatar">
+              👤
+            </div>
+
+            <h3>
+              Aguardando rosto...
+            </h3>
+
+            <p>
+              Nenhuma pessoa detectada
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- stats -->
+        <div class="mini-stats">
+
+
+          <div class="mini-card">
+
+            <span>
+              👥
+            </span>
+
+            <strong>
+              0
+            </strong>
+
+            <p>
+              Detectados
+            </p>
+
+          </div>
+
+
+
+          <div class="mini-card">
+
+            <span>
+              🚪
+            </span>
+
+            <strong>
+              0
+            </strong>
+
+            <p>
+              Entradas
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+
+    <!-- atividade -->
+    <section class="monitor-logs">
+
+      <div class="section-title">
+
+        <h2>
+          📋 Eventos em Tempo Real
+        </h2>
+
+      </div>
+
+
+      <div class="logs-list">
+
+
+        <div class="log-item">
+
+          <div class="log-icon">
+            📡
+          </div>
+
+          <div>
+
+            <strong>
+              Sistema iniciado
+            </strong>
+
+            <p>
+              Monitoramento ativo
+            </p>
+
+          </div>
+
+          <span>
+            Agora
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+
+<!-- SCRIPTS -->
+<script src="./js/dashboard.js"></script>
+
 <script src="./js/monitor.js"></script>
 
 </body>

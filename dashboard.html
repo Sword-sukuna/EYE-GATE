@@ -3,57 +3,77 @@
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="
+      width=device-width,
+      initial-scale=1.0
+    "
   />
 
-  <title>EYE GATE • Dashboard</title>
+  <title>
+    EYE GATE • Dashboard
+  </title>
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/global.css"
+  />
 
   <link
     rel="stylesheet"
     href="./css/dashboard.css"
   />
 
-  <link
-    rel="icon"
-    href="data:,"
-  />
-
-  <link
-  rel="stylesheet"
-  href="./css/toast.css"
-/>
-
 </head>
 
 <body>
 
-  <!-- ========================= -->
-  <!-- 🌌 BACKGROUND -->
-  <!-- ========================= -->
-  <div class="bg"></div>
+
+<!-- ========================= -->
+<!-- 🌌 BACKGROUND -->
+<!-- ========================= -->
+<div class="background">
+
+  <div class="glow glow-one"></div>
+
+  <div class="glow glow-two"></div>
+
+  <div class="grid"></div>
+
+</div>
 
 
-  <!-- ========================= -->
-  <!-- 📱 SIDEBAR -->
-  <!-- ========================= -->
+
+<!-- ========================= -->
+<!-- 📱 APP -->
+<!-- ========================= -->
+<div class="dashboard-layout">
+
+
+  <!-- ===================== -->
+  <!-- 📚 SIDEBAR -->
+  <!-- ===================== -->
   <aside class="sidebar">
 
-    <div class="logo-area">
+    <!-- logo -->
+    <div class="sidebar-logo">
 
-      <div class="logo-circle">
+      <div class="eye-logo">
         👁
       </div>
 
       <div>
 
-        <h1>EYE GATE</h1>
+        <h2>
+          EYE GATE
+        </h2>
 
         <p>
-          Smart Access
+          Painel Escolar
         </p>
 
       </div>
@@ -61,7 +81,10 @@
     </div>
 
 
+
+    <!-- menu -->
     <nav class="menu">
+
 
       <a
         href="./dashboard.html"
@@ -72,44 +95,39 @@
 
       </a>
 
+
       <a
-        href="./students.html"
+        href="./cadastro.html"
         class="menu-item"
       >
 
-        👨‍🎓 Alunos
+        👤 Cadastro Facial
 
       </a>
 
-      <a
-        href="./register.html"
-        class="menu-item"
-      >
-
-        📸 Cadastro Facial
-
-      </a>
 
       <a
         href="./monitor.html"
         class="menu-item"
       >
 
-        👀 Monitor
+        👀 Monitoramento
 
       </a>
 
+
       <a
-        href="./history.html"
+        href="./registros.html"
         class="menu-item"
       >
 
-        🕒 Histórico
+        🕒 Registros
 
       </a>
 
+
       <a
-        href="./settings.html"
+        href="./configuracoes.html"
         class="menu-item"
       >
 
@@ -120,50 +138,64 @@
     </nav>
 
 
-    <button
-      class="logout-btn"
-      onclick="logout()"
-    >
 
-      Sair
+    <!-- sair -->
+    <div class="sidebar-footer">
 
-    </button>
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+
+        🚪 Sair
+
+      </button>
+
+    </div>
 
   </aside>
 
 
 
-  <!-- ========================= -->
-  <!-- 📊 CONTEÚDO -->
-  <!-- ========================= -->
-  <main class="main-content">
+
+  <!-- ===================== -->
+  <!-- 📊 CONTENT -->
+  <!-- ===================== -->
+  <main class="dashboard-content">
 
 
-    <!-- ===================== -->
-    <!-- 🔝 TOPBAR -->
-    <!-- ===================== -->
+    <!-- topo -->
     <header class="topbar">
 
       <div>
 
-        <h2>
+        <h1>
           Dashboard
-        </h2>
+        </h1>
 
         <p>
-          Controle inteligente de entrada e saída
+          Controle inteligente escolar
         </p>
 
       </div>
 
 
-      <div class="topbar-right">
+      <!-- user -->
+      <div class="top-user">
 
-        <div class="status-online">
+        <div class="user-avatar">
+          👨‍💼
+        </div>
 
-          <span class="dot"></span>
+        <div>
 
-          Sistema Online
+          <strong>
+            Administrador
+          </strong>
+
+          <p>
+            Online
+          </p>
 
         </div>
 
@@ -173,91 +205,77 @@
 
 
 
-    <!-- ===================== -->
-    <!-- 📊 CARDS -->
-    <!-- ===================== -->
+    <!-- cards -->
     <section class="stats-grid">
 
+
       <div class="stat-card">
 
-        <div class="stat-icon">
-          👨‍🎓
-        </div>
+        <span>
+          👥
+        </span>
 
-        <div>
+        <h2>
+          0
+        </h2>
 
-          <h3 id="totalStudents">
-            0
-          </h3>
-
-          <p>
-            Alunos
-          </p>
-
-        </div>
+        <p>
+          Alunos Registrados
+        </p>
 
       </div>
 
 
+
       <div class="stat-card">
 
-        <div class="stat-icon">
+        <span>
           ✅
-        </div>
+        </span>
 
-        <div>
+        <h2>
+          0
+        </h2>
 
-          <h3 id="presentStudents">
-            0
-          </h3>
-
-          <p>
-            Presentes
-          </p>
-
-        </div>
+        <p>
+          Entradas Hoje
+        </p>
 
       </div>
 
 
+
       <div class="stat-card">
 
-        <div class="stat-icon">
+        <span>
           🚪
-        </div>
+        </span>
 
-        <div>
+        <h2>
+          0
+        </h2>
 
-          <h3 id="entriesToday">
-            0
-          </h3>
-
-          <p>
-            Entradas Hoje
-          </p>
-
-        </div>
+        <p>
+          Saídas Hoje
+        </p>
 
       </div>
+
 
 
       <div class="stat-card">
 
-        <div class="stat-icon">
-          ⚠
-        </div>
+        <span>
+          📡
+        </span>
 
-        <div>
+        <h2>
+          Online
+        </h2>
 
-          <h3 id="alerts">
-            0
-          </h3>
-
-          <p>
-            Alertas
-          </p>
-
-        </div>
+        <p>
+          Sistema Operacional
+        </p>
 
       </div>
 
@@ -265,90 +283,75 @@
 
 
 
-    <!-- ===================== -->
-    <!-- 🎥 CÂMERA -->
-    <!-- ===================== -->
-    <section class="camera-section">
+
+    <!-- atividade -->
+    <section class="activity-section">
 
       <div class="section-title">
 
-        <h3>
-          📷 Reconhecimento Facial
-        </h3>
+        <h2>
+          📋 Atividade Recente
+        </h2>
 
       </div>
 
 
-      <div class="camera-box">
-
-        <video
-          id="video"
-          autoplay
-          playsinline
-          muted
-        ></video>
+      <div class="activity-list">
 
 
-        <div class="camera-overlay">
+        <div class="activity-item">
 
-          <div class="scan-line"></div>
+          <div>
 
-          <div class="face-frame"></div>
+            <strong>
+              Sistema iniciado
+            </strong>
+
+            <p>
+              Dashboard carregado
+            </p>
+
+          </div>
+
+          <span>
+            Agora
+          </span>
 
         </div>
 
-      </div>
 
+        <div class="activity-item">
 
-      <div class="camera-status">
+          <div>
 
-        <div id="status">
+            <strong>
+              Monitor Facial
+            </strong>
 
-          🔎 Aguardando reconhecimento...
+            <p>
+              Aguardando reconhecimento
+            </p>
+
+          </div>
+
+          <span>
+            Online
+          </span>
 
         </div>
 
       </div>
 
     </section>
-
-
-
-    <!-- ===================== -->
-    <!-- 🕒 REGISTROS -->
-    <!-- ===================== -->
-    <section class="live-section">
-
-      <div class="section-title">
-
-        <h3>
-          🕒 Últimos Registros
-        </h3>
-
-      </div>
-
-
-      <div
-        class="live-list"
-        id="liveList"
-      >
-
-        <!-- registros -->
-
-      </div>
-
-    </section>
-
 
   </main>
 
+</div>
 
 
-  <!-- ========================= -->
-  <!-- 📦 SCRIPT -->
-  <!-- ========================= -->
-  <script src="./js/dashboard.js"></script>
+
+<!-- SCRIPT -->
+<script src="./js/dashboard.js"></script>
 
 </body>
-
 </html>

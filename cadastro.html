@@ -14,18 +14,24 @@
   />
 
   <title>
-    EYE GATE • Cadastro
+    EYE GATE • Cadastro Facial
   </title>
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/global.css"
+  />
+
+  <link
+    rel="stylesheet"
+    href="./css/dashboard.css"
+  />
 
   <link
     rel="stylesheet"
     href="./css/cadastro.css"
   />
-
-  <link
-  rel="stylesheet"
-  href="./css/toast.css"
-/>
 
 </head>
 
@@ -35,32 +41,43 @@
 <!-- ========================= -->
 <!-- 🌌 BG -->
 <!-- ========================= -->
-<div class="bg"></div>
+<div class="background">
+
+  <div class="glow glow-one"></div>
+
+  <div class="glow glow-two"></div>
+
+  <div class="grid"></div>
+
+</div>
 
 
 
 <!-- ========================= -->
-<!-- 📱 SIDEBAR -->
+<!-- 📱 APP -->
 <!-- ========================= -->
-<aside class="sidebar">
+<div class="dashboard-layout">
 
-  <div>
 
-    <!-- logo -->
-    <div class="logo-area">
+  <!-- ===================== -->
+  <!-- 📚 SIDEBAR -->
+  <!-- ===================== -->
+  <aside class="sidebar">
 
-      <div class="logo-circle">
+    <div class="sidebar-logo">
+
+      <div class="eye-logo">
         👁
       </div>
 
       <div>
 
-        <h1>
+        <h2>
           EYE GATE
-        </h1>
+        </h2>
 
         <p>
-          Smart School Security
+          Painel Escolar
         </p>
 
       </div>
@@ -69,241 +86,273 @@
 
 
 
-    <!-- menu -->
     <nav class="menu">
 
       <a
         href="./dashboard.html"
         class="menu-item"
       >
-        📊 Dashboard
+
+        🏠 Dashboard
+
       </a>
+
 
       <a
         href="./cadastro.html"
         class="menu-item active"
       >
-        👤 Cadastro
+
+        👤 Cadastro Facial
+
       </a>
 
-      <a
-        href="#"
-        class="menu-item"
-      >
-        📋 Registros
-      </a>
 
       <a
-        href="#"
+        href="./monitor.html"
         class="menu-item"
       >
-        👀 Monitor
+
+        👀 Monitoramento
+
       </a>
 
+
       <a
-        href="#"
+        href="./registros.html"
         class="menu-item"
       >
+
+        🕒 Registros
+
+      </a>
+
+
+      <a
+        href="./configuracoes.html"
+        class="menu-item"
+      >
+
         ⚙ Configurações
+
       </a>
 
     </nav>
 
-  </div>
 
 
-
-  <!-- logout -->
-  <button
-    class="logout-btn"
-    onclick="logout()"
-  >
-
-    Sair
-
-  </button>
-
-</aside>
-
-
-
-<!-- ========================= -->
-<!-- 📄 MAIN -->
-<!-- ========================= -->
-<main class="main-content">
-
-
-  <!-- topo -->
-  <section class="topbar">
-
-    <div>
-
-      <h2>
-        Cadastro Facial
-      </h2>
-
-      <p>
-        Registrar novos alunos
-      </p>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- ===================== -->
-  <!-- 👤 FORM -->
-  <!-- ===================== -->
-  <section class="form-card">
-
-    <div class="form-left">
-
-      <h3>
-        👤 Dados do aluno
-      </h3>
-
-
-      <div class="input-group">
-
-        <label>
-          Nome Completo
-        </label>
-
-        <input
-          type="text"
-          id="nome"
-          placeholder="
-            Digite o nome
-          "
-        />
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>
-          Matrícula
-        </label>
-
-        <input
-          type="text"
-          id="matricula"
-          placeholder="
-            EX: 2026001
-          "
-        />
-
-      </div>
-
-
-      <div class="input-group">
-
-        <label>
-          Turma
-        </label>
-
-        <input
-          type="text"
-          id="turma"
-          placeholder="
-            EX: 2º Ano B
-          "
-        />
-
-      </div>
-
+    <div class="sidebar-footer">
 
       <button
-        class="capture-btn"
-        onclick="capturarAluno()"
+        class="logout-btn"
+        onclick="logout()"
       >
 
-        📸 Capturar Face
+        🚪 Sair
 
       </button>
 
     </div>
 
+  </aside>
 
 
-    <!-- câmera -->
-    <div class="form-right">
-
-      <div class="camera-box">
-
-        <video
-          id="video"
-          autoplay
-          playsinline
-          muted
-        ></video>
 
 
-        <div class="camera-overlay">
+  <!-- ===================== -->
+  <!-- 📋 CONTENT -->
+  <!-- ===================== -->
+  <main class="dashboard-content">
 
-          <div class="scan-line"></div>
 
-          <div class="face-frame"></div>
+    <!-- topo -->
+    <header class="topbar">
+
+      <div>
+
+        <h1>
+          Cadastro Facial
+        </h1>
+
+        <p>
+          Registrar novos alunos
+        </p>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- cadastro -->
+    <section class="cadastro-grid">
+
+
+      <!-- câmera -->
+      <div class="camera-card">
+
+        <div class="camera-header">
+
+          <h2>
+            📷 Câmera Facial
+          </h2>
+
+        </div>
+
+
+        <div class="camera-box">
+
+          <video
+            id="video"
+            autoplay
+            muted
+            playsinline
+          ></video>
+
+
+          <div class="camera-overlay">
+
+            <div class="face-frame"></div>
+
+            <div class="scan-line"></div>
+
+          </div>
 
         </div>
 
       </div>
 
 
-      <div
-        class="camera-status"
-        id="status"
-      >
 
-        🔎 Aguardando captura...
+      <!-- formulário -->
+      <div class="form-card">
+
+        <h2>
+          👤 Dados do Aluno
+        </h2>
+
+
+        <div class="input-group">
+
+          <label>
+            Nome Completo
+          </label>
+
+          <input
+            type="text"
+            id="nome"
+            placeholder="
+              Digite o nome
+            "
+          />
+
+        </div>
+
+
+
+        <div class="input-group">
+
+          <label>
+            Matrícula
+          </label>
+
+          <input
+            type="text"
+            id="matricula"
+            placeholder="
+              Número da matrícula
+            "
+          />
+
+        </div>
+
+
+
+        <div class="input-group">
+
+          <label>
+            Turma
+          </label>
+
+          <input
+            type="text"
+            id="turma"
+            placeholder="
+              Ex: 2ºA
+            "
+          />
+
+        </div>
+
+
+
+        <button
+          class="cadastro-btn"
+        >
+
+          📸 Capturar Face
+
+        </button>
 
       </div>
 
-    </div>
-
-  </section>
+    </section>
 
 
 
-  <!-- ===================== -->
-  <!-- 👥 LISTA -->
-  <!-- ===================== -->
-  <section class="students-section">
 
-    <div class="section-header">
+    <!-- lista -->
+    <section class="alunos-section">
 
-      <h3>
-        👥 Alunos Cadastrados
-      </h3>
+      <div class="section-title">
 
-      <button
-        class="refresh-btn"
-        onclick="carregarAlunos()"
-      >
+        <h2>
+          👥 Alunos Registrados
+        </h2>
 
-        Atualizar
-
-      </button>
-
-    </div>
+      </div>
 
 
-    <div
-      class="students-grid"
-      id="studentsGrid"
-    ></div>
-
-  </section>
-
-</main>
+      <div class="alunos-list">
 
 
+        <div class="aluno-item">
 
-<!-- ========================= -->
-<!-- 📦 SCRIPT -->
-<!-- ========================= -->
+          <div class="aluno-info">
+
+            <div class="aluno-avatar">
+              👤
+            </div>
+
+            <div>
+
+              <strong>
+                Nenhum aluno registrado
+              </strong>
+
+              <p>
+                O sistema iniciará vazio
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+
+<!-- SCRIPTS -->
+<script src="./js/dashboard.js"></script>
+
 <script src="./js/cadastro.js"></script>
 
 </body>

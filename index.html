@@ -3,7 +3,7 @@
 
 <head>
 
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"/>
 
   <meta
     name="viewport"
@@ -11,143 +11,181 @@
       width=device-width,
       initial-scale=1.0
     "
-  >
+  />
 
   <title>
-    EYE GATE • Login
+    EYE GATE
   </title>
 
-
-  <!-- css -->
+  <!-- CSS -->
   <link
     rel="stylesheet"
-    href="./css/login.css"
+    href="./css/global.css"
   />
 
   <link
-  rel="stylesheet"
-  href="./css/toast.css"
-/>
+    rel="stylesheet"
+    href="./css/home.css"
+  />
 
 </head>
 
 <body>
 
 
-<!-- ========================= -->
-<!-- 🌌 BACKGROUND -->
-<!-- ========================= -->
-<div class="background">
+  <!-- ========================= -->
+  <!-- 🌌 BACKGROUND -->
+  <!-- ========================= -->
+  <div class="background">
 
-  <div class="glow one"></div>
+    <div class="glow glow-one"></div>
 
-  <div class="glow two"></div>
+    <div class="glow glow-two"></div>
 
-</div>
+    <div class="grid"></div>
 
-
-
-<!-- ========================= -->
-<!-- 🔐 LOGIN -->
-<!-- ========================= -->
-<div class="login-container">
+  </div>
 
 
-  <div class="login-card">
 
+  <!-- ========================= -->
+  <!-- 🚀 HERO -->
+  <!-- ========================= -->
+  <main class="hero">
 
-    <!-- ===================== -->
-    <!-- 👁 LOGO -->
-    <!-- ===================== -->
-    <div class="logo-area">
+    <div class="hero-content">
 
-      <div class="logo-circle">
-        👁
+      <!-- logo -->
+      <div class="logo-box">
+
+        <div class="eye-logo">
+          👁
+        </div>
+
+        <h1>
+          EYE GATE
+        </h1>
+
       </div>
 
-      <h1>
-        EYE GATE
-      </h1>
 
-      <p>
+      <!-- texto -->
+      <h2>
         Sistema Inteligente
         de Controle Escolar
+      </h2>
+
+      <p>
+        Reconhecimento facial,
+        monitoramento em tempo real,
+        controle de entrada e saída
+        com tecnologia moderna.
+      </p>
+
+
+      <!-- botões -->
+      <div class="hero-buttons">
+
+        <a
+          href="./login.html"
+          class="btn primary-btn"
+        >
+
+          Entrar
+
+        </a>
+
+
+        <a
+          href="./registro.html"
+          class="btn secondary-btn"
+        >
+
+          Criar Conta
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+
+  <!-- ========================= -->
+  <!-- 📦 FEATURES -->
+  <!-- ========================= -->
+  <section class="features">
+
+    <div class="feature-card">
+
+      <span>
+        👁
+      </span>
+
+      <h3>
+        Reconhecimento Facial
+      </h3>
+
+      <p>
+        Detecção rápida e inteligente
+        para múltiplos alunos.
       </p>
 
     </div>
 
 
+    <div class="feature-card">
 
-    <!-- ===================== -->
-    <!-- 📝 FORM -->
-    <!-- ===================== -->
-    <form id="loginForm">
+      <span>
+        📡
+      </span>
 
+      <h3>
+        Monitoramento Ao Vivo
+      </h3>
 
-      <!-- email -->
-      <div class="form-group">
+      <p>
+        Visualização em tempo real
+        das entradas e saídas.
+      </p>
 
-        <label>
-          Email
-        </label>
-
-        <input
-          type="email"
-          id="email"
-          placeholder="
-            Digite seu email
-          "
-        >
-
-      </div>
+    </div>
 
 
+    <div class="feature-card">
 
-      <!-- senha -->
-      <div class="form-group">
+      <span>
+        🔐
+      </span>
 
-        <label>
-          Senha
-        </label>
+      <h3>
+        Segurança Avançada
+      </h3>
 
-        <input
-          type="password"
-          id="password"
-          placeholder="
-            Digite sua senha
-          "
-        >
+      <p>
+        Controle seguro
+        com autenticação moderna.
+      </p>
 
-      </div>
+    </div>
+
+  </section>
 
 
 
-      <!-- botão -->
-      <button
-        type="submit"
-        class="login-btn"
-      >
+  <!-- ========================= -->
+  <!-- 📌 FOOTER -->
+  <!-- ========================= -->
+  <footer>
 
-        Entrar no Sistema
+    <p>
+      © 2026 EYE GATE
+      • Sistema Escolar Inteligente
+    </p>
 
-      </button>
-
-
-      <!-- erro -->
-      <p id="errorMessage"></p>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-
-<!-- ========================= -->
-<!-- 📦 SCRIPT -->
-<!-- ========================= -->
-<script src="./assets/js/login.js"></script>
+  </footer>
 
 </body>
 </html>

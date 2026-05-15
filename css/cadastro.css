@@ -1,270 +1,24 @@
 /* ========================= */
-/* 🌍 RESET */
+/* 📋 GRID */
 /* ========================= */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-
-  font-family:
-    Arial,
-    sans-serif;
-
-  background:
-    #070b17;
-
-  color:white;
-
-  min-height:100vh;
-
-  overflow-x:hidden;
-
-  display:flex;
-}
-
-
-/* ========================= */
-/* 🌌 BG */
-/* ========================= */
-.bg{
-
-  position:fixed;
-
-  inset:0;
-
-  background:
-    radial-gradient(
-      circle at top,
-      rgba(0,180,255,.15),
-      transparent 40%
-    ),
-    #070b17;
-
-  z-index:-1;
-}
-
-
-/* ========================= */
-/* 📱 SIDEBAR */
-/* ========================= */
-.sidebar{
-
-  width:280px;
-
-  min-height:100vh;
-
-  background:
-    rgba(255,255,255,.04);
-
-  backdrop-filter:
-    blur(18px);
-
-  border-right:
-    1px solid rgba(255,255,255,.08);
-
-  padding:25px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:space-between;
-}
-
-
-/* ========================= */
-/* 👁 LOGO */
-/* ========================= */
-.logo-area{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
-
-  margin-bottom:40px;
-}
-
-.logo-circle{
-
-  width:55px;
-
-  height:55px;
-
-  border-radius:50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  font-size:24px;
-
-  box-shadow:
-    0 0 20px rgba(0,195,255,.5);
-}
-
-.logo-area h1{
-
-  font-size:22px;
-
-  font-weight:700;
-}
-
-.logo-area p{
-
-  color:#9aa4c7;
-
-  font-size:13px;
-}
-
-
-/* ========================= */
-/* 📋 MENU */
-/* ========================= */
-.menu{
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:12px;
-}
-
-.menu-item{
-
-  text-decoration:none;
-
-  color:#cfd8ff;
-
-  padding:14px 18px;
-
-  border-radius:14px;
-
-  transition:.25s;
-
-  background:
-    rgba(255,255,255,.03);
-}
-
-.menu-item:hover{
-
-  background:
-    rgba(0,195,255,.12);
-
-  transform:
-    translateX(5px);
-}
-
-.menu-item.active{
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
-
-  color:white;
-
-  box-shadow:
-    0 10px 25px rgba(0,102,255,.35);
-}
-
-
-/* ========================= */
-/* 🚪 LOGOUT */
-/* ========================= */
-.logout-btn{
-
-  border:none;
-
-  padding:15px;
-
-  border-radius:14px;
-
-  cursor:pointer;
-
-  color:white;
-
-  background:
-    rgba(255,70,70,.15);
-
-  transition:.25s;
-}
-
-.logout-btn:hover{
-
-  background:
-    rgba(255,70,70,.3);
-}
-
-
-/* ========================= */
-/* 📄 MAIN */
-/* ========================= */
-.main-content{
-
-  flex:1;
-
-  padding:30px;
-}
-
-
-/* ========================= */
-/* 🔝 TOPO */
-/* ========================= */
-.topbar{
-
-  margin-bottom:30px;
-}
-
-.topbar h2{
-
-  font-size:34px;
-
-  margin-bottom:8px;
-}
-
-.topbar p{
-
-  color:#95a0c3;
-}
-
-
-/* ========================= */
-/* 🧠 FORM */
-/* ========================= */
-.form-card{
+.cadastro-grid{
 
   display:grid;
 
   grid-template-columns:
-    1fr 1fr;
+    1.2fr .8fr;
 
-  gap:25px;
+  gap:30px;
 
   margin-bottom:35px;
+
 }
 
 
 /* ========================= */
-/* 📦 CARD */
+/* 📷 CAMERA CARD */
 /* ========================= */
-.form-left,
-.form-right{
+.camera-card{
 
   background:
     rgba(255,255,255,.05);
@@ -276,136 +30,60 @@ body{
 
   padding:25px;
 
-  backdrop-filter:
-    blur(15px);
+  backdrop-filter:blur(15px);
+
 }
 
-.form-left h3{
 
-  margin-bottom:25px;
+.camera-header{
+
+  margin-bottom:20px;
+
+}
+
+
+.camera-header h2{
 
   font-size:24px;
+
 }
 
 
 /* ========================= */
-/* 📝 INPUTS */
+/* 📹 CAMERA */
 /* ========================= */
-.input-group{
-
-  margin-bottom:22px;
-}
-
-.input-group label{
-
-  display:block;
-
-  margin-bottom:10px;
-
-  color:#cfd8ff;
-}
-
-.input-group input{
+.camera-box{
 
   width:100%;
 
-  border:none;
+  aspect-ratio:16/9;
 
-  outline:none;
+  border-radius:24px;
 
-  padding:16px;
+  overflow:hidden;
 
-  border-radius:16px;
+  position:relative;
 
-  background:
-    rgba(255,255,255,.05);
+  background:#020617;
 
   border:
     1px solid rgba(255,255,255,.08);
 
-  color:white;
-
-  font-size:15px;
 }
 
-.input-group input:focus{
-
-  border-color:
-    rgba(0,195,255,.5);
-}
-
-
-/* ========================= */
-/* 📸 BOTÃO */
-/* ========================= */
-.capture-btn{
-
-  width:100%;
-
-  border:none;
-
-  padding:18px;
-
-  border-radius:18px;
-
-  cursor:pointer;
-
-  font-size:16px;
-
-  font-weight:700;
-
-  color:white;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
-    );
-
-  transition:.25s;
-}
-
-.capture-btn:hover{
-
-  transform:
-    translateY(-3px);
-
-  box-shadow:
-    0 10px 30px rgba(0,102,255,.35);
-}
-
-
-/* ========================= */
-/* 📷 CAMERA */
-/* ========================= */
-.camera-box{
-
-  position:relative;
-
-  width:100%;
-
-  height:420px;
-
-  border-radius:25px;
-
-  overflow:hidden;
-
-  background:black;
-}
 
 .camera-box video{
 
   width:100%;
-
   height:100%;
 
   object-fit:cover;
+
 }
 
 
 /* ========================= */
-/* 🧠 OVERLAY */
+/* 👁 OVERLAY */
 /* ========================= */
 .camera-overlay{
 
@@ -413,92 +91,80 @@ body{
 
   inset:0;
 
-  pointer-events:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
 }
 
+
+/* frame */
 .face-frame{
 
-  position:absolute;
-
-  top:50%;
-
-  left:50%;
-
-  transform:
-    translate(-50%,-50%);
-
-  width:240px;
-
+  width:260px;
   height:320px;
 
   border:
-    3px solid rgba(0,255,170,.8);
+    3px solid #00ffff;
 
-  border-radius:25px;
+  border-radius:30px;
 
   box-shadow:
-    0 0 25px rgba(0,255,170,.35);
+    0 0 30px
+    rgba(0,255,255,.35);
+
 }
 
+
+/* linha */
 .scan-line{
 
   position:absolute;
 
-  top:0;
-
-  left:0;
-
   width:100%;
-
   height:4px;
 
   background:
-    rgba(0,255,170,.8);
-
-  box-shadow:
-    0 0 20px rgba(0,255,170,.8);
+    linear-gradient(
+      90deg,
+      transparent,
+      #00ffff,
+      transparent
+    );
 
   animation:
     scan 3s linear infinite;
+
 }
+
 
 @keyframes scan{
 
   0%{
-    top:0;
+
+    top:10%;
+
+  }
+
+  50%{
+
+    top:85%;
+
   }
 
   100%{
-    top:100%;
+
+    top:10%;
+
   }
+
 }
 
 
 /* ========================= */
-/* 📡 STATUS */
+/* 📝 FORM */
 /* ========================= */
-.camera-status{
-
-  margin-top:18px;
-
-  padding:16px;
-
-  border-radius:16px;
-
-  background:
-    rgba(255,255,255,.04);
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-  color:#dce3ff;
-}
-
-
-/* ========================= */
-/* 👥 STUDENTS */
-/* ========================= */
-.students-section{
+.form-card{
 
   background:
     rgba(255,255,255,.05);
@@ -508,151 +174,248 @@ body{
 
   border-radius:28px;
 
-  padding:25px;
+  padding:30px;
 
-  backdrop-filter:
-    blur(15px);
+  backdrop-filter:blur(15px);
+
 }
 
-.section-header{
 
-  display:flex;
+.form-card h2{
 
-  align-items:center;
+  margin-bottom:30px;
 
-  justify-content:space-between;
-
-  margin-bottom:25px;
 }
 
-.refresh-btn{
 
-  border:none;
+/* inputs */
+.input-group{
 
-  padding:12px 18px;
+  margin-bottom:22px;
+
+}
+
+
+.input-group label{
+
+  display:block;
+
+  margin-bottom:10px;
+
+  color:#cbd5e1;
+
+  font-size:14px;
+
+}
+
+
+.input-group input{
+
+  width:100%;
+
+  padding:
+    16px 18px;
 
   border-radius:14px;
-
-  cursor:pointer;
-
-  color:white;
-
-  background:
-    rgba(0,195,255,.15);
-}
-
-
-/* ========================= */
-/* 👤 GRID */
-/* ========================= */
-.students-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(auto-fit,minmax(240px,1fr));
-
-  gap:18px;
-}
-
-.student-card{
-
-  background:
-    rgba(255,255,255,.04);
 
   border:
     1px solid rgba(255,255,255,.08);
 
-  border-radius:22px;
+  background:
+    rgba(255,255,255,.05);
 
-  padding:20px;
+  color:white;
 
-  transition:.25s;
+  outline:none;
+
+  transition:.3s;
+
 }
 
-.student-card:hover{
 
-  transform:
-    translateY(-4px);
+.input-group input:focus{
 
-  border-color:
-    rgba(0,195,255,.35);
+  border-color:#06b6d4;
+
+  box-shadow:
+    0 0 20px
+    rgba(6,182,212,.2);
+
 }
 
-.student-avatar{
 
-  width:65px;
+.input-group input::placeholder{
 
-  height:65px;
+  color:#64748b;
 
-  border-radius:50%;
+}
+
+
+/* ========================= */
+/* 🔘 BUTTON */
+/* ========================= */
+.cadastro-btn{
+
+  width:100%;
+
+  margin-top:10px;
+
+  border:none;
+
+  padding:18px;
+
+  border-radius:16px;
 
   background:
     linear-gradient(
-      135deg,
-      #00c3ff,
-      #0066ff
+      90deg,
+      #06b6d4,
+      #4f46e5
     );
 
-  display:flex;
+  color:white;
 
+  font-size:16px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.3s;
+
+  box-shadow:
+    0 15px 30px
+    rgba(79,70,229,.3);
+
+}
+
+
+.cadastro-btn:hover{
+
+  transform:
+    translateY(-3px);
+
+}
+
+
+/* ========================= */
+/* 👥 ALUNOS */
+/* ========================= */
+.alunos-section{
+
+  background:
+    rgba(255,255,255,.05);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:28px;
+
+  padding:30px;
+
+  backdrop-filter:blur(15px);
+
+}
+
+
+.section-title{
+
+  margin-bottom:25px;
+
+}
+
+
+.alunos-list{
+
+  display:flex;
+  flex-direction:column;
+
+  gap:18px;
+
+}
+
+
+.aluno-item{
+
+  background:
+    rgba(255,255,255,.04);
+
+  border-radius:20px;
+
+  padding:20px;
+
+}
+
+
+.aluno-info{
+
+  display:flex;
   align-items:center;
 
+  gap:18px;
+
+}
+
+
+.aluno-avatar{
+
+  width:60px;
+  height:60px;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
   justify-content:center;
 
-  font-size:28px;
+  font-size:26px;
 
-  margin-bottom:18px;
+  background:
+    linear-gradient(
+      90deg,
+      #06b6d4,
+      #4f46e5
+    );
+
 }
 
-.student-card h4{
 
-  margin-bottom:10px;
+.aluno-info p{
 
-  font-size:18px;
-}
+  color:#94a3b8;
 
-.student-card p{
+  margin-top:6px;
 
-  color:#aab5d8;
-
-  margin-bottom:6px;
-
-  font-size:14px;
 }
 
 
 /* ========================= */
 /* 📱 RESPONSIVO */
 /* ========================= */
-@media(max-width:1000px){
+@media(max-width:1100px){
 
-  body{
+  .cadastro-grid{
 
-    flex-direction:column;
+    grid-template-columns:1fr;
+
   }
 
-  .sidebar{
+}
 
-    width:100%;
 
-    min-height:auto;
+@media(max-width:700px){
+
+  .dashboard-content{
+
+    padding:20px 15px;
+
   }
 
-  .main-content{
+  .face-frame{
 
-    padding:20px;
-  }
+    width:180px;
+    height:240px;
 
-  .form-card{
-
-    grid-template-columns:
-      1fr;
-  }
-
-  .camera-box{
-
-    height:300px;
   }
 
 }
