@@ -1,21 +1,23 @@
-let faceMatcher;
-let facesSalvas = [];
+// =========================
+// ☁ SUPABASE
+// =========================
+const SUPABASE_URL =
+  "https://supabase.com/dashboard/project/rhopvipdkeawvejztzix";
 
-async function carregarFaceAPI(){
+const SUPABASE_KEY =
+  "sb_publishable_hS41dMNKOlj_V5FxgkOSrQ_o3GcJKT2";
 
-  await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
+const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-  await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
-
-  await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
-
-  console.log("Face API carregada");
-
-}
 
 // =========================
-// 👁 EYE GATE SYSTEM
+// 👁 FACE API
 // =========================
+let faceMatcher = null;
 
 
 // =========================
@@ -37,41 +39,65 @@ const ADMIN_FIXO = {
 // =========================
 // 🚀 START
 // =========================
-window.addEventListener("DOMContentLoaded", ()=>{
+window.addEventListener(
 
-  carregarFaceAPI();
+  "DOMContentLoaded",
 
-  iniciarLogin();
+  async ()=>{
 
-  iniciarAdminLogin();
-  
-  iniciarCadastroUsuario();
+    await carregarFaceAPI();
 
-  iniciarRegistro();
+    iniciarLogin();
 
-  iniciarCadastro();
+    iniciarAdminLogin();
 
-  iniciarConfiguracoes();
+    iniciarRegistro();
 
-  iniciarMonitor();
+    iniciarCadastro();
 
-  iniciarCameraCadastro();
+    iniciarMonitor();
 
-  iniciarCameraMonitor();
+    await iniciarCameraCadastro();
 
-  carregarUsuario();
+    await iniciarCameraMonitor();
 
-  carregarStats();
+    carregarUsuario();
 
-  carregarAlunos();
+    controlarPermissoes();
 
-  carregarUsuarios();
+    verificarAdmin();
 
-  controlarPermissoes();
+    await carregarStats();
 
-  verificarAdmin();
+    await carregarUsuarios();
 
-});
+  }
+
+);
+
+
+// =========================
+// 👁 FACE API
+// =========================
+async function carregarFaceAPI(){
+
+  try{
+
+    await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
+
+    await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
+
+    await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
+
+    console.log("Face API carregada");
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
 
 
 // =========================
@@ -110,13 +136,46 @@ function iniciarLogin(){
 
   if(!form) return;
 
-  form.addEventListener("submit",(e)=>{
+  form.addEventListener(
 
-    e.preventDefault();
+    "submit",
 
-    fazerLogin();
+    async (e)=>{
 
-  });
+      e.preventDefault();
+
+      await fazerLogin();
+
+    }
+
+  );
+
+}
+
+
+// =========================
+// 🔐 LOGIN ADMIN
+// =========================
+function iniciarAdminLogin(){
+
+  const form =
+    document.getElementById("adminForm");
+
+  if(!form) return;
+
+  form.addEventListener(
+
+    "submit",
+
+    async (e)=>{
+
+      e.preventDefault();
+
+      await fazerLoginAdmin();
+
+    }
+
+  );
 
 }
 
@@ -131,81 +190,104 @@ function iniciarRegistro(){
 
   if(!form) return;
 
-  form.addEventListener("submit",(e)=>{
+  form.addEventListener(
 
-    e.preventDefault();
+    "submit",
 
-    registrarUsuario();
+    async (e)=>{
 
-  });
+      e.preventDefault();
+
+      await registrarUsuario();
+
+    }
+
+  );
 
 }
 
 
 // =========================
-// 👤 REGISTRAR
+// 👤 REGISTRAR USUÁRIO
 // =========================
-function registrarUsuario(){
+async function registrarUsuario(){
 
   const nome =
-    document.getElementById("registroNome")?.value.trim();
+    document
+      .getElementById("registroNome")
+      .value
+      .trim();
 
   const email =
-    document.getElementById("registroEmail")?.value.trim();
+    document
+      .getElementById("registroEmail")
+      .value
+      .trim();
 
   const senha =
-    document.getElementById("registroSenha")?.value.trim();
-
+    document
+      .getElementById("registroSenha")
+      .value
+      .trim();
 
   if(!nome || !email || !senha){
 
-    mostrarMensagem("Preencha todos os campos");
+    mostrarMensagem(
+      "Preencha todos os campos"
+    );
 
     return;
 
   }
 
+  const { data:existe } =
+    await supabase
 
-  const usuarios =
-    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+      .from("usuarios")
 
+      .select("*")
 
-  const existe =
-    usuarios.find(u => u.email === email);
+      .eq("email", email);
 
+  if(existe && existe.length > 0){
 
-  if(existe){
-
-    mostrarMensagem("Email já cadastrado");
+    mostrarMensagem(
+      "Email já cadastrado"
+    );
 
     return;
 
   }
 
+  const { error } =
+    await supabase
 
-  const novoUsuario = {
+      .from("usuarios")
 
-    nome,
-    email,
-    senha,
-    tipo:"usuario"
+      .insert([{
 
-  };
+        nome,
+        email,
+        senha,
+        tipo:"usuario"
 
+      }]);
 
-  usuarios.push(novoUsuario);
+  if(error){
 
+    console.log(error);
 
-  localStorage.setItem(
+    mostrarMensagem(
+      "Erro ao cadastrar"
+    );
 
-    "usuariosEyeGate",
+    return;
 
-    JSON.stringify(usuarios)
+  }
 
+  mostrarMensagem(
+    "Conta criada"
   );
-
-
-  mostrarMensagem("Conta criada com sucesso");
 
   abrirPagina("loginPage");
 
@@ -213,109 +295,134 @@ function registrarUsuario(){
 
 
 // =========================
-// 🚪 LOGIN
+// 🚪 LOGIN USER
 // =========================
-function fazerLogin(){
+async function fazerLogin(){
 
   const email =
-    document.getElementById("email")?.value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
   const senha =
-    document.getElementById("senha")?.value.trim();
-
+    document
+      .getElementById("senha")
+      .value
+      .trim();
 
   if(!email || !senha){
 
-    mostrarMensagem("Preencha todos os campos");
+    mostrarMensagem(
+      "Preencha os campos"
+    );
 
     return;
 
   }
 
+  const { data:user, error } =
+    await supabase
 
-  // =====================
-  // 🔐 LOGIN ADMIN
-  // =====================
+      .from("usuarios")
+
+      .select("*")
+
+      .eq("email", email)
+
+      .eq("senha", senha)
+
+      .maybeSingle();
+
+  if(error || !user){
+
+    mostrarMensagem(
+      "Login inválido"
+    );
+
+    return;
+
+  }
+
+  localStorage.setItem(
+
+    "usuarioLogado",
+
+    JSON.stringify(user)
+
+  );
+
+  carregarUsuario();
+
+  controlarPermissoes();
+
+  await carregarStats();
+
+  mostrarMensagem(
+    "Login realizado"
+  );
+
+  abrirPagina("dashboardPage");
+
+}
+
+
+// =========================
+// 🔐 LOGIN ADMIN
+// =========================
+async function fazerLoginAdmin(){
+
+  const email =
+    document
+      .getElementById("adminEmail")
+      .value
+      .trim();
+
+  const senha =
+    document
+      .getElementById("adminSenha")
+      .value
+      .trim();
+
   if(
 
-    email === ADMIN_FIXO.email &&
+    email !== ADMIN_FIXO.email ||
 
-    senha === ADMIN_FIXO.senha
+    senha !== ADMIN_FIXO.senha
 
   ){
 
-    localStorage.setItem(
-
-      "usuarioLogado",
-
-      JSON.stringify(ADMIN_FIXO)
-
+    mostrarMensagem(
+      "Acesso negado"
     );
-
-
-    carregarUsuario();
-
-    carregarStats();
-
-    controlarPermissoes();
-
-    verificarAdmin();
-
-    mostrarMensagem("Bem-vindo Admin!");
-
-    abrirPagina("dashboardPage");
 
     return;
 
   }
 
+  localStorage.setItem(
 
-  // =====================
-  // 👤 LOGIN USER
-  // =====================
-  const usuarios =
-    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+    "usuarioLogado",
 
+    JSON.stringify(ADMIN_FIXO)
 
-  const usuario =
-    usuarios.find(
+  );
 
-      u =>
+  carregarUsuario();
 
-        u.email === email &&
+  controlarPermissoes();
 
-        u.senha === senha
+  verificarAdmin();
 
-    );
+  await carregarStats();
 
+  await carregarUsuarios();
 
-  if(usuario){
+  mostrarMensagem(
+    "Bem-vindo Admin!"
+  );
 
-    localStorage.setItem(
-
-      "usuarioLogado",
-
-      JSON.stringify(usuario)
-
-    );
-
-
-    carregarUsuario();
-
-    carregarStats();
-
-    controlarPermissoes();
-
-    mostrarMensagem("Login realizado");
-
-    abrirPagina("dashboardPage");
-
-    return;
-
-  }
-
-
-  mostrarMensagem("Email ou senha inválidos");
+  abrirPagina("dashboardPage");
 
 }
 
@@ -326,10 +433,13 @@ function fazerLogin(){
 function carregarUsuario(){
 
   const user =
-    JSON.parse(localStorage.getItem("usuarioLogado"));
+    JSON.parse(
+      localStorage.getItem(
+        "usuarioLogado"
+      )
+    );
 
   if(!user) return;
-
 
   const nome =
     document.getElementById("userName");
@@ -337,13 +447,12 @@ function carregarUsuario(){
   const tipo =
     document.getElementById("userType");
 
-
   if(nome){
 
-    nome.innerText = user.nome;
+    nome.innerText =
+      user.nome;
 
   }
-
 
   if(tipo){
 
@@ -363,20 +472,30 @@ function carregarUsuario(){
 // =========================
 // 📊 STATS
 // =========================
-function carregarStats(){
+async function carregarStats(){
 
   const totalUsers =
     document.getElementById("totalUsers");
 
   if(!totalUsers) return;
 
+  const { data, error } =
+    await supabase
 
-  const users =
-    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+      .from("usuarios")
 
+      .select("*");
+
+  if(error){
+
+    console.log(error);
+
+    return;
+
+  }
 
   totalUsers.innerText =
-    users.length;
+    data.length;
 
 }
 
@@ -405,10 +524,12 @@ function verificarAdmin(){
 
   if(!panel) return;
 
-
   const user =
-    JSON.parse(localStorage.getItem("usuarioLogado"));
-
+    JSON.parse(
+      localStorage.getItem(
+        "usuarioLogado"
+      )
+    );
 
   if(!user || user.tipo !== "admin"){
 
@@ -424,54 +545,73 @@ function verificarAdmin(){
 
 
 // =========================
+// 🔐 ADMIN ONLY
+// =========================
+function controlarPermissoes(){
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "usuarioLogado"
+      )
+    );
+
+  const itens =
+    document.querySelectorAll(".admin-only");
+
+  itens.forEach((el)=>{
+
+    el.style.display = "none";
+
+  });
+
+  if(user && user.tipo === "admin"){
+
+    itens.forEach((el)=>{
+
+      el.style.display = "block";
+
+    });
+
+  }
+
+}
+
+
+// =========================
 // 👥 ADMIN USERS
 // =========================
-function carregarUsuarios(){
+async function carregarUsuarios(){
 
   const container =
     document.getElementById("adminUsers");
 
   if(!container) return;
 
+  const { data:users, error } =
+    await supabase
 
-  const users =
-    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+      .from("usuarios")
 
+      .select("*");
 
-  container.innerHTML = "";
+  if(error){
 
-
-  if(users.length === 0){
-
-    container.innerHTML = `
-
-      <div class="user-card">
-
-        <div class="info">
-
-          <strong>
-            Nenhum usuário
-          </strong>
-
-        </div>
-
-      </div>
-
-    `;
+    console.log(error);
 
     return;
 
   }
 
+  container.innerHTML = "";
 
-  users.forEach((u,index)=>{
+  users.forEach((u)=>{
 
     const card =
       document.createElement("div");
 
     card.className =
       "user-card";
-
 
     card.innerHTML = `
 
@@ -489,7 +629,7 @@ function carregarUsuarios(){
 
       <button
         class="delete-btn"
-        onclick="deletarUsuario(${index})"
+        onclick="deletarUsuario('${u.id}')"
       >
         🗑
       </button>
@@ -506,67 +646,39 @@ function carregarUsuarios(){
 // =========================
 // 🗑 DELETE USER
 // =========================
-function deletarUsuario(index){
+async function deletarUsuario(id){
 
-  const users =
-    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+  if(!confirm("Deseja deletar?"))
+    return;
 
+  const { error } =
+    await supabase
 
-  if(!confirm("Deseja deletar?")) return;
+      .from("usuarios")
 
+      .delete()
 
-  users.splice(index,1);
+      .eq("id", id);
 
+  if(error){
 
-  localStorage.setItem(
+    console.log(error);
 
-    "usuariosEyeGate",
+    mostrarMensagem(
+      "Erro ao deletar"
+    );
 
-    JSON.stringify(users)
-
-  );
-
-
-  carregarUsuarios();
-
-  carregarStats();
-
-  mostrarMensagem("Usuário removido");
-
-}
-
-
-// =========================
-// 🔐 ADMIN ONLY
-// =========================
-function controlarPermissoes(){
-
-  const user =
-    JSON.parse(localStorage.getItem("usuarioLogado"));
-
-  const itens =
-    document.querySelectorAll(".admin-only");
-
-
-  itens.forEach((el)=>{
-
-    el.style.display = "none";
-
-  });
-
-
-  if(!user) return;
-
-
-  if(user.tipo === "admin"){
-
-    itens.forEach((el)=>{
-
-      el.style.display = "block";
-
-    });
+    return;
 
   }
+
+  mostrarMensagem(
+    "Usuário removido"
+  );
+
+  await carregarUsuarios();
+
+  await carregarStats();
 
 }
 
@@ -581,7 +693,17 @@ function iniciarCadastro(){
 
   if(!btn) return;
 
-  btn.addEventListener("click", cadastrarAluno);
+  btn.addEventListener(
+
+    "click",
+
+    async ()=>{
+
+      await cadastrarAluno();
+
+    }
+
+  );
 
 }
 
@@ -589,25 +711,38 @@ function iniciarCadastro(){
 // =========================
 // 💾 CADASTRAR ALUNO
 // =========================
-function cadastrarAluno(){
+async function cadastrarAluno(){
 
   const nome =
-    document.getElementById("nome")?.value.trim();
+    document
+      .getElementById("nome")
+      .value
+      .trim();
 
   const matricula =
-    document.getElementById("matricula")?.value.trim();
+    document
+      .getElementById("matricula")
+      .value
+      .trim();
 
   const turma =
-    document.getElementById("turma")?.value.trim();
+    document
+      .getElementById("turma")
+      .value
+      .trim();
 
   const foto =
-    localStorage.getItem("fotoTempAluno");
+    localStorage.getItem(
+      "fotoTempAluno"
+    );
 
   const descriptor =
     JSON.parse(
+
       localStorage.getItem(
         "faceDescriptorTemp"
       )
+
     );
 
   if(!nome || !matricula || !turma){
@@ -620,123 +755,48 @@ function cadastrarAluno(){
 
   }
 
-  if(!foto){
+  if(!foto || !descriptor){
 
     mostrarMensagem(
-      "Capture uma face"
+      "Capture a face primeiro"
     );
 
     return;
 
   }
 
-  const aluno = {
+  const { error } =
+    await supabase
 
-    id:Date.now(),
+      .from("alunos")
 
-    nome,
+      .insert([{
 
-    matricula,
+        nome,
+        matricula,
+        turma,
+        foto,
+        descriptor
 
-    turma,
+      }]);
 
-    foto,
+  if(error){
 
-    descriptor
+    console.log(error);
 
-  };
+    mostrarMensagem(
+      "Erro ao cadastrar"
+    );
 
-  const alunos =
-    JSON.parse(
-      localStorage.getItem("alunosEyeGate")
-    ) || [];
+    return;
 
-  alunos.push(aluno);
-
-  localStorage.setItem(
-
-    "alunosEyeGate",
-
-    JSON.stringify(alunos)
-
-  );
+  }
 
   mostrarMensagem(
     "Aluno cadastrado"
   );
 
-}
-
-
-// =========================
-// 📋 LISTAR ALUNOS
-// =========================
-function carregarAlunos(){
-
-  const lista =
-    document.querySelector(".alunos-list");
-
-  if(!lista) return;
-
-
-  const alunos =
-    JSON.parse(localStorage.getItem("alunosEyeGate")) || [];
-
-
-  lista.innerHTML = "";
-
-
-  alunos.forEach((aluno)=>{
-
-    lista.innerHTML += `
-
-      <div class="aluno-item">
-
-        <strong>
-          ${aluno.nome}
-        </strong>
-
-        <p>
-          ${aluno.turma} • ${aluno.matricula}
-        </p>
-
-      </div>
-
-    `;
-
-  });
-
-}
-
-
-// =========================
-// 🧹 LIMPAR CAMPOS
-// =========================
-function limparCampos(){
-
-  const ids = [
-
-    "nome",
-
-    "matricula",
-
-    "turma"
-
-  ];
-
-
-  ids.forEach((id)=>{
-
-    const el =
-      document.getElementById(id);
-
-    if(el){
-
-      el.value = "";
-
-    }
-
-  });
+  limparCampos();
 
 }
 
@@ -750,7 +810,6 @@ async function iniciarCameraCadastro(){
     document.getElementById("video");
 
   if(!video) return;
-
 
   try{
 
@@ -774,6 +833,40 @@ async function iniciarCameraCadastro(){
 
 }
 
+
+// =========================
+// 📷 CAMERA MONITOR
+// =========================
+async function iniciarCameraMonitor(){
+
+  const video =
+    document.getElementById("monitorVideo");
+
+  if(!video) return;
+
+  try{
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+
+        video:true,
+
+        audio:false
+
+      });
+
+    video.srcObject =
+      stream;
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+
 // =========================
 // 📸 CAPTURAR FACE
 // =========================
@@ -782,18 +875,11 @@ async function capturarFace(){
   const video =
     document.getElementById("video");
 
-  if(!video){
-
-    mostrarMensagem(
-      "Vídeo não encontrado"
-    );
-
-    return;
-
-  }
+  if(!video) return;
 
   const detection =
     await faceapi
+
       .detectSingleFace(
 
         video,
@@ -816,9 +902,6 @@ async function capturarFace(){
 
   }
 
-  // =========================
-  // 📷 FOTO
-  // =========================
   const canvas =
     document.createElement("canvas");
 
@@ -848,27 +931,20 @@ async function capturarFace(){
   const foto =
     canvas.toDataURL("image/png");
 
-  // =========================
-  // 🧠 DESCRIPTOR
-  // =========================
-  const descriptor =
-    Array.from(
-      detection.descriptor
-    );
-
   localStorage.setItem(
-
     "fotoTempAluno",
-
     foto
-
   );
 
   localStorage.setItem(
 
     "faceDescriptorTemp",
 
-    JSON.stringify(descriptor)
+    JSON.stringify(
+      Array.from(
+        detection.descriptor
+      )
+    )
 
   );
 
@@ -878,397 +954,24 @@ async function capturarFace(){
 
 }
 
+
 // =========================
 // 👁 MONITOR
 // =========================
 function iniciarMonitor(){
 
-  iniciarRelogio();
+  setInterval(async ()=>{
 
-  setInterval(()=>{
-
-  reconhecerFace();
-
-},3000);
-
-}
-
-
-// =========================
-// 📷 CAMERA MONITOR
-// =========================
-async function iniciarCameraMonitor(){
-
-  const video =
-    document.getElementById("monitorVideo");
-
-  if(!video) return;
-
-
-  try{
-
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
-
-        video:true,
-
-        audio:false
-
-      });
-
-    video.srcObject =
-      stream;
-
-  }catch(error){
-
-    console.log(error);
-
-  }
-
-}
-
-
-// =========================
-// 🕒 CLOCK
-// =========================
-function iniciarRelogio(){
-
-  atualizarLogs();
-
-  setInterval(atualizarLogs,1000);
-
-}
-
-
-// =========================
-// 📋 UPDATE LOG TIME
-// =========================
-function atualizarLogs(){
-
-  const ultimo =
-    document.querySelector(".log-item span");
-
-  if(!ultimo) return;
-
-
-  ultimo.innerText =
-    new Date().toLocaleTimeString("pt-BR");
-
-}
-
-
-// =========================
-// 🤖 IA SIMULADA
-// =========================
-function iniciarSimulacao(){
-
-  setInterval(()=>{
-
-    simularReconhecimento();
-
-  },7000);
-
-}
-
-
-// =========================
-// 👁 SIMULA FACE
-// =========================
-function simularReconhecimento(){
-
-  const alunos =
-    JSON.parse(localStorage.getItem("alunosEyeGate")) || [];
-
-
-  if(alunos.length === 0) return;
-
-
-  const aluno =
-
-    alunos[
-
-      Math.floor(
-
-        Math.random()
-
-        * alunos.length
-
-      )
-
-    ];
-
-
-  atualizarReconhecimento(aluno);
-
-  adicionarLog(aluno);
-
-}
-
-
-// =========================
-// 🧠 UPDATE FACE
-// =========================
-function atualizarReconhecimento(aluno){
-
-  const nome =
-    document.querySelector(".recognition-box h3");
-
-  const texto =
-    document.querySelector(".recognition-box p");
-
-
-  if(nome){
-
-    nome.innerText =
-      aluno.nome;
-
-  }
-
-
-  if(texto){
-
-    texto.innerText = `
-
-      ${aluno.turma}
-
-      •
-
-      ${aluno.matricula}
-
-    `;
-
-  }
-
-}
-
-
-// =========================
-// 📋 ADD LOG
-// =========================
-function adicionarLog(aluno){
-
-  const lista =
-    document.querySelector(".logs-list");
-
-  if(!lista) return;
-
-
-  const hora =
-    new Date().toLocaleTimeString("pt-BR");
-
-
-  lista.innerHTML = `
-
-    <div class="log-item">
-
-      <strong>
-        ${aluno.nome}
-      </strong>
-
-      <p>
-        Reconhecimento facial realizado
-      </p>
-
-      <span>
-        ${hora}
-      </span>
-
-    </div>
-
-  ` + lista.innerHTML;
-
-}
-
-
-// =========================
-// ⚙ CONFIG
-// =========================
-function iniciarConfiguracoes(){
-
-  const switches =
-    document.querySelectorAll(".switch input");
-
-  if(switches.length === 0) return;
-
-
-  switches.forEach((item)=>{
-
-    item.addEventListener("change", ()=>{
-
-      salvarConfiguracoes();
-
-    });
-
-  });
-
-}
-
-
-// =========================
-// 💾 SAVE CONFIG
-// =========================
-function salvarConfiguracoes(){
-
-  const switches =
-    document.querySelectorAll(".switch input");
-
-
-  const config = {
-
-    tema:switches[0]?.checked,
-
-    efeitos:switches[1]?.checked,
-
-    reconhecimento:switches[2]?.checked,
-
-    logs:switches[3]?.checked
-
-  };
-
-
-  localStorage.setItem(
-
-    "configEyeGate",
-
-    JSON.stringify(config)
-
-  );
-
-
-  mostrarMensagem("Configuração salva");
-
-}
-
-
-// =========================
-// 🍞 TOAST
-// =========================
-function mostrarMensagem(texto){
-
-  const toast =
-    document.querySelector(".toast");
-
-
-  if(!toast){
-
-    alert(texto);
-
-    return;
-
-  }
-
-
-  toast.innerText =
-    texto;
-
-  toast.classList.add("show");
-
-
-  setTimeout(()=>{
-
-    toast.classList.remove("show");
+    await reconhecerFace();
 
   },3000);
 
 }
 
+
 // =========================
-// 🔐 LOGIN ADMIN
+// 👁 RECONHECER FACE
 // =========================
-function iniciarAdminLogin(){
-
-  const form =
-    document.getElementById("adminForm");
-
-  if(!form) return;
-
-  form.addEventListener("submit",(e)=>{
-
-    e.preventDefault();
-
-    const email =
-      document.getElementById("adminEmail").value.trim();
-
-    const senha =
-      document.getElementById("adminSenha").value.trim();
-
-
-    if(
-      email === ADMIN_FIXO.email &&
-      senha === ADMIN_FIXO.senha
-    ){
-
-      localStorage.setItem(
-        "usuarioLogado",
-        JSON.stringify(ADMIN_FIXO)
-      );
-
-      carregarUsuario();
-
-      carregarStats();
-
-      controlarPermissoes();
-
-      mostrarMensagem("Bem-vindo Admin!");
-
-      abrirPagina("dashboardPage");
-
-    }else{
-
-      mostrarMensagem("Acesso negado");
-
-    }
-
-  });
-
-}
-// =========================
-// 📝 REGISTRO
-// =========================
-function iniciarCadastroUsuario(){
-
-  const form =
-    document.getElementById("registroForm");
-
-  if(!form) return;
-
-  form.addEventListener("submit",(e)=>{
-
-    e.preventDefault();
-
-    const usuarios =
-      JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
-
-    const novoUsuario = {
-
-      nome:
-        document.getElementById("registroNome").value,
-
-      email:
-        document.getElementById("registroEmail").value,
-
-      senha:
-        document.getElementById("registroSenha").value,
-
-      tipo:"usuario"
-
-    };
-
-    usuarios.push(novoUsuario);
-
-    localStorage.setItem(
-      "usuariosEyeGate",
-      JSON.stringify(usuarios)
-    );
-
-    mostrarMensagem("Conta criada!");
-
-    abrirPagina("loginPage");
-
-  });
-
-}
-
 async function reconhecerFace(){
 
   const video =
@@ -1278,14 +981,15 @@ async function reconhecerFace(){
 
   if(!video) return;
 
-  const alunos =
-    JSON.parse(
-      localStorage.getItem(
-        "alunosEyeGate"
-      )
-    ) || [];
+  const { data:alunos } =
+    await supabase
 
-  if(alunos.length === 0) return;
+      .from("alunos")
+
+      .select("*");
+
+  if(!alunos || alunos.length === 0)
+    return;
 
   const labeledDescriptors =
     alunos.map((aluno)=>{
@@ -1317,6 +1021,7 @@ async function reconhecerFace(){
 
   const detection =
     await faceapi
+
       .detectSingleFace(
 
         video,
@@ -1329,7 +1034,8 @@ async function reconhecerFace(){
 
       .withFaceDescriptor();
 
-  if(!detection) return;
+  if(!detection)
+    return;
 
   const resultado =
     faceMatcher.findBestMatch(
@@ -1345,10 +1051,54 @@ async function reconhecerFace(){
 
   if(aluno){
 
-    atualizarReconhecimento(aluno);
-
-    adicionarLog(aluno);
+    mostrarMensagem(
+      `Aluno reconhecido: ${aluno.nome}`
+    );
 
   }
+
+}
+
+
+// =========================
+// 🧹 LIMPAR
+// =========================
+function limparCampos(){
+
+  document.getElementById("nome").value = "";
+
+  document.getElementById("matricula").value = "";
+
+  document.getElementById("turma").value = "";
+
+}
+
+
+// =========================
+// 🍞 TOAST
+// =========================
+function mostrarMensagem(texto){
+
+  const toast =
+    document.querySelector(".toast");
+
+  if(!toast){
+
+    alert(texto);
+
+    return;
+
+  }
+
+  toast.innerText =
+    texto;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+
+    toast.classList.remove("show");
+
+  },3000);
 
 }
