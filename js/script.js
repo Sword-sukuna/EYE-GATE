@@ -1,3 +1,18 @@
+let faceMatcher;
+let facesSalvas = [];
+
+async function carregarFaceAPI(){
+
+  await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
+
+  await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
+
+  await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
+
+  console.log("Face API carregada");
+
+}
+
 // =========================
 // 👁 EYE GATE SYSTEM
 // =========================
@@ -23,6 +38,8 @@ const ADMIN_FIXO = {
 // 🚀 START
 // =========================
 window.addEventListener("DOMContentLoaded", ()=>{
+
+  carregarFaceAPI();
 
   iniciarLogin();
 
@@ -583,15 +600,35 @@ function cadastrarAluno(){
   const turma =
     document.getElementById("turma")?.value.trim();
 
+  const foto =
+    localStorage.getItem("fotoTempAluno");
+
+  const descriptor =
+    JSON.parse(
+      localStorage.getItem(
+        "faceDescriptorTemp"
+      )
+    );
 
   if(!nome || !matricula || !turma){
 
-    mostrarMensagem("Preencha todos os campos");
+    mostrarMensagem(
+      "Preencha todos os campos"
+    );
 
     return;
 
   }
 
+  if(!foto){
+
+    mostrarMensagem(
+      "Capture uma face"
+    );
+
+    return;
+
+  }
 
   const aluno = {
 
@@ -601,17 +638,20 @@ function cadastrarAluno(){
 
     matricula,
 
-    turma
+    turma,
+
+    foto,
+
+    descriptor
 
   };
 
-
   const alunos =
-    JSON.parse(localStorage.getItem("alunosEyeGate")) || [];
-
+    JSON.parse(
+      localStorage.getItem("alunosEyeGate")
+    ) || [];
 
   alunos.push(aluno);
-
 
   localStorage.setItem(
 
@@ -621,12 +661,9 @@ function cadastrarAluno(){
 
   );
 
-
-  limparCampos();
-
-  carregarAlunos();
-
-  mostrarMensagem("Aluno cadastrado");
+  mostrarMensagem(
+    "Aluno cadastrado"
+  );
 
 }
 
@@ -737,6 +774,109 @@ async function iniciarCameraCadastro(){
 
 }
 
+// =========================
+// 📸 CAPTURAR FACE
+// =========================
+async function capturarFace(){
+
+  const video =
+    document.getElementById("video");
+
+  if(!video){
+
+    mostrarMensagem(
+      "Vídeo não encontrado"
+    );
+
+    return;
+
+  }
+
+  const detection =
+    await faceapi
+      .detectSingleFace(
+
+        video,
+
+        new faceapi.TinyFaceDetectorOptions()
+
+      )
+
+      .withFaceLandmarks()
+
+      .withFaceDescriptor();
+
+  if(!detection){
+
+    mostrarMensagem(
+      "Nenhum rosto detectado"
+    );
+
+    return;
+
+  }
+
+  // =========================
+  // 📷 FOTO
+  // =========================
+  const canvas =
+    document.createElement("canvas");
+
+  canvas.width =
+    video.videoWidth;
+
+  canvas.height =
+    video.videoHeight;
+
+  const ctx =
+    canvas.getContext("2d");
+
+  ctx.drawImage(
+
+    video,
+
+    0,
+
+    0,
+
+    canvas.width,
+
+    canvas.height
+
+  );
+
+  const foto =
+    canvas.toDataURL("image/png");
+
+  // =========================
+  // 🧠 DESCRIPTOR
+  // =========================
+  const descriptor =
+    Array.from(
+      detection.descriptor
+    );
+
+  localStorage.setItem(
+
+    "fotoTempAluno",
+
+    foto
+
+  );
+
+  localStorage.setItem(
+
+    "faceDescriptorTemp",
+
+    JSON.stringify(descriptor)
+
+  );
+
+  mostrarMensagem(
+    "Face capturada"
+  );
+
+}
 
 // =========================
 // 👁 MONITOR
@@ -745,7 +885,11 @@ function iniciarMonitor(){
 
   iniciarRelogio();
 
-  iniciarSimulacao();
+  setInterval(()=>{
+
+  reconhecerFace();
+
+},3000);
 
 }
 
@@ -1122,5 +1266,89 @@ function iniciarCadastroUsuario(){
     abrirPagina("loginPage");
 
   });
+
+}
+
+async function reconhecerFace(){
+
+  const video =
+    document.getElementById(
+      "monitorVideo"
+    );
+
+  if(!video) return;
+
+  const alunos =
+    JSON.parse(
+      localStorage.getItem(
+        "alunosEyeGate"
+      )
+    ) || [];
+
+  if(alunos.length === 0) return;
+
+  const labeledDescriptors =
+    alunos.map((aluno)=>{
+
+      return new faceapi.LabeledFaceDescriptors(
+
+        aluno.nome,
+
+        [
+
+          new Float32Array(
+            aluno.descriptor
+          )
+
+        ]
+
+      );
+
+    });
+
+  faceMatcher =
+    new faceapi.FaceMatcher(
+
+      labeledDescriptors,
+
+      0.6
+
+    );
+
+  const detection =
+    await faceapi
+      .detectSingleFace(
+
+        video,
+
+        new faceapi.TinyFaceDetectorOptions()
+
+      )
+
+      .withFaceLandmarks()
+
+      .withFaceDescriptor();
+
+  if(!detection) return;
+
+  const resultado =
+    faceMatcher.findBestMatch(
+      detection.descriptor
+    );
+
+  const aluno =
+    alunos.find(
+
+      a => a.nome === resultado.label
+
+    );
+
+  if(aluno){
+
+    atualizarReconhecimento(aluno);
+
+    adicionarLog(aluno);
+
+  }
 
 }

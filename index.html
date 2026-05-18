@@ -552,6 +552,28 @@
 
       </div>
 
+      <!-- CAMERA -->
+<div class="camera-box">
+
+  <video
+    id="video"
+    autoplay
+    muted
+    playsinline
+    width="100%"
+  ></video>
+
+</div>
+
+<button
+  class="login-btn"
+  onclick="capturarFace()"
+  style="margin-bottom:15px;"
+>
+
+  👁 Capturar Face
+
+</button>
 
       <button
         class="cadastro-btn login-btn"
@@ -604,6 +626,32 @@
       <p>
         Sistema aguardando câmera...
       </p>
+
+<div class="camera-box">
+
+  <video
+    id="monitorVideo"
+    autoplay
+    muted
+    playsinline
+    width="100%"
+  ></video>
+
+</div>
+
+<div class="recognition-box">
+
+  <h3>
+    Nenhum rosto detectado
+  </h3>
+
+  <p>
+    Aguardando reconhecimento...
+  </p>
+
+</div>
+
+<div class="logs-list"></div>
 
     </div>
 
@@ -755,6 +803,7 @@
 
 <div class="toast"></div>
 
+<script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
 <script src="./js/script.js"></script>
 
 </body>
