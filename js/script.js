@@ -2,10 +2,10 @@
 // ☁ SUPABASE
 // =========================
 const SUPABASE_URL =
-  "https://supabase.com/dashboard/project/rhopvipdkeawvejztzix";
+  "https://rhopvipdkeawvejztzix.supabase.co/rest/v1/";
 
 const SUPABASE_KEY =
-  "sb_publishable_hS41dMNKOlj_V5FxgkOSrQ_o3GcJKT2";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJob3B2aXBka2Vhd3Zlanp0eml4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMTUxNDUsImV4cCI6MjA5NDY5MTE0NX0.U7NAbG461jLbeSqwkP6gecHFg1UoNDkKY4mUH29NtYA";
 
 const supabase =
   window.supabase.createClient(
@@ -692,18 +692,6 @@ function iniciarCadastro(){
     document.querySelector(".cadastro-btn");
 
   if(!btn) return;
-
-  btn.addEventListener(
-
-    "click",
-
-    async ()=>{
-
-      await cadastrarAluno();
-
-    }
-
-  );
 
 }
 
