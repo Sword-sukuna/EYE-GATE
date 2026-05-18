@@ -400,3 +400,142 @@ button {
     padding: 25px;
   }
 }
+
+/* =========================================================
+   📱 MOBILE PROFISSIONAL (CORRIGIDO)
+========================================================= */
+
+@media (max-width: 900px) {
+
+  /* evita bug de scroll horizontal */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* =========================
+     LAYOUT PRINCIPAL
+  ========================= */
+
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  /* sidebar vira topbar mobile */
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    gap: 10px;
+    overflow-x: auto;
+  }
+
+  /* menu vira scroll horizontal */
+  .menu {
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
+  .menu-item {
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  /* =========================
+     CONTEÚDO
+  ========================= */
+
+  .dashboard-content {
+    padding: 12px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topbar h1 {
+    font-size: 22px;
+  }
+
+  .topbar p {
+    font-size: 13px;
+  }
+
+  /* =========================
+     CARDS
+  ========================= */
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    text-align: center;
+  }
+
+  .user-card,
+  .aluno-item,
+  .activity-section {
+    padding: 12px;
+  }
+
+  /* =========================
+     LOGIN MOBILE
+  ========================= */
+
+  .login-card {
+    width: 95%;
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .login-logo h1 {
+    font-size: 28px;
+  }
+
+  /* =========================
+     INPUTS MAIS USÁVEIS
+  ========================= */
+
+  input {
+    font-size: 16px; /* evita zoom no iPhone */
+    padding: 12px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+
+  /* =========================
+     CÂMERA
+  ========================= */
+
+  .camera-box {
+    border-radius: 12px;
+  }
+
+  .recognition-box {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  /* =========================
+     TOAST
+  ========================= */
+
+  .toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    text-align: center;
+  }
+}
