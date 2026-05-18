@@ -743,3 +743,16 @@ tbody tr{
   }
 
 }
+
+/* ========================= */
+/* 📄 PAGE SYSTEM */
+/* ========================= */
+
+.page{
+  display:none;
+  width:100%;
+}
+
+.active-page{
+  display:block;
+}

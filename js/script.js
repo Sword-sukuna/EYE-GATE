@@ -26,6 +26,10 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
   iniciarLogin();
 
+  iniciarAdminLogin();
+  
+  iniciarCadastroUsuario();
+  
   iniciarRegistro();
 
   iniciarCadastro();
@@ -1020,5 +1024,102 @@ function mostrarMensagem(texto){
     toast.classList.remove("show");
 
   },3000);
+
+}
+
+// =========================
+// 🔐 LOGIN ADMIN
+// =========================
+function iniciarAdminLogin(){
+
+  const form =
+    document.getElementById("adminForm");
+
+  if(!form) return;
+
+  form.addEventListener("submit",(e)=>{
+
+    e.preventDefault();
+
+    const email =
+      document.getElementById("adminEmail").value.trim();
+
+    const senha =
+      document.getElementById("adminSenha").value.trim();
+
+
+    if(
+      email === ADMIN_FIXO.email &&
+      senha === ADMIN_FIXO.senha
+    ){
+
+      localStorage.setItem(
+        "usuarioLogado",
+        JSON.stringify(ADMIN_FIXO)
+      );
+
+      carregarUsuario();
+
+      carregarStats();
+
+      controlarPermissoes();
+
+      mostrarMensagem("Bem-vindo Admin!");
+
+      abrirPagina("dashboardPage");
+
+    }else{
+
+      mostrarMensagem("Acesso negado");
+
+    }
+
+  });
+
+}
+// =========================
+// 📝 REGISTRO
+// =========================
+function iniciarCadastroUsuario(){
+
+  const form =
+    document.getElementById("registroForm");
+
+  if(!form) return;
+
+  form.addEventListener("submit",(e)=>{
+
+    e.preventDefault();
+
+    const usuarios =
+      JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+
+    const novoUsuario = {
+
+      nome:
+        document.getElementById("registroNome").value,
+
+      email:
+        document.getElementById("registroEmail").value,
+
+      senha:
+        document.getElementById("registroSenha").value,
+
+      tipo:"usuario"
+
+    };
+
+    usuarios.push(novoUsuario);
+
+    localStorage.setItem(
+      "usuariosEyeGate",
+      JSON.stringify(usuarios)
+    );
+
+    mostrarMensagem("Conta criada!");
+
+    abrirPagina("loginPage");
+
+  });
 
 }
