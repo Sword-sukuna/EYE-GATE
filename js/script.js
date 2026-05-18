@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
   iniciarAdminLogin();
   
   iniciarCadastroUsuario();
-  
+
   iniciarRegistro();
 
   iniciarCadastro();
@@ -62,20 +62,21 @@ window.addEventListener("DOMContentLoaded", ()=>{
 // =========================
 function abrirPagina(id){
 
-  document
-    .querySelectorAll(".page")
-    .forEach((page)=>{
+  const paginas =
+    document.querySelectorAll(".page");
 
-      page.classList.remove("active-page");
+  paginas.forEach((pagina)=>{
 
-    });
+    pagina.classList.remove("active-page");
 
-  const pagina =
+  });
+
+  const paginaAtual =
     document.getElementById(id);
 
-  if(pagina){
+  if(paginaAtual){
 
-    pagina.classList.add("active-page");
+    paginaAtual.classList.add("active-page");
 
   }
 

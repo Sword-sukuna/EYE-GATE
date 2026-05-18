@@ -806,3 +806,36 @@ tbody tr{
     );
 
 }
+
+/* ========================= */
+/* 🔥 PAGE FIX */
+/* ========================= */
+
+.page{
+
+  display:none !important;
+
+  width:100%;
+
+  min-height:100vh;
+
+}
+
+.page.active-page{
+
+  display:block !important;
+
+}
+
+
+/* DASHBOARD PAGES */
+#dashboardPage,
+#cadastroPage,
+#monitorPage,
+#registrosPage,
+#adminPage{
+
+  position:relative;
+  z-index:2;
+
+}
