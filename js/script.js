@@ -26,6 +26,8 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
   iniciarLogin();
 
+  iniciarRegistro();
+
   iniciarCadastro();
 
   iniciarConfiguracoes();
@@ -45,8 +47,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
   carregarUsuarios();
 
   controlarPermissoes();
-
-  controlarMenu();
 
   verificarAdmin();
 
@@ -100,15 +100,106 @@ function iniciarLogin(){
 
 
 // =========================
+// 📝 REGISTRO
+// =========================
+function iniciarRegistro(){
+
+  const form =
+    document.getElementById("registroForm");
+
+  if(!form) return;
+
+  form.addEventListener("submit",(e)=>{
+
+    e.preventDefault();
+
+    registrarUsuario();
+
+  });
+
+}
+
+
+// =========================
+// 👤 REGISTRAR
+// =========================
+function registrarUsuario(){
+
+  const nome =
+    document.getElementById("registroNome")?.value.trim();
+
+  const email =
+    document.getElementById("registroEmail")?.value.trim();
+
+  const senha =
+    document.getElementById("registroSenha")?.value.trim();
+
+
+  if(!nome || !email || !senha){
+
+    mostrarMensagem("Preencha todos os campos");
+
+    return;
+
+  }
+
+
+  const usuarios =
+    JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
+
+
+  const existe =
+    usuarios.find(u => u.email === email);
+
+
+  if(existe){
+
+    mostrarMensagem("Email já cadastrado");
+
+    return;
+
+  }
+
+
+  const novoUsuario = {
+
+    nome,
+    email,
+    senha,
+    tipo:"usuario"
+
+  };
+
+
+  usuarios.push(novoUsuario);
+
+
+  localStorage.setItem(
+
+    "usuariosEyeGate",
+
+    JSON.stringify(usuarios)
+
+  );
+
+
+  mostrarMensagem("Conta criada com sucesso");
+
+  abrirPagina("loginPage");
+
+}
+
+
+// =========================
 // 🚪 LOGIN
 // =========================
 function fazerLogin(){
 
   const email =
-    document.getElementById("email").value.trim();
+    document.getElementById("email")?.value.trim();
 
   const senha =
-    document.getElementById("senha").value.trim();
+    document.getElementById("senha")?.value.trim();
 
 
   if(!email || !senha){
@@ -121,7 +212,7 @@ function fazerLogin(){
 
 
   // =====================
-  // 🔐 ADMIN
+  // 🔐 LOGIN ADMIN
   // =====================
   if(
 
@@ -139,13 +230,14 @@ function fazerLogin(){
 
     );
 
-    controlarPermissoes();
-
-    controlarMenu();
 
     carregarUsuario();
 
     carregarStats();
+
+    controlarPermissoes();
+
+    verificarAdmin();
 
     mostrarMensagem("Bem-vindo Admin!");
 
@@ -157,7 +249,7 @@ function fazerLogin(){
 
 
   // =====================
-  // 👤 USER
+  // 👤 LOGIN USER
   // =====================
   const usuarios =
     JSON.parse(localStorage.getItem("usuariosEyeGate")) || [];
@@ -185,9 +277,12 @@ function fazerLogin(){
 
     );
 
+
     carregarUsuario();
 
     carregarStats();
+
+    controlarPermissoes();
 
     mostrarMensagem("Login realizado");
 
@@ -220,9 +315,6 @@ function carregarUsuario(){
   const tipo =
     document.getElementById("userType");
 
-  const avatar =
-    document.querySelector(".user-avatar");
-
 
   if(nome){
 
@@ -240,25 +332,6 @@ function carregarUsuario(){
       ? "Administrador"
 
       : "Usuário";
-
-  }
-
-
-  if(avatar && user.foto){
-
-    avatar.innerHTML = `
-
-      <img
-        src="${user.foto}"
-        style="
-          width:100%;
-          height:100%;
-          object-fit:cover;
-          border-radius:50%;
-        "
-      >
-
-    `;
 
   }
 
@@ -358,10 +431,6 @@ function carregarUsuarios(){
             Nenhum usuário
           </strong>
 
-          <span>
-            Sistema vazio
-          </span>
-
         </div>
 
       </div>
@@ -446,7 +515,7 @@ function deletarUsuario(index){
 
 
 // =========================
-// 👁 MENU ADMIN
+// 🔐 ADMIN ONLY
 // =========================
 function controlarPermissoes(){
 
@@ -481,45 +550,7 @@ function controlarPermissoes(){
 
 
 // =========================
-// 📂 MENU
-// =========================
-function controlarMenu(){
-
-  const user =
-    JSON.parse(localStorage.getItem("usuarioLogado"));
-
-  const adminLinks =
-    document.querySelectorAll(".admin-only");
-
-
-  if(!user){
-
-    adminLinks.forEach((el)=>{
-
-      el.style.display = "none";
-
-    });
-
-    return;
-
-  }
-
-
-  if(user.tipo !== "admin"){
-
-    adminLinks.forEach((el)=>{
-
-      el.style.display = "none";
-
-    });
-
-  }
-
-}
-
-
-// =========================
-// 👥 CADASTRO
+// 👥 CADASTRO ALUNO
 // =========================
 function iniciarCadastro(){
 
@@ -534,7 +565,7 @@ function iniciarCadastro(){
 
 
 // =========================
-// 💾 CADASTRAR
+// 💾 CADASTRAR ALUNO
 // =========================
 function cadastrarAluno(){
 
@@ -613,72 +644,19 @@ function carregarAlunos(){
   lista.innerHTML = "";
 
 
-  if(alunos.length === 0){
-
-    lista.innerHTML = `
-
-      <div class="aluno-item">
-
-        <div class="aluno-info">
-
-          <div class="aluno-avatar">
-            👤
-          </div>
-
-          <div>
-
-            <strong>
-              Nenhum aluno
-            </strong>
-
-            <p>
-              Sistema vazio
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
   alunos.forEach((aluno)=>{
 
     lista.innerHTML += `
 
       <div class="aluno-item">
 
-        <div class="aluno-info">
+        <strong>
+          ${aluno.nome}
+        </strong>
 
-          <div class="aluno-avatar">
-            👤
-          </div>
-
-          <div>
-
-            <strong>
-              ${aluno.nome}
-            </strong>
-
-            <p>
-
-              ${aluno.turma}
-
-              •
-
-              ${aluno.matricula}
-
-            </p>
-
-          </div>
-
-        </div>
+        <p>
+          ${aluno.turma} • ${aluno.matricula}
+        </p>
 
       </div>
 
@@ -690,7 +668,7 @@ function carregarAlunos(){
 
 
 // =========================
-// 🧹 LIMPAR
+// 🧹 LIMPAR CAMPOS
 // =========================
 function limparCampos(){
 
@@ -934,21 +912,13 @@ function adicionarLog(aluno){
 
     <div class="log-item">
 
-      <div class="log-icon">
-        👁
-      </div>
+      <strong>
+        ${aluno.nome}
+      </strong>
 
-      <div>
-
-        <strong>
-          ${aluno.nome}
-        </strong>
-
-        <p>
-          Reconhecimento facial realizado
-        </p>
-
-      </div>
+      <p>
+        Reconhecimento facial realizado
+      </p>
 
       <span>
         ${hora}
