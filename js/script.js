@@ -4,11 +4,25 @@
 
 
 // =========================
+// 🔐 ADMIN FIXO
+// =========================
+const ADMIN_FIXO = {
+
+  email:"Raul@ADM.local",
+
+  senha:"Silvano@rosa10",
+
+  tipo:"admin",
+
+  nome:"Administrador"
+
+};
+
+
+// =========================
 // 🚀 START
 // =========================
 window.addEventListener("DOMContentLoaded", ()=>{
-
-  protegerAcesso();
 
   iniciarLogin();
 
@@ -40,37 +54,24 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
 
 // =========================
-// 🔐 ADMIN FIXO
+// 📄 TROCAR PÁGINA
 // =========================
-const ADMIN_FIXO = {
+function abrirPagina(id){
 
-  email:"Raul@ADM.local",
+  document
+    .querySelectorAll(".page")
+    .forEach((page)=>{
 
-  senha:"Silvano@rosa10",
+      page.classList.remove("active-page");
 
-  tipo:"admin",
+    });
 
-  nome:"Administrador"
+  const pagina =
+    document.getElementById(id);
 
-};
+  if(pagina){
 
-
-// =========================
-// 🔐 PROTEGER
-// =========================
-function protegerAcesso(){
-
-  const precisaLogin =
-    document.body.classList.contains("private-page");
-
-  if(!precisaLogin) return;
-
-  const user =
-    JSON.parse(localStorage.getItem("usuarioLogado"));
-
-  if(!user){
-
-    window.location.href = "./login.html";
+    pagina.classList.add("active-page");
 
   }
 
@@ -138,10 +139,17 @@ function fazerLogin(){
 
     );
 
+    controlarPermissoes();
+
+    controlarMenu();
+
+    carregarUsuario();
+
+    carregarStats();
+
     mostrarMensagem("Bem-vindo Admin!");
 
-    window.location.href =
-      "./dashboard.html";
+    abrirPagina("dashboardPage");
 
     return;
 
@@ -177,10 +185,13 @@ function fazerLogin(){
 
     );
 
+    carregarUsuario();
+
+    carregarStats();
+
     mostrarMensagem("Login realizado");
 
-    window.location.href =
-      "./dashboard.html";
+    abrirPagina("dashboardPage");
 
     return;
 
@@ -284,8 +295,7 @@ function logout(){
     "usuarioLogado"
   );
 
-  window.location.href =
-    "./login.html";
+  abrirPagina("loginPage");
 
 }
 
@@ -296,7 +306,7 @@ function logout(){
 function verificarAdmin(){
 
   const panel =
-    document.getElementById("adminPanel");
+    document.getElementById("adminPage");
 
   if(!panel) return;
 
@@ -309,36 +319,11 @@ function verificarAdmin(){
 
     panel.style.display = "none";
 
-  }
+  }else{
 
-}
-
-
-// =========================
-// 🔐 TOGGLE PANEL
-// =========================
-function toggleAdminPanel(){
-
-  const panel =
-    document.getElementById("adminPanel");
-
-  if(!panel) return;
-
-
-  const user =
-    JSON.parse(localStorage.getItem("usuarioLogado"));
-
-
-  if(!user || user.tipo !== "admin"){
-
-    mostrarMensagem("Acesso negado");
-
-    return;
+    panel.style.display = "block";
 
   }
-
-
-  panel.classList.toggle("show");
 
 }
 
@@ -453,6 +438,8 @@ function deletarUsuario(index){
 
   carregarUsuarios();
 
+  carregarStats();
+
   mostrarMensagem("Usuário removido");
 
 }
@@ -466,13 +453,21 @@ function controlarPermissoes(){
   const user =
     JSON.parse(localStorage.getItem("usuarioLogado"));
 
+  const itens =
+    document.querySelectorAll(".admin-only");
+
+
+  itens.forEach((el)=>{
+
+    el.style.display = "none";
+
+  });
+
+
   if(!user) return;
 
 
   if(user.tipo === "admin"){
-
-    const itens =
-      document.querySelectorAll(".admin-only");
 
     itens.forEach((el)=>{
 
@@ -493,17 +488,24 @@ function controlarMenu(){
   const user =
     JSON.parse(localStorage.getItem("usuarioLogado"));
 
-  if(!user) return;
+  const adminLinks =
+    document.querySelectorAll(".admin-only");
 
 
-  const isAdmin =
-    user.tipo === "admin";
+  if(!user){
+
+    adminLinks.forEach((el)=>{
+
+      el.style.display = "none";
+
+    });
+
+    return;
+
+  }
 
 
-  if(!isAdmin){
-
-    const adminLinks =
-      document.querySelectorAll(".admin-only");
+  if(user.tipo !== "admin"){
 
     adminLinks.forEach((el)=>{
 
@@ -758,12 +760,6 @@ async function iniciarCameraCadastro(){
 // =========================
 function iniciarMonitor(){
 
-  const logs =
-    document.querySelector(".logs-list");
-
-  if(!logs) return;
-
-
   iniciarRelogio();
 
   iniciarSimulacao();
@@ -986,49 +982,6 @@ function iniciarConfiguracoes(){
 
   });
 
-
-  const botoes =
-    document.querySelectorAll(".config-btn");
-
-
-  if(botoes[0]){
-
-    botoes[0].addEventListener(
-
-      "click",
-
-      limparRegistros
-
-    );
-
-  }
-
-
-  if(botoes[1]){
-
-    botoes[1].addEventListener(
-
-      "click",
-
-      resetarAlunos
-
-    );
-
-  }
-
-
-  if(botoes[2]){
-
-    botoes[2].addEventListener(
-
-      "click",
-
-      resetarSistema
-
-    );
-
-  }
-
 }
 
 
@@ -1064,58 +1017,6 @@ function salvarConfiguracoes(){
 
 
   mostrarMensagem("Configuração salva");
-
-}
-
-
-// =========================
-// 🗑 LIMPAR LOGS
-// =========================
-function limparRegistros(){
-
-  if(!confirm("Limpar registros?")) return;
-
-  localStorage.removeItem("logsEyeGate");
-
-  mostrarMensagem("Logs removidos");
-
-}
-
-
-// =========================
-// 👥 RESET ALUNOS
-// =========================
-function resetarAlunos(){
-
-  if(!confirm("Apagar alunos?")) return;
-
-  localStorage.removeItem("alunosEyeGate");
-
-  carregarAlunos();
-
-  mostrarMensagem("Alunos removidos");
-
-}
-
-
-// =========================
-// ⚠ RESET TOTAL
-// =========================
-function resetarSistema(){
-
-  if(!confirm("Resetar sistema?")) return;
-
-  localStorage.clear();
-
-  mostrarMensagem("Sistema resetado");
-
-
-  setTimeout(()=>{
-
-    window.location.href =
-      "./index.html";
-
-  },1500);
 
 }
 
