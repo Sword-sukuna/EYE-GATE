@@ -1,191 +1,685 @@
+# index.html (EYE GATE UNIFICADO)
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
 
   <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <meta
-    name="viewport"
-    content="
-      width=device-width,
-      initial-scale=1.0
-    "
-  />
+  <title>EYE GATE</title>
 
-  <title>
-    EYE GATE
-  </title>
-
-  <!-- CSS -->
-  <link
-    rel="stylesheet"
-    href="./css/global.css"
-  />
-
-  <link
-    rel="stylesheet"
-    href="./css/home.css"
-  />
+  <!-- CSS GLOBAL -->
+  <link rel="stylesheet" href="./css/global.css"/>
+  <link rel="stylesheet" href="./css/dashboard.css"/>
+  <link rel="stylesheet" href="./css/login.css"/>
+  <link rel="stylesheet" href="./css/cadastro.css"/>
+  <link rel="stylesheet" href="./css/monitor.css"/>
+  <link rel="stylesheet" href="./css/registros.css"/>
+  <link rel="stylesheet" href="./css/configuracoes.css"/>
 
 </head>
-
 <body>
 
 
-  <!-- ========================= -->
-  <!-- 🌌 BACKGROUND -->
-  <!-- ========================= -->
-  <div class="background">
-
-    <div class="glow glow-one"></div>
-
-    <div class="glow glow-two"></div>
-
-    <div class="grid"></div>
-
-  </div>
+<!-- BACKGROUND -->
+<div class="background">
+  <div class="glow glow-one"></div>
+  <div class="glow glow-two"></div>
+  <div class="grid"></div>
+</div>
 
 
+<!-- ========================= -->
+<!-- 🔐 LOGIN PAGE -->
+<!-- ========================= -->
+<section id="loginPage" class="page active-page">
 
-  <!-- ========================= -->
-  <!-- 🚀 HERO -->
-  <!-- ========================= -->
-  <main class="hero">
+  <main class="login-container">
 
-    <div class="hero-content">
+    <div class="login-card">
 
-      <!-- logo -->
-      <div class="logo-box">
-
-        <div class="eye-logo">
-          👁
-        </div>
-
-        <h1>
-          EYE GATE
-        </h1>
-
+      <div class="login-logo">
+        <div class="eye-logo">👁</div>
+        <h1>EYE GATE</h1>
+        <p>Acesse o sistema escolar</p>
       </div>
 
 
-      <!-- texto -->
-      <h2>
-        Sistema Inteligente
-        de Controle Escolar
-      </h2>
+      <form id="loginForm">
 
-      <p>
-        Reconhecimento facial,
-        monitoramento em tempo real,
-        controle de entrada e saída
-        com tecnologia moderna.
-      </p>
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="Digite seu email"/>
+        </div>
 
 
-      <!-- botões -->
-      <div class="hero-buttons">
-
-        <a
-          href="./login.html"
-          class="btn primary-btn"
-        >
-
-          Entrar
-
-        </a>
+        <div class="input-group">
+          <label>Senha</label>
+          <input type="password" id="senha" placeholder="Digite sua senha"/>
+        </div>
 
 
-        <a
-          href="./registro.html"
-          class="btn secondary-btn"
-        >
+        <button type="submit" class="login-btn">
+          Entrar no Sistema
+        </button>
 
-          Criar Conta
+      </form>
 
-        </a>
 
+      <div class="register-link">
+        <p>
+          Não possui conta?
+          <a href="#" onclick="abrirPagina('registroPage')">
+            Criar conta
+          </a>
+        </p>
+      </div>
+
+
+      <div class="register-link" style="margin-top:10px;">
+        <p>
+          <a href="#" onclick="abrirPagina('adminLoginPage')">
+            🔐 Entrar como ADM
+          </a>
+        </p>
       </div>
 
     </div>
 
   </main>
 
+</section>
 
 
-  <!-- ========================= -->
-  <!-- 📦 FEATURES -->
-  <!-- ========================= -->
-  <section class="features">
+<!-- ========================= -->
+<!-- 📝 REGISTRO -->
+<!-- ========================= -->
+<section id="registroPage" class="page">
 
-    <div class="feature-card">
+  <div class="login-container">
 
-      <span>
-        👁
-      </span>
+    <div class="login-card">
 
-      <h3>
-        Reconhecimento Facial
-      </h3>
+      <div class="logo">👁</div>
 
-      <p>
-        Detecção rápida e inteligente
-        para múltiplos alunos.
-      </p>
-
-    </div>
+      <h1>EYE GATE</h1>
+      <p>Criar nova conta</p>
 
 
-    <div class="feature-card">
+      <form id="registroForm">
 
-      <span>
-        📡
-      </span>
-
-      <h3>
-        Monitoramento Ao Vivo
-      </h3>
-
-      <p>
-        Visualização em tempo real
-        das entradas e saídas.
-      </p>
-
-    </div>
+        <label>Nome completo</label>
+        <input type="text" id="registroNome" required/>
 
 
-    <div class="feature-card">
+        <label>Email</label>
+        <input type="email" id="registroEmail" required/>
 
-      <span>
-        🔐
-      </span>
 
-      <h3>
-        Segurança Avançada
-      </h3>
+        <label>Senha</label>
+        <input type="password" id="registroSenha" required/>
 
-      <p>
-        Controle seguro
-        com autenticação moderna.
-      </p>
+
+        <button type="submit" class="login-btn">
+          Criar Conta
+        </button>
+
+
+        <div class="extra">
+          <a href="#" onclick="abrirPagina('loginPage')">
+            Voltar
+          </a>
+        </div>
+
+      </form>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
+<!-- ========================= -->
+<!-- 🔐 ADMIN LOGIN -->
+<!-- ========================= -->
+<section id="adminLoginPage" class="page">
 
-  <!-- ========================= -->
-  <!-- 📌 FOOTER -->
-  <!-- ========================= -->
-  <footer>
+  <div class="login-container">
 
-    <p>
-      © 2026 EYE GATE
-      • Sistema Escolar Inteligente
-    </p>
+    <div class="login-card">
 
-  </footer>
+      <div class="logo">🔐</div>
+
+      <h1>Admin Panel</h1>
+      <p>Acesso restrito</p>
+
+
+      <form id="adminForm">
+
+        <label>Email</label>
+        <input type="email" id="adminEmail" required/>
+
+
+        <label>Senha</label>
+        <input type="password" id="adminSenha" required/>
+
+
+        <button class="login-btn" type="submit">
+          Entrar como ADM
+        </button>
+
+
+        <div class="extra">
+          <a href="#" onclick="abrirPagina('loginPage')">
+            Voltar
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 📊 DASHBOARD -->
+<!-- ========================= -->
+<section id="dashboardPage" class="page">
+
+<div class="dashboard-layout">
+
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <div class="eye-logo">👁</div>
+
+      <div>
+        <h2>EYE GATE</h2>
+        <p>Painel Escolar</p>
+      </div>
+    </div>
+
+
+    <nav class="menu">
+
+      <a href="#" class="menu-item active">
+        🏠 Dashboard
+      </a>
+
+
+      <a href="#" class="menu-item" onclick="abrirPagina('cadastroPage')">
+        👤 Cadastro Facial
+      </a>
+
+
+      <a href="#" class="menu-item" onclick="abrirPagina('monitorPage')">
+        👀 Monitoramento
+      </a>
+
+
+      <a href="#" class="menu-item" onclick="abrirPagina('registrosPage')">
+        🕒 Registros
+      </a>
+
+
+      <a href="#" class="menu-item admin-only" onclick="abrirPagina('adminPage')" style="display:none;">
+        🔐 Painel Admin
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        🚪 Sair
+      </button>
+    </div>
+
+  </aside>
+
+
+  <!-- CONTENT -->
+  <main class="dashboard-content">
+
+    <header class="topbar">
+
+      <div>
+        <h1>Dashboard</h1>
+        <p>Controle inteligente escolar</p>
+      </div>
+
+
+      <div class="top-user">
+
+        <div class="user-avatar">👤</div>
+
+        <div>
+          <strong id="userName">Usuário</strong>
+          <p id="userType">Online</p>
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <section class="stats-grid">
+
+      <div class="stat-card">
+        <span>👥</span>
+        <h2 id="totalUsers">0</h2>
+        <p>Usuários</p>
+      </div>
+
+
+      <div class="stat-card">
+        <span>📡</span>
+        <h2>Online</h2>
+        <p>Sistema Operacional</p>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 👤 CADASTRO -->
+<!-- ========================= -->
+<section id="cadastroPage" class="page">
+
+  <div class="dashboard-content">
+
+    <div class="topbar">
+      <h1>Cadastro Facial</h1>
+    </div>
+
+
+    <div class="form-card">
+
+      <h2>👤 Dados do Aluno</h2>
+
+      <input type="text" placeholder="Nome"/>
+      <input type="text" placeholder="Matrícula"/>
+      <input type="text" placeholder="Turma"/>
+
+
+      <button class="cadastro-btn">
+        📸 Capturar Face
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 👀 MONITOR -->
+<!-- ========================= -->
+<section id="monitorPage" class="page">
+
+  <div class="dashboard-content">
+
+    <div class="topbar">
+      <h1>Monitoramento Facial</h1>
+    </div>
+
+
+    <div class="activity-section">
+      <h2>📷 Monitor</h2>
+      <p>Sistema aguardando câmera...</p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 📋 REGISTROS -->
+<!-- ========================= -->
+<section id="registrosPage" class="page">
+
+  <div class="dashboard-content">
+
+    <div class="topbar">
+      <h1>Registros</h1>
+    </div>
+
+
+    <div class="activity-section">
+
+      <h2>📋 Histórico</h2>
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Aluno</th>
+            <th>Status</th>
+            <th>Horário</th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+          <tr>
+            <td>Sistema</td>
+            <td>ONLINE</td>
+            <td>Agora</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 🔐 ADMIN -->
+<!-- ========================= -->
+<section id="adminPage" class="page">
+
+  <div class="dashboard-content">
+
+    <div class="topbar">
+      <h1>🔐 Painel Admin</h1>
+    </div>
+
+
+    <div class="activity-section">
+
+      <h2>👥 Usuários</h2>
+
+      <div id="adminUsers"></div>
+
+
+      <button class="logout-btn" onclick="logoutAdmin()">
+        🚪 Sair do Admin
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+
+// =========================
+// 📄 TROCAR PÁGINA
+// =========================
+function abrirPagina(id){
+
+  document
+    .querySelectorAll('.page')
+    .forEach(page=>{
+      page.classList.remove('active-page');
+    });
+
+
+  document
+    .getElementById(id)
+    .classList.add('active-page');
+
+}
+
+
+// =========================
+// 🚪 LOGIN NORMAL
+// =========================
+document
+.getElementById('loginForm')
+.addEventListener('submit', (e)=>{
+
+  e.preventDefault();
+
+  const email =
+    document.getElementById('email').value;
+
+  const senha =
+    document.getElementById('senha').value;
+
+
+  const usuarios =
+    JSON.parse(localStorage.getItem('usuariosEyeGate')) || [];
+
+
+  const usuario =
+    usuarios.find(
+      u=>u.email === email && u.senha === senha
+    );
+
+
+  if(!usuario){
+    alert('Login inválido');
+    return;
+  }
+
+
+  localStorage.setItem(
+    'usuarioLogado',
+    JSON.stringify(usuario)
+  );
+
+
+  carregarUsuario();
+
+  abrirPagina('dashboardPage');
+
+});
+
+
+// =========================
+// 📝 REGISTRO
+// =========================
+document
+.getElementById('registroForm')
+.addEventListener('submit', (e)=>{
+
+  e.preventDefault();
+
+
+  const usuarios =
+    JSON.parse(localStorage.getItem('usuariosEyeGate')) || [];
+
+
+  const novoUsuario = {
+
+    nome:
+      document.getElementById('registroNome').value,
+
+    email:
+      document.getElementById('registroEmail').value,
+
+    senha:
+      document.getElementById('registroSenha').value,
+
+    tipo:'usuario'
+
+  };
+
+
+  usuarios.push(novoUsuario);
+
+
+  localStorage.setItem(
+    'usuariosEyeGate',
+    JSON.stringify(usuarios)
+  );
+
+
+  alert('Conta criada');
+
+  abrirPagina('loginPage');
+
+});
+
+
+// =========================
+// 🔐 LOGIN ADM
+// =========================
+document
+.getElementById('adminForm')
+.addEventListener('submit', (e)=>{
+
+  e.preventDefault();
+
+
+  const email =
+    document.getElementById('adminEmail').value;
+
+  const senha =
+    document.getElementById('adminSenha').value;
+
+
+  if(
+    email === 'Raul@ADM.local' &&
+    senha === 'Silvano@rosa10'
+  ){
+
+    const admin = {
+      nome:'Administrador',
+      tipo:'admin'
+    };
+
+
+    localStorage.setItem(
+      'usuarioLogado',
+      JSON.stringify(admin)
+    );
+
+
+    carregarUsuario();
+
+    document
+      .querySelectorAll('.admin-only')
+      .forEach(el=>{
+        el.style.display = 'block';
+      });
+
+
+    abrirPagina('dashboardPage');
+
+  }else{
+
+    alert('Acesso negado');
+
+  }
+
+});
+
+
+// =========================
+// 👤 USER INFO
+// =========================
+function carregarUsuario(){
+
+  const user =
+    JSON.parse(localStorage.getItem('usuarioLogado'));
+
+
+  if(!user) return;
+
+
+  document.getElementById('userName').innerText =
+    user.nome;
+
+
+  document.getElementById('userType').innerText =
+    user.tipo;
+
+
+  const users =
+    JSON.parse(localStorage.getItem('usuariosEyeGate')) || [];
+
+
+  document.getElementById('totalUsers').innerText =
+    users.length;
+
+}
+
+
+// =========================
+// 🚪 LOGOUT
+// =========================
+function logout(){
+
+  localStorage.removeItem('usuarioLogado');
+
+  abrirPagina('loginPage');
+
+}
+
+
+function logoutAdmin(){
+
+  logout();
+
+}
+
+</script>
+
+
+<style>
+
+.page{
+  display:none;
+}
+
+.active-page{
+  display:block;
+}
+
+</style>
 
 </body>
 </html>
+```
+
+# O QUE FOI UNIFICADO
+
+* Login
+* Registro
+* Login ADM
+* Dashboard
+* Cadastro Facial
+* Monitoramento
+* Registros
+* Painel Admin
+* Sistema de navegação
+* Sistema de login
+* Sistema de admin
+* Logout
+* Controle de páginas
+
+# AGORA SUA ESTRUTURA FICA:
+
+```txt
+index.html
+/css
+/js
+```
+
+Sem 500 HTML separados.
+
+Depois você pode dividir novamente quando o projeto estiver organizado.
