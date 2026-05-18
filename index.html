@@ -11,7 +11,6 @@
 
   <title>EYE GATE</title>
 
-  <!-- CSS UNIFICADO -->
   <link
     rel="stylesheet"
     href="./css/style.css"
@@ -352,7 +351,7 @@
 
           <a
             href="#"
-            class="menu-item"
+            class="menu-item active"
             onclick="abrirPagina('dashboardPage')"
           >
             🏠 Dashboard
@@ -555,10 +554,19 @@
 
 
       <button
-        class="cadastro-btn"
+        class="cadastro-btn login-btn"
         onclick="cadastrarAluno()"
       >
         📸 Cadastrar
+      </button>
+
+
+      <button
+        class="logout-btn"
+        onclick="abrirPagina('dashboardPage')"
+        style="margin-top:15px;"
+      >
+        ← Voltar
       </button>
 
     </div>
@@ -598,6 +606,15 @@
       </p>
 
     </div>
+
+
+    <button
+      class="logout-btn"
+      onclick="abrirPagina('dashboardPage')"
+      style="margin-top:20px;"
+    >
+      ← Voltar
+    </button>
 
   </div>
 
@@ -660,6 +677,15 @@
 
     </div>
 
+
+    <button
+      class="logout-btn"
+      onclick="abrirPagina('dashboardPage')"
+      style="margin-top:20px;"
+    >
+      ← Voltar
+    </button>
+
   </div>
 
 </section>
@@ -694,12 +720,31 @@
       <div id="adminUsers"></div>
 
 
-      <button
-        class="logout-btn"
-        onclick="logout()"
+      <div
+        style="
+          display:flex;
+          gap:15px;
+          margin-top:20px;
+          flex-wrap:wrap;
+        "
       >
-        🚪 Sair
-      </button>
+
+        <button
+          class="logout-btn"
+          onclick="abrirPagina('dashboardPage')"
+        >
+          ← Voltar
+        </button>
+
+
+        <button
+          class="logout-btn"
+          onclick="logout()"
+        >
+          🚪 Sair
+        </button>
+
+      </div>
 
     </div>
 
@@ -707,9 +752,9 @@
 
 </section>
 
+
 <div class="toast"></div>
 
-<!-- JS -->
 <script src="./js/script.js"></script>
 
 </body>
