@@ -1,5 +1,5 @@
 /* =========================================================
-   🌍 ROOT (ÚNICO E CORRIGIDO)
+   🌍 ROOT
 ========================================================= */
 
 :root {
@@ -87,7 +87,7 @@ body {
 }
 
 /* =========================================================
-   PAGE SYSTEM (CORRIGIDO)
+   PAGE SYSTEM
 ========================================================= */
 
 .page {
@@ -109,7 +109,7 @@ body {
 }
 
 /* =========================================================
-   CARDS GERAIS
+   CARDS
 ========================================================= */
 
 .card,
@@ -308,10 +308,11 @@ button {
 
 .camera-box video {
   width: 100%;
+  display: block;
 }
 
 /* =========================================================
-   USERS / ALUNOS
+   USERS
 ========================================================= */
 
 .user-card,
@@ -364,6 +365,7 @@ button {
   border-radius: 12px;
   transform: translateX(120%);
   transition: 0.3s;
+  z-index: 99999;
 }
 
 .toast.show {
@@ -371,72 +373,31 @@ button {
 }
 
 /* =========================================================
-   RESPONSIVO
-========================================================= */
-
-@media (max-width: 900px) {
-  .dashboard-layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-  }
-
-  .dashboard-content {
-    padding: 15px;
-  }
-
-  .topbar {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .login-card {
-    padding: 25px;
-  }
-}
-
-/* =========================================================
-   📱 MOBILE PROFISSIONAL (CORRIGIDO)
+   📱 MOBILE PROFISSIONAL (SEM CONFLITO)
 ========================================================= */
 
 @media (max-width: 900px) {
 
-  /* evita bug de scroll horizontal */
   body {
     overflow-x: hidden;
   }
 
-  /* =========================
-     LAYOUT PRINCIPAL
-  ========================= */
-
   .dashboard-layout {
     flex-direction: column;
   }
 
-  /* sidebar vira topbar mobile */
+  /* sidebar vira barra superior */
   .sidebar {
     width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 12px;
-    gap: 10px;
-    overflow-x: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* menu vira scroll horizontal */
   .menu {
     flex-direction: row;
-    gap: 8px;
     overflow-x: auto;
-    padding-bottom: 5px;
+    gap: 8px;
   }
 
   .menu-item {
@@ -445,35 +406,21 @@ button {
     padding: 8px 10px;
   }
 
-  /* =========================
-     CONTEÚDO
-  ========================= */
-
   .dashboard-content {
     padding: 12px;
   }
 
   .topbar {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
   }
 
   .topbar h1 {
-    font-size: 22px;
+    font-size: 20px;
   }
-
-  .topbar p {
-    font-size: 13px;
-  }
-
-  /* =========================
-     CARDS
-  ========================= */
 
   .stats-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
   }
 
   .stat-card {
@@ -481,61 +428,18 @@ button {
     text-align: center;
   }
 
-  .user-card,
-  .aluno-item,
-  .activity-section {
-    padding: 12px;
-  }
-
-  /* =========================
-     LOGIN MOBILE
-  ========================= */
-
   .login-card {
-    width: 95%;
     padding: 20px;
-    border-radius: 16px;
+    width: 95%;
   }
-
-  .login-logo h1 {
-    font-size: 28px;
-  }
-
-  /* =========================
-     INPUTS MAIS USÁVEIS
-  ========================= */
 
   input {
-    font-size: 16px; /* evita zoom no iPhone */
-    padding: 12px;
+    font-size: 16px;
   }
-
-  button {
-    font-size: 14px;
-  }
-
-  /* =========================
-     CÂMERA
-  ========================= */
-
-  .camera-box {
-    border-radius: 12px;
-  }
-
-  .recognition-box {
-    font-size: 13px;
-    text-align: center;
-  }
-
-  /* =========================
-     TOAST
-  ========================= */
 
   .toast {
-    top: 10px;
-    right: 10px;
     left: 10px;
-    width: auto;
+    right: 10px;
     text-align: center;
   }
 }
