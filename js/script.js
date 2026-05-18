@@ -7,12 +7,11 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJob3B2aXBka2Vhd3Zlanp0eml4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMTUxNDUsImV4cCI6MjA5NDY5MTE0NX0.U7NAbG461jLbeSqwkP6gecHFg1UoNDkKY4mUH29NtYA";
 
-const supabase =
+const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
-
 
 // =========================
 // 👁 FACE API
@@ -241,7 +240,7 @@ async function registrarUsuario(){
   }
 
   const { data:existe } =
-    await supabase
+    await supabaseClient
 
       .from("usuarios")
 
@@ -260,7 +259,7 @@ async function registrarUsuario(){
   }
 
   const { error } =
-    await supabase
+    await supabaseClient
 
       .from("usuarios")
 
@@ -322,7 +321,7 @@ async function fazerLogin(){
   }
 
   const { data:user, error } =
-    await supabase
+    await supabaseClient
 
       .from("usuarios")
 
@@ -480,7 +479,7 @@ async function carregarStats(){
   if(!totalUsers) return;
 
   const { data, error } =
-    await supabase
+    await supabaseClient
 
       .from("usuarios")
 
@@ -589,7 +588,7 @@ async function carregarUsuarios(){
   if(!container) return;
 
   const { data:users, error } =
-    await supabase
+    await supabaseClient
 
       .from("usuarios")
 
@@ -652,7 +651,7 @@ async function deletarUsuario(id){
     return;
 
   const { error } =
-    await supabase
+    await supabaseClient
 
       .from("usuarios")
 
@@ -754,7 +753,7 @@ async function cadastrarAluno(){
   }
 
   const { error } =
-    await supabase
+    await supabaseClient
 
       .from("alunos")
 
@@ -970,7 +969,7 @@ async function reconhecerFace(){
   if(!video) return;
 
   const { data:alunos } =
-    await supabase
+    await supabaseClient
 
       .from("alunos")
 
