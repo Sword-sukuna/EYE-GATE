@@ -16,6 +16,8 @@
     href="./css/style.css"
   />
 
+  <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body>
@@ -330,9 +332,11 @@
 
         <div class="sidebar-logo">
 
-          <div class="eye-logo">
-            👁
-          </div>
+         <div class="eye-logo">
+
+  <i data-lucide="scan-eye"></i>
+
+</div>
 
           <div>
 
@@ -354,7 +358,10 @@
             class="menu-item active"
             onclick="abrirPagina('dashboardPage')"
           >
-            🏠 Dashboard
+
+          <i data-lucide="layout-dashboard"></i>
+Dashboard
+
           </a>
 
 
@@ -363,7 +370,8 @@
             class="menu-item"
             onclick="abrirPagina('cadastroPage')"
           >
-            👤 Cadastro
+            <i data-lucide="user-plus"></i>
+Cadastro
           </a>
 
 
@@ -372,7 +380,8 @@
             class="menu-item"
             onclick="abrirPagina('monitorPage')"
           >
-            👀 Monitor
+            <i data-lucide="camera"></i>
+Monitor
           </a>
 
 
@@ -381,7 +390,8 @@
             class="menu-item"
             onclick="abrirPagina('registrosPage')"
           >
-            📋 Registros
+            <i data-lucide="clipboard-list"></i>
+Registros
           </a>
 
 
@@ -391,7 +401,8 @@
             onclick="abrirPagina('adminPage')"
             style="display:none;"
           >
-            🔐 Admin
+            <i data-lucide="shield"></i>
+Admin
           </a>
 
         </nav>
@@ -403,7 +414,8 @@
         class="logout-btn"
         onclick="logout()"
       >
-        🚪 Sair
+        <i data-lucide="log-out"></i>
+Sair
       </button>
 
     </aside>

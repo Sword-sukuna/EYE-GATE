@@ -1633,4 +1633,6 @@ async function carregarGraficoLogs(){
 
 });
 
+lucide.createIcons();
+
 }

@@ -519,3 +519,47 @@ button {
   }
 
 }
+
+/* =========================
+   ICONS
+========================= */
+
+i[data-lucide]{
+
+  width:18px;
+
+  height:18px;
+
+  stroke-width:2.2;
+
+}
+
+.menu-item{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+}
+
+.sidebar-logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+}
+
+.eye-logo svg{
+
+  width:42px;
+
+  height:42px;
+
+  color:#6C5CE7;
+
+}
