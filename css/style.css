@@ -453,3 +453,13 @@ button {
     text-align: center;
   }
 }
+
+.page-content{
+
+  padding: 30px;
+
+  position: relative;
+
+  z-index: 2;
+
+}
