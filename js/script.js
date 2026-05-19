@@ -21,6 +21,7 @@ if (!supabaseClient) {
 // =========================
 let faceMatcher = null;
 
+const ultimoReconhecimento = {};
 
 // =========================
 // 🔐 ADMIN FIXO
@@ -72,6 +73,8 @@ window.addEventListener(
     await carregarStats();
 
     await carregarUsuarios();
+
+    await carregarLogs();
 
   }
 
@@ -247,7 +250,7 @@ async function registrarUsuario(){
 
       .from("usuarios")
 
-      .select("*")
+      .select("id")
 
       .eq("email", email);
 
@@ -328,7 +331,7 @@ async function fazerLogin(){
 
       .from("usuarios")
 
-      .select("*")
+     .select("*")
 
       .eq("email", email)
 
@@ -420,6 +423,8 @@ async function fazerLoginAdmin(){
 
   await carregarUsuarios();
 
+  await carregarLogs();
+
   mostrarMensagem(
     "Bem-vindo Admin!"
   );
@@ -476,28 +481,81 @@ function carregarUsuario(){
 // =========================
 async function carregarStats(){
 
+  // USERS
+  const {
+    data:usuarios
+  } = await supabaseClient
+
+    .from("usuarios")
+   .select("id");
+
+  // ALUNOS
+  const {
+    data:alunos
+  } = await supabaseClient
+
+    .from("alunos")
+   .select("id");
+
+  // LOGS
+  const {
+    data:logs
+  } = await supabaseClient
+
+    .from("logs")
+   .select("id");
+
+  // USERS
   const totalUsers =
-    document.getElementById("totalUsers");
+    document.getElementById(
+      "totalUsers"
+    );
 
-  if(!totalUsers) return;
+  if(totalUsers){
 
-  const { data, error } =
-    await supabaseClient
-
-      .from("usuarios")
-
-      .select("*");
-
-  if(error){
-
-    console.log(error);
-
-    return;
+    totalUsers.innerText =
+      usuarios?.length || 0;
 
   }
 
-  totalUsers.innerText =
-    data.length;
+  // ALUNOS
+  const totalAlunos =
+    document.getElementById(
+      "totalAlunos"
+    );
+
+  if(totalAlunos){
+
+    totalAlunos.innerText =
+      alunos?.length || 0;
+
+  }
+
+  // RECONHECIMENTOS
+  const totalReconhecimentos =
+    document.getElementById(
+      "totalReconhecimentos"
+    );
+
+  if(totalReconhecimentos){
+
+    totalReconhecimentos.innerText =
+      logs?.length || 0;
+
+  }
+
+  // LOGS
+  const totalLogs =
+    document.getElementById(
+      "totalLogs"
+    );
+
+  if(totalLogs){
+
+    totalLogs.innerText =
+      logs?.length || 0;
+
+  }
 
 }
 
@@ -595,7 +653,7 @@ async function carregarUsuarios(){
 
       .from("usuarios")
 
-      .select("*");
+     .select("id,nome,email");
 
   if(error){
 
@@ -679,6 +737,8 @@ async function deletarUsuario(id){
   );
 
   await carregarUsuarios();
+
+  await carregarLogs();
 
   await carregarStats();
 
@@ -988,7 +1048,7 @@ async function reconhecerFace(){
 
       .from("alunos")
 
-      .select("*");
+      .select("id,nome,descriptor");
 
   if(!alunos || alunos.length === 0)
     return;
@@ -1053,9 +1113,38 @@ async function reconhecerFace(){
 
   if(aluno){
 
-    mostrarMensagem(
-      `Aluno reconhecido: ${aluno.nome}`
-    );
+    const agora = Date.now();
+
+if(
+  ultimoReconhecimento[aluno.nome] &&
+  agora - ultimoReconhecimento[aluno.nome] < 10000
+){
+  return;
+}
+
+ultimoReconhecimento[aluno.nome] = agora;
+
+ mostrarMensagem(
+  `Aluno reconhecido: ${aluno.nome}`
+);
+
+await supabaseClient
+
+  .from("logs")
+
+  .insert([{
+
+    aluno: aluno.nome,
+
+    status:"Reconhecido",
+
+    horario: new Date().toISOString()
+
+  }]);
+
+await carregarLogs();
+
+await carregarStats();
 
   }
 
@@ -1102,6 +1191,61 @@ function mostrarMensagem(texto){
     toast.classList.remove("show");
 
   },3000);
+
+}
+
+// =========================
+// 📋 CARREGAR LOGS
+// =========================
+async function carregarLogs(){
+
+  const tabela =
+    document.getElementById("logsTable");
+
+  if(!tabela) return;
+
+  const { data, error } =
+    await supabaseClient
+
+      .from("logs")
+
+      .select("id,aluno,status,horario")
+
+      .order("horario", {
+        ascending:false
+      });
+
+  if(error){
+
+    console.log(error);
+
+    return;
+
+  }
+
+  tabela.innerHTML = "";
+
+  data.forEach((log)=>{
+
+    const horario =
+      new Date(log.horario)
+      .toLocaleString("pt-BR");
+
+    tabela.innerHTML += `
+
+      <tr>
+
+       <td>${log.aluno}</td>
+
+        <td>${log.status}</td>
+
+        <td>${horario}</td>
+
+      </tr>
+
+    `;
+
+  });
 
 }
 
