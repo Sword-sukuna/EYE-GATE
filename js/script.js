@@ -108,25 +108,19 @@ async function carregarFaceAPI(){
 // =========================
 // 📄 TROCAR PÁGINA
 // =========================
-function abrirPagina(id){
+function abrirPagina(id) {
 
-  const paginas =
-    document.querySelectorAll(".page");
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
 
-  paginas.forEach((pagina)=>{
+      page.classList.remove("active-page");
 
-    pagina.classList.remove("active-page");
+    });
 
-  });
-
-  const paginaAtual =
-    document.getElementById(id);
-
-  if(paginaAtual){
-
-    paginaAtual.classList.add("active-page");
-
-  }
+  document
+    .getElementById(id)
+    .classList.add("active-page");
 
 }
 
