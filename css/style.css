@@ -229,8 +229,8 @@ button {
 }
 
 .sidebar {
-  width: 100%;
-  min-height: auto;
+  width: 260px;
+  padding: 20px;
 
   display: flex;
   flex-direction: column;
