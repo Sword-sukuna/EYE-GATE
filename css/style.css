@@ -466,3 +466,56 @@ button {
   z-index: 2;
 
 }
+
+/* =========================
+   📈 GRAFICO
+========================= */
+
+.grafico-card{
+
+  padding:20px;
+
+  margin-top:25px;
+
+}
+
+.grafico-topo{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:20px;
+
+}
+
+.grafico-topo span{
+
+  color:var(--soft);
+
+  font-size:14px;
+
+}
+
+.grafico-container{
+
+  position:relative;
+
+  width:100%;
+
+  height:420px;
+
+}
+
+/* mobile */
+@media(max-width:900px){
+
+  .grafico-container{
+
+    height:280px;
+
+  }
+
+}

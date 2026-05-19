@@ -69,7 +69,7 @@ window.addEventListener(
     controlarPermissoes();
 
     await carregarGraficoLogs();
-    
+
     await carregarStats();
 
     await carregarUsuarios();
@@ -1543,24 +1543,94 @@ async function carregarGraficoLogs(){
 
   new Chart(canvas, {
 
-    type: "line",
+  type: "line",
 
-    data: {
+  data: {
 
-      labels: Object.keys(dias),
+    labels: Object.keys(dias),
 
-      datasets: [{
+    datasets:[{
 
-        label: "Reconhecimentos",
+      label:"Reconhecimentos",
 
-        data: Object.values(dias),
+      data:Object.values(dias),
 
-        tension: 0.4
+      borderColor:"#6C5CE7",
 
-      }]
+      backgroundColor:"rgba(108,92,231,0.2)",
+
+      borderWidth:3,
+
+      tension:0.4,
+
+      fill:true,
+
+      pointRadius:5,
+
+      pointHoverRadius:8
+
+    }]
+
+  },
+
+  options: {
+
+    responsive:true,
+
+    maintainAspectRatio:false,
+
+    plugins:{
+
+      legend:{
+
+        labels:{
+
+          color:"#fff"
+
+        }
+
+      }
+
+    },
+
+    scales:{
+
+      x:{
+
+        ticks:{
+
+          color:"#aaa"
+
+        },
+
+        grid:{
+
+          color:"rgba(255,255,255,0.05)"
+
+        }
+
+      },
+
+      y:{
+
+        ticks:{
+
+          color:"#aaa"
+
+        },
+
+        grid:{
+
+          color:"rgba(255,255,255,0.05)"
+
+        }
+
+      }
 
     }
 
-  });
+  }
+
+});
 
 }
