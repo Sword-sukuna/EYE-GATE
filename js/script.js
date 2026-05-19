@@ -68,8 +68,6 @@ window.addEventListener(
 
     controlarPermissoes();
 
-    verificarAdmin();
-
     await carregarStats();
 
     await carregarUsuarios();
@@ -573,11 +571,6 @@ function logout(){
 // =========================
 function verificarAdmin(){
 
-  const panel =
-    document.getElementById("adminPage");
-
-  if(!panel) return;
-
   const user =
     JSON.parse(
       localStorage.getItem(
@@ -585,13 +578,22 @@ function verificarAdmin(){
       )
     );
 
-  if(!user || user.tipo !== "admin"){
+  const itens =
+    document.querySelectorAll(".admin-only");
 
-    panel.style.display = "none";
+  itens.forEach((el)=>{
 
-  }else{
+    el.style.display = "none";
 
-    panel.style.display = "block";
+  });
+
+  if(user && user.tipo === "admin"){
+
+    itens.forEach((el)=>{
+
+      el.style.display = "block";
+
+    });
 
   }
 
