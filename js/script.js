@@ -68,6 +68,8 @@ window.addEventListener(
 
     controlarPermissoes();
 
+    await carregarGraficoLogs();
+    
     await carregarStats();
 
     await carregarUsuarios();
@@ -1499,5 +1501,66 @@ async function deletarLog(id){
   await carregarLogsAdmin();
 
   await carregarStats();
+
+}
+
+// =========================
+// 📈 GRAFICO LOGS
+// =========================
+async function carregarGraficoLogs(){
+
+  const canvas =
+    document.getElementById("graficoLogs");
+
+  if(!canvas) return;
+
+  const { data, error } =
+    await supabaseClient
+
+      .from("logs")
+
+      .select("horario");
+
+  if(error){
+
+    console.log(error);
+
+    return;
+
+  }
+
+  const dias = {};
+
+  data.forEach((log)=>{
+
+    const dia =
+      new Date(log.horario)
+      .toLocaleDateString("pt-BR");
+
+    dias[dia] = (dias[dia] || 0) + 1;
+
+  });
+
+  new Chart(canvas, {
+
+    type: "line",
+
+    data: {
+
+      labels: Object.keys(dias),
+
+      datasets: [{
+
+        label: "Reconhecimentos",
+
+        data: Object.values(dias),
+
+        tension: 0.4
+
+      }]
+
+    }
+
+  });
 
 }
