@@ -225,13 +225,19 @@ button {
 
 .dashboard-layout {
   display: flex;
-  width: 100%;
+  align-items: stretch;
   min-height: 100vh;
 }
 
 .sidebar {
   width: 260px;
   padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 100vh;
 }
 
 .menu {
