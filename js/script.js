@@ -413,6 +413,10 @@ async function fazerLoginAdmin(){
 
   await carregarStats();
 
+await carregarAlunosAdmin();
+
+await carregarLogsAdmin();
+
   await carregarUsuarios();
 
   await carregarLogs();
@@ -1291,3 +1295,209 @@ setInterval(keepAlive, 1000 * 60 * 30);
 
 // roda uma vez ao iniciar também
 keepAlive();
+
+// =========================
+// 🎓 ADMIN ALUNOS
+// =========================
+async function carregarAlunosAdmin(){
+
+  const container =
+    document.getElementById("adminAlunos");
+
+  if(!container) return;
+
+  const { data, error } =
+    await supabaseClient
+
+      .from("alunos")
+
+      .select("*");
+
+  if(error){
+
+    console.log(error);
+
+    return;
+
+  }
+
+  container.innerHTML = "";
+
+  data.forEach((aluno)=>{
+
+    container.innerHTML += `
+
+      <div class="user-card">
+
+        <div class="info">
+
+          <strong>
+            ${aluno.nome}
+          </strong>
+
+          <span>
+            ${aluno.turma}
+          </span>
+
+          <span>
+            ${aluno.matricula}
+          </span>
+
+        </div>
+
+        <button
+          class="delete-btn"
+          onclick="deletarAluno('${aluno.id}')"
+        >
+          🗑 Excluir
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+// =========================
+// 🗑 DELETE ALUNO
+// =========================
+async function deletarAluno(id){
+
+  if(!confirm("Excluir aluno?"))
+    return;
+
+  const { error } =
+    await supabaseClient
+
+      .from("alunos")
+
+      .delete()
+
+      .eq("id", id);
+
+  if(error){
+
+    console.log(error);
+
+    mostrarMensagem(
+      "Erro ao excluir"
+    );
+
+    return;
+
+  }
+
+  mostrarMensagem(
+    "Aluno removido"
+  );
+
+  await carregarAlunosAdmin();
+
+  await carregarStats();
+
+}
+
+// =========================
+// 📋 ADMIN LOGS
+// =========================
+async function carregarLogsAdmin(){
+
+  const container =
+    document.getElementById("adminLogs");
+
+  if(!container) return;
+
+  const { data, error } =
+    await supabaseClient
+
+      .from("logs")
+
+      .select("*")
+
+      .order("horario",{
+        ascending:false
+      });
+
+  if(error){
+
+    console.log(error);
+
+    return;
+
+  }
+
+  container.innerHTML = "";
+
+  data.forEach((log)=>{
+
+    container.innerHTML += `
+
+      <div class="user-card">
+
+        <div class="info">
+
+          <strong>
+            ${log.aluno}
+          </strong>
+
+          <span>
+            ${log.status}
+          </span>
+
+        </div>
+
+        <button
+          class="delete-btn"
+          onclick="deletarLog('${log.id}')"
+        >
+          🗑 Excluir
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+// =========================
+// 🗑 DELETE LOG
+// =========================
+async function deletarLog(id){
+
+  if(!confirm("Excluir registro?"))
+    return;
+
+  const { error } =
+    await supabaseClient
+
+      .from("logs")
+
+      .delete()
+
+      .eq("id", id);
+
+  if(error){
+
+    console.log(error);
+
+    mostrarMensagem(
+      "Erro ao excluir"
+    );
+
+    return;
+
+  }
+
+  mostrarMensagem(
+    "Registro removido"
+  );
+
+  await carregarLogsAdmin();
+
+  await carregarStats();
+
+}
