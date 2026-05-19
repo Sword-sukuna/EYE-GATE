@@ -5,7 +5,7 @@
 :root {
   --bg: #070A12;
 
-  --card: rgba(255, 255, 255, 0.05);
+  --card: rgba(12, 18, 30, 0.72);
   --card-2: rgba(255, 255, 255, 0.08);
 
   --text: #E6E6E6;
@@ -95,16 +95,13 @@ body {
   width: 100%;
   min-height: 100vh;
 
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
 
   z-index: 2;
 }
 
 .page.active-page {
   display: block;
-  position: relative;
   animation: fade 0.4s ease;
 }
 
@@ -129,7 +126,7 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(6px);
 }
 
 /* =========================================================
@@ -228,6 +225,7 @@ button {
 
 .dashboard-layout {
   display: flex;
+  width: 100%;
   min-height: 100vh;
 }
 
@@ -262,6 +260,7 @@ button {
 .dashboard-content {
   flex: 1;
   padding: 30px;
+  overflow-y: auto;
 }
 
 /* =========================================================
