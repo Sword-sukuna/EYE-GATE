@@ -2,7 +2,7 @@
 // ☁ SUPABASE
 // =========================
 const SUPABASE_URL =
-  "https://rhopvipdkeawvejztzix.supabase.co/rest/v1/";
+  "https://rhopvipdkeawvejztzix.supabase.co";
 
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJob3B2aXBka2Vhd3Zlanp0eml4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMTUxNDUsImV4cCI6MjA5NDY5MTE0NX0.U7NAbG461jLbeSqwkP6gecHFg1UoNDkKY4mUH29NtYA";
@@ -695,6 +695,18 @@ function iniciarCadastro(){
 
   if(!btn) return;
 
+  btn.addEventListener(
+
+    "click",
+
+    async ()=>{
+
+      await cadastrarAluno();
+
+    }
+
+  );
+
 }
 
 
@@ -1096,20 +1108,42 @@ function mostrarMensagem(texto){
 //KEEP_LIVE//
 
 async function keepAlive() {
-  try {
-    const { error } = await supabase
-      .from("usuarios")
-      .select("id")
-      .limit(1);
 
-    if (error) {
-      console.log("keep-alive erro:", error.message);
-    } else {
-      console.log("💚 keep-alive ok");
+  try {
+
+    const { error } =
+      await supabaseClient
+
+        .from("usuarios")
+
+        .select("id")
+
+        .limit(1);
+
+    if(error){
+
+      console.log(
+        "keep-alive erro:",
+        error.message
+      );
+
+    }else{
+
+      console.log(
+        "💚 keep-alive ok"
+      );
+
     }
-  } catch (e) {
-    console.log("keep-alive falhou", e);
+
+  }catch(e){
+
+    console.log(
+      "keep-alive falhou",
+      e
+    );
+
   }
+
 }
 
 // 30 minutos
