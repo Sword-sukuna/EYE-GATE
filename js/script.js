@@ -1021,19 +1021,19 @@ async function capturarFace(){
   if(!video) return;
 
   const detection =
-    await faceapi
+  await faceapi
+    .detectSingleFace(
 
-      .detectSingleFace(
+      video,
 
-        video,
+      new faceapi.TinyFaceDetectorOptions({
+        inputSize: 320,
+        scoreThreshold: 0.5
+      })
 
-       new faceapi.TinyFaceDetectorOptions({
-   inputSize: 320,
-   scoreThreshold: 0.5
-})
-      .withFaceLandmarks()
-
-      .withFaceDescriptor();
+    )
+    .withFaceLandmarks()
+    .withFaceDescriptor();
 
   if(!detection){
 
@@ -1101,17 +1101,13 @@ async function capturarFace(){
 // =========================
 // 👁 MONITOR
 // =========================
-async function iniciarMonitor(){
+function iniciarMonitor(){
 
-  async function loop(){
+  setInterval(async ()=>{
 
     await reconhecerFace();
 
-    requestAnimationFrame(loop);
-
-  }
-
-  loop();
+  },300);
 
 }
 
@@ -1143,7 +1139,7 @@ async function reconhecerFace(){
           video,
 
           new faceapi.TinyFaceDetectorOptions({
-            inputSize:320,
+            inputSize:160,
             scoreThreshold:0.5
           })
 
@@ -1828,7 +1824,7 @@ async function carregarAlunosCache(){
 
       labeledDescriptors,
 
-      0.6
+      0.5
 
     );
 
