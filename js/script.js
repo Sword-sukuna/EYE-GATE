@@ -23,21 +23,6 @@ let faceMatcher = null;
 
 const ultimoReconhecimento = {};
 
-// =========================
-// 🔐 ADMIN FIXO
-// =========================
-const ADMIN_FIXO = {
-
-  email:"Raul@ADM.local",
-
-  senha:"Silvano@rosa10",
-
-  tipo:"admin",
-
-  nome:"Administrador"
-
-};
-
 
 // =========================
 // 🚀 START
@@ -383,13 +368,20 @@ async function fazerLoginAdmin(){
       .value
       .trim();
 
-  if(
+  const { data:admin, error } =
+    await supabaseClient
 
-    email !== ADMIN_FIXO.email ||
+      .from("admins")
 
-    senha !== ADMIN_FIXO.senha
+      .select("*")
 
-  ){
+      .eq("email", email)
+
+      .eq("senha", senha)
+
+      .maybeSingle();
+
+  if(error || !admin){
 
     mostrarMensagem(
       "Acesso negado"
@@ -403,7 +395,15 @@ async function fazerLoginAdmin(){
 
     "usuarioLogado",
 
-    JSON.stringify(ADMIN_FIXO)
+    JSON.stringify({
+
+      nome:"Administrador",
+
+      tipo:"admin",
+
+      email:admin.email
+
+    })
 
   );
 
@@ -415,9 +415,9 @@ async function fazerLoginAdmin(){
 
   await carregarStats();
 
-await carregarAlunosAdmin();
+  await carregarAlunosAdmin();
 
-await carregarLogsAdmin();
+  await carregarLogsAdmin();
 
   await carregarUsuarios();
 
