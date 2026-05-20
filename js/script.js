@@ -21,6 +21,12 @@ if (!supabaseClient) {
 // =========================
 let faceMatcher = null;
 
+let alunosCache = [];
+
+let matcherPronto = false;
+
+let reconhecendo = false;
+
 const ultimoReconhecimento = {};
 
 
@@ -42,6 +48,8 @@ window.addEventListener(
     iniciarRegistro();
 
     iniciarCadastro();
+
+    await carregarAlunosCache();
 
     iniciarMonitor();
 
@@ -919,6 +927,8 @@ async function cadastrarAluno(){
       "Aluno cadastrado"
     );
 
+    await carregarAlunosCache();
+    
     limparCampos();
 
   }finally{
@@ -1103,119 +1113,119 @@ function iniciarMonitor(){
 // =========================
 async function reconhecerFace(){
 
-  const video =
-    document.getElementById(
-      "monitorVideo"
-    );
-
-  if(!video) return;
-
-  const { data:alunos } =
-    await supabaseClient
-
-      .from("alunos")
-
-      .select("id,nome,descriptor");
-
-  if(!alunos || alunos.length === 0)
+  if(reconhecendo)
     return;
 
-  const labeledDescriptors =
-    alunos.map((aluno)=>{
+  reconhecendo = true;
 
-      return new faceapi.LabeledFaceDescriptors(
+  try{
 
-        aluno.nome,
+    const video =
+      document.getElementById(
+        "monitorVideo"
+      );
 
-        [
+    if(!video) return;
 
-          new Float32Array(
-            aluno.descriptor
-          )
+    const alunos = alunosCache;
 
-        ]
+    if(!alunos || alunos.length === 0)
+      return;
+
+    if(!matcherPronto || !faceMatcher)
+      return;
+
+    const detection =
+      await faceapi
+
+        .detectSingleFace(
+
+          video,
+
+          new faceapi.TinyFaceDetectorOptions()
+
+        )
+
+        .withFaceLandmarks()
+
+        .withFaceDescriptor();
+
+    if(!detection)
+      return;
+
+    const resultado =
+      faceMatcher.findBestMatch(
+        detection.descriptor
+      );
+
+    const aluno =
+      alunos.find(
+
+        a => a.nome === resultado.label
 
       );
 
-    });
+    if(aluno){
 
-  faceMatcher =
-    new faceapi.FaceMatcher(
+      const agora = Date.now();
 
-      labeledDescriptors,
+      if(
+        ultimoReconhecimento[aluno.nome] &&
+        agora - ultimoReconhecimento[aluno.nome] < 10000
+      ){
+        return;
+      }
 
-      0.6
+      ultimoReconhecimento[aluno.nome] = agora;
 
-    );
+      mostrarLoading("Face reconhecida...");
 
-  const detection =
-    await faceapi
+      mostrarMensagem(
+        `Aluno reconhecido: ${aluno.nome}`
+      );
 
-      .detectSingleFace(
+      const { error } =
+        await supabaseClient
 
-        video,
+          .from("logs")
 
-        new faceapi.TinyFaceDetectorOptions()
+          .insert([{
 
-      )
+            aluno: aluno.nome,
 
-      .withFaceLandmarks()
+            status:"Reconhecido",
 
-      .withFaceDescriptor();
+            horario: new Date().toISOString()
 
-  if(!detection)
-    return;
+          }]);
 
-  const resultado =
-    faceMatcher.findBestMatch(
-      detection.descriptor
-    );
+      if(error){
 
-  const aluno =
-    alunos.find(
+        console.log(error);
 
-      a => a.nome === resultado.label
+        mostrarMensagem(
+          "Erro ao salvar log"
+        );
 
-    );
+        return;
 
-  if(aluno){
+      }
 
-    const agora = Date.now();
+      await carregarLogs();
 
-if(
-  ultimoReconhecimento[aluno.nome] &&
-  agora - ultimoReconhecimento[aluno.nome] < 10000
-){
-  return;
-}
+      await carregarStats();
 
-ultimoReconhecimento[aluno.nome] = agora;
+    }
 
-mostrarLoading("Face reconhecida...");
+  }catch(error){
 
- mostrarMensagem(
-  `Aluno reconhecido: ${aluno.nome}`
-);
+    console.log(error);
 
-await supabaseClient
+  }finally{
 
-  .from("logs")
+    reconhecendo = false;
 
-  .insert([{
-
-    aluno: aluno.nome,
-
-    status:"Reconhecido",
-
-    horario: new Date().toISOString()
-
-  }]);
-
-await carregarLogs();
-
-await carregarStats();
-
-esconderLoading();
+    esconderLoading();
 
   }
 
@@ -1774,5 +1784,75 @@ function verificarAdminLocal(){
     );
 
   return user && user.tipo === "admin";
+
+}
+
+async function carregarAlunosCache(){
+
+  const { data:alunos, error } =
+    await supabaseClient
+
+      .from("alunos")
+
+      .select("id,nome,descriptor");
+
+  if(error){
+
+    console.log(error);
+
+    return;
+
+  }
+
+  alunosCache = alunos;
+
+  console.log(
+    "Alunos carregados:",
+    alunosCache.length
+  );
+
+  const labeledDescriptors =
+    alunosCache.map((aluno)=>{
+
+      return new faceapi.LabeledFaceDescriptors(
+
+        aluno.nome,
+
+        [
+
+          new Float32Array(
+            aluno.descriptor
+          )
+
+        ]
+
+      );
+
+    });
+
+    if(labeledDescriptors.length === 0){
+
+  console.log("Nenhum aluno cadastrado");
+
+  matcherPronto = false;
+
+  return;
+
+}
+
+  faceMatcher =
+    new faceapi.FaceMatcher(
+
+      labeledDescriptors,
+
+      0.6
+
+    );
+
+  matcherPronto = true;
+
+  console.log(
+    "FaceMatcher carregado"
+  );
 
 }
