@@ -95,33 +95,43 @@ async function carregarFaceAPI(){
 // =========================
 function abrirPagina(id){
 
-  if(
+  mostrarLoading("Abrindo página...");
 
-    id === "adminPage" &&
+  setTimeout(()=>{
 
-    !verificarAdminLocal()
+    if(
 
-  ){
+      id === "adminPage" &&
 
-    mostrarMensagem(
-      "Acesso negado"
-    );
+      !verificarAdminLocal()
 
-    return;
+    ){
 
-  }
+      mostrarMensagem(
+        "Acesso negado"
+      );
 
-  document
-    .querySelectorAll(".page")
-    .forEach(page => {
+      esconderLoading();
 
-      page.classList.remove("active-page");
+      return;
 
-    });
+    }
 
-  document
-    .getElementById(id)
-    .classList.add("active-page");
+    document
+      .querySelectorAll(".page")
+      .forEach(page => {
+
+        page.classList.remove("active-page");
+
+      });
+
+    document
+      .getElementById(id)
+      .classList.add("active-page");
+
+    esconderLoading();
+
+  },500);
 
 }
 
