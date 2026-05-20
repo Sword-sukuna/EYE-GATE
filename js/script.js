@@ -1721,9 +1721,6 @@ function esconderLoading(){
 
 lucide.createIcons();
 
-} // fecha carregarGraficoLogs()
-
-
 function verificarAdminLocal(){
 
   const user =
