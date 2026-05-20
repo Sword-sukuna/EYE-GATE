@@ -81,9 +81,11 @@ async function carregarFaceAPI(){
 
   try{
 
-    await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
+    await faceapi.tf.setBackend("webgl");
 
-    await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
+    await faceapi.tf.ready();
+
+    await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
 
     await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
 
@@ -989,8 +991,8 @@ async function iniciarCameraMonitor(){
       await navigator.mediaDevices.getUserMedia({
 
         video:{
-   width:640,
-   height:480,
+   width:320,
+height:240,
    facingMode:"user"
 },
 
@@ -1107,7 +1109,7 @@ function iniciarMonitor(){
 
     await reconhecerFace();
 
-  },300);
+  },100);
 
 }
 
@@ -1131,21 +1133,22 @@ async function reconhecerFace(){
     if(!matcherPronto || !faceMatcher)
       return;
 
-    const detections =
-      await faceapi
+   if(video.readyState !== 4)
+  return;
+
+const detections =
+  await faceapi
 
         .detectAllFaces(
 
           video,
 
           new faceapi.TinyFaceDetectorOptions({
-            inputSize:160,
-            scoreThreshold:0.5
+            inputSize:96,
+            scoreThreshold:0.45
           })
 
         )
-
-        .withFaceLandmarks()
 
         .withFaceDescriptors();
 
@@ -1182,21 +1185,19 @@ async function reconhecerFace(){
         `Aluno reconhecido: ${aluno.nome}`
       );
 
-      await supabaseClient
+    setTimeout(()=>{
 
-        .from("logs")
+  supabaseClient
+    .from("logs")
+    .insert([{
+      aluno: aluno.nome,
+      status:"Reconhecido",
+      horario:new Date().toISOString()
+    }]);
 
-        .insert([{
+},0);
 
-          aluno: aluno.nome,
-
-          status:"Reconhecido",
-
-          horario:new Date().toISOString()
-
-        }]);
-
-    }
+}
 
   }catch(error){
 
