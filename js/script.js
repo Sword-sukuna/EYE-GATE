@@ -93,7 +93,23 @@ async function carregarFaceAPI(){
 // =========================
 // 📄 TROCAR PÁGINA
 // =========================
-function abrirPagina(id) {
+function abrirPagina(id){
+
+  if(
+
+    id === "adminPage" &&
+
+    !verificarAdminLocal()
+
+  ){
+
+    mostrarMensagem(
+      "Acesso negado"
+    );
+
+    return;
+
+  }
 
   document
     .querySelectorAll(".page")
@@ -709,6 +725,16 @@ async function carregarUsuarios(){
 // 🗑 DELETE USER
 // =========================
 async function deletarUsuario(id){
+
+  if(!verificarAdminLocal()){
+
+  mostrarMensagem(
+    "Sem permissão"
+  );
+
+  return;
+
+}
 
   if(!confirm("Deseja deletar?"))
     return;
@@ -1367,6 +1393,16 @@ async function carregarAlunosAdmin(){
 // =========================
 async function deletarAluno(id){
 
+  if(!verificarAdminLocal()){
+
+  mostrarMensagem(
+    "Sem permissão"
+  );
+
+  return;
+
+}
+
   if(!confirm("Excluir aluno?"))
     return;
 
@@ -1469,6 +1505,16 @@ async function carregarLogsAdmin(){
 // 🗑 DELETE LOG
 // =========================
 async function deletarLog(id){
+
+  if(!verificarAdminLocal()){
+
+  mostrarMensagem(
+    "Sem permissão"
+  );
+
+  return;
+
+}
 
   if(!confirm("Excluir registro?"))
     return;
@@ -1633,6 +1679,57 @@ async function carregarGraficoLogs(){
 
 });
 
+// =========================
+// ⏳ LOADING SYSTEM
+// =========================
+
+function mostrarLoading(texto = "Carregando..."){
+
+  const loading =
+    document.getElementById(
+      "loadingScreen"
+    );
+
+  const loadingText =
+    document.getElementById(
+      "loadingText"
+    );
+
+  if(!loading) return;
+
+  loadingText.innerText =
+    texto;
+
+  loading.classList.add("show");
+
+}
+
+function esconderLoading(){
+
+  const loading =
+    document.getElementById(
+      "loadingScreen"
+    );
+
+  if(!loading) return;
+
+  loading.classList.remove("show");
+
+}
+
 lucide.createIcons();
+
+}
+
+function verificarAdminLocal(){
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "usuarioLogado"
+      )
+    );
+
+  return user && user.tipo === "admin";
 
 }
