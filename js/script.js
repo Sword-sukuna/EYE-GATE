@@ -1679,6 +1679,8 @@ async function carregarGraficoLogs(){
 
 });
 
+}
+
 // =========================
 // ⏳ LOADING SYSTEM
 // =========================
@@ -1719,7 +1721,8 @@ function esconderLoading(){
 
 lucide.createIcons();
 
-}
+} // fecha carregarGraficoLogs()
+
 
 function verificarAdminLocal(){
 
