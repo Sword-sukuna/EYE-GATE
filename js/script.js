@@ -1636,3 +1636,6 @@ async function carregarGraficoLogs(){
 lucide.createIcons();
 
 }
+
+btn.innerHTML = "Salvando...";
+btn.disabled = true;

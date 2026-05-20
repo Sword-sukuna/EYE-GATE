@@ -963,5 +963,12 @@ button:hover{
 
 }
 
-btn.innerHTML = "Salvando...";
-btn.disabled = true;
+.empty-state{
+
+  padding:30px;
+
+  text-align:center;
+
+  color:var(--soft);
+
+}
