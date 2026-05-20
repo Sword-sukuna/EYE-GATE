@@ -299,70 +299,80 @@ async function registrarUsuario(){
 // =========================
 async function fazerLogin(){
 
-  const email =
-    document
-      .getElementById("email")
-      .value
-      .trim();
+  mostrarLoading("Entrando...");
 
-  const senha =
-    document
-      .getElementById("senha")
-      .value
-      .trim();
+  try{
 
-  if(!email || !senha){
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
 
-    mostrarMensagem(
-      "Preencha os campos"
+    const senha =
+      document
+        .getElementById("senha")
+        .value
+        .trim();
+
+    if(!email || !senha){
+
+      mostrarMensagem(
+        "Preencha os campos"
+      );
+
+      return;
+
+    }
+
+    const { data:user, error } =
+      await supabaseClient
+
+        .from("usuarios")
+
+       .select("*")
+
+        .eq("email", email)
+
+        .eq("senha", senha)
+
+        .maybeSingle();
+
+    if(error || !user){
+
+      mostrarMensagem(
+        "Login inválido"
+      );
+
+      return;
+
+    }
+
+    localStorage.setItem(
+
+      "usuarioLogado",
+
+      JSON.stringify(user)
+
     );
 
-    return;
+    carregarUsuario();
 
-  }
+    controlarPermissoes();
 
-  const { data:user, error } =
-    await supabaseClient
-
-      .from("usuarios")
-
-     .select("*")
-
-      .eq("email", email)
-
-      .eq("senha", senha)
-
-      .maybeSingle();
-
-  if(error || !user){
+    await carregarStats();
 
     mostrarMensagem(
-      "Login inválido"
+      "Login realizado"
     );
 
-    return;
+    abrirPagina("dashboardPage");
+
+  }finally{
+
+    esconderLoading();
 
   }
-
-  localStorage.setItem(
-
-    "usuarioLogado",
-
-    JSON.stringify(user)
-
-  );
-
-  carregarUsuario();
-
-  controlarPermissoes();
-
-  await carregarStats();
-
-  mostrarMensagem(
-    "Login realizado"
-  );
-
-  abrirPagina("dashboardPage");
 
 }
 
@@ -372,81 +382,90 @@ async function fazerLogin(){
 // =========================
 async function fazerLoginAdmin(){
 
-  const email =
-    document
-      .getElementById("adminEmail")
-      .value
-      .trim();
+  mostrarLoading("Entrando como admin...");
 
-  const senha =
-    document
-      .getElementById("adminSenha")
-      .value
-      .trim();
+  try{
 
-  const { data:admin, error } =
-    await supabaseClient
+    const email =
+      document
+        .getElementById("adminEmail")
+        .value
+        .trim();
 
-      .from("admins")
+    const senha =
+      document
+        .getElementById("adminSenha")
+        .value
+        .trim();
 
-      .select("*")
+    const { data:admin, error } =
+      await supabaseClient
 
-      .eq("email", email)
+        .from("admins")
 
-      .eq("senha", senha)
+        .select("*")
 
-      .maybeSingle();
+        .eq("email", email)
 
-  if(error || !admin){
+        .eq("senha", senha)
 
-    mostrarMensagem(
-      "Acesso negado"
+        .maybeSingle();
+
+    if(error || !admin){
+
+      mostrarMensagem(
+        "Acesso negado"
+      );
+
+      return;
+
+    }
+
+    localStorage.setItem(
+
+      "usuarioLogado",
+
+      JSON.stringify({
+
+        nome:"Administrador",
+
+        tipo:"admin",
+
+        email:admin.email
+
+      })
+
     );
 
-    return;
+    carregarUsuario();
+
+    controlarPermissoes();
+
+    verificarAdmin();
+
+    await carregarStats();
+
+    await carregarAlunosAdmin();
+
+    await carregarLogsAdmin();
+
+    await carregarUsuarios();
+
+    await carregarLogs();
+
+    mostrarMensagem(
+      "Bem-vindo Admin!"
+    );
+
+    abrirPagina("dashboardPage");
+
+  }finally{
+
+    esconderLoading();
 
   }
 
-  localStorage.setItem(
-
-    "usuarioLogado",
-
-    JSON.stringify({
-
-      nome:"Administrador",
-
-      tipo:"admin",
-
-      email:admin.email
-
-    })
-
-  );
-
-  carregarUsuario();
-
-  controlarPermissoes();
-
-  verificarAdmin();
-
-  await carregarStats();
-
-  await carregarAlunosAdmin();
-
-  await carregarLogsAdmin();
-
-  await carregarUsuarios();
-
-  await carregarLogs();
-
-  mostrarMensagem(
-    "Bem-vindo Admin!"
-  );
-
-  abrirPagina("dashboardPage");
-
 }
-
 
 // =========================
 // 👤 USER INFO
@@ -803,90 +822,100 @@ function iniciarCadastro(){
 // =========================
 async function cadastrarAluno(){
 
-  const nome =
-    document
-      .getElementById("nome")
-      .value
-      .trim();
+  mostrarLoading("Cadastrando aluno...");
 
-  const matricula =
-    document
-      .getElementById("matricula")
-      .value
-      .trim();
+  try{
 
-  const turma =
-    document
-      .getElementById("turma")
-      .value
-      .trim();
+    const nome =
+      document
+        .getElementById("nome")
+        .value
+        .trim();
 
-  const foto =
-    localStorage.getItem(
-      "fotoTempAluno"
-    );
+    const matricula =
+      document
+        .getElementById("matricula")
+        .value
+        .trim();
 
-  const descriptor =
-    JSON.parse(
+    const turma =
+      document
+        .getElementById("turma")
+        .value
+        .trim();
 
+    const foto =
       localStorage.getItem(
-        "faceDescriptorTemp"
-      )
+        "fotoTempAluno"
+      );
 
-    );
+    const descriptor =
+      JSON.parse(
 
-  if(!nome || !matricula || !turma){
+        localStorage.getItem(
+          "faceDescriptorTemp"
+        )
+
+      );
+
+    if(!nome || !matricula || !turma){
+
+      mostrarMensagem(
+        "Preencha todos os campos"
+      );
+
+      return;
+
+    }
+
+    if(!foto || !descriptor){
+
+      mostrarMensagem(
+        "Capture a face primeiro"
+      );
+
+      return;
+
+    }
+
+    const { error } =
+      await supabaseClient
+
+        .from("alunos")
+
+        .insert([{
+
+          nome,
+          matricula,
+          turma,
+          foto,
+          descriptor
+
+        }]);
+
+    if(error){
+
+      console.log(error);
+
+      mostrarMensagem(
+        "Erro ao cadastrar"
+      );
+
+      return;
+
+    }
 
     mostrarMensagem(
-      "Preencha todos os campos"
+      "Aluno cadastrado"
     );
 
-    return;
+    limparCampos();
+
+  }finally{
+
+    esconderLoading();
 
   }
-
-  if(!foto || !descriptor){
-
-    mostrarMensagem(
-      "Capture a face primeiro"
-    );
-
-    return;
-
-  }
-
-  const { error } =
-    await supabaseClient
-
-      .from("alunos")
-
-      .insert([{
-
-        nome,
-        matricula,
-        turma,
-        foto,
-        descriptor
-
-      }]);
-
-  if(error){
-
-    console.log(error);
-
-    mostrarMensagem(
-      "Erro ao cadastrar"
-    );
-
-    return;
-
-  }
-
-  mostrarMensagem(
-    "Aluno cadastrado"
-  );
-
-  limparCampos();
 
 }
 
@@ -1152,6 +1181,8 @@ if(
 
 ultimoReconhecimento[aluno.nome] = agora;
 
+mostrarLoading("Face reconhecida...");
+
  mostrarMensagem(
   `Aluno reconhecido: ${aluno.nome}`
 );
@@ -1173,6 +1204,8 @@ await supabaseClient
 await carregarLogs();
 
 await carregarStats();
+
+esconderLoading();
 
   }
 
