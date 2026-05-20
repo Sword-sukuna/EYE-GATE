@@ -445,83 +445,139 @@ button {
    📱 MOBILE PROFISSIONAL (SEM CONFLITO)
 ========================================================= */
 
-@media (max-width: 900px) {
+ @media (max-width: 900px) {
 
-  body {
-    overflow-x: hidden;
+  body{
+    overflow-x:hidden;
   }
 
-  .dashboard-layout {
-    flex-direction: column;
+  .dashboard-layout{
+    flex-direction:column;
   }
 
-  /* sidebar vira barra superior */
-  .sidebar {
-  width: 100%;
-  min-height: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  .sidebar{
 
-  .menu {
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 8px;
+    width:100%;
+
+    min-height:auto;
+
+    padding:14px;
+
+    gap:14px;
+
+    border-radius:0 0 20px 20px;
+
   }
 
-  .menu-item {
-    white-space: nowrap;
-    font-size: 12px;
-    padding: 8px 10px;
+  .menu{
+
+    display:flex;
+
+    flex-direction:row;
+
+    gap:12px;
+
+    overflow-x:auto;
+
+    padding-bottom:6px;
+
+    scrollbar-width:none;
+
   }
 
-  .dashboard-content {
-    padding: 12px;
+  .menu::-webkit-scrollbar{
+    display:none;
   }
 
-  .topbar {
-    flex-direction: column;
-    gap: 8px;
+  .menu-item{
+
+    flex:none;
+
+    min-width:max-content;
+
+    padding:12px 16px;
+
+    font-size:14px;
+
+    justify-content:center;
+
   }
 
-  .topbar h1 {
-    font-size: 20px;
+  .dashboard-content{
+
+    padding:16px;
+
   }
 
-  .stats-grid {
-    grid-template-columns: 1fr;
+  .topbar{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    padding:18px;
+
   }
 
-  .stat-card {
-    padding: 14px;
-    text-align: center;
+  .topbar h1{
+
+    font-size:24px;
+
   }
 
-  .login-card {
-    padding: 20px;
-    width: 95%;
+  .stats-grid{
+
+    grid-template-columns:1fr;
+
+    gap:16px;
+
   }
 
-  input {
-    font-size: 16px;
+  .stat-card{
+
+    padding:20px;
+
   }
 
-  .toast {
-    left: 10px;
-    right: 10px;
-    text-align: center;
+  .login-card{
+
+    width:100%;
+
+    padding:28px 22px;
+
   }
-}
 
-.page-content{
+  input{
 
-  padding: 30px;
+    font-size:16px;
 
-  position: relative;
+    padding:14px;
 
-  z-index: 2;
+  }
+
+  button{
+
+    min-height:48px;
+
+  }
+
+  .grafico-container{
+
+    height:300px;
+
+  }
+
+  .toast{
+
+    left:12px;
+
+    right:12px;
+
+    top:15px;
+
+  }
 
 }
 
