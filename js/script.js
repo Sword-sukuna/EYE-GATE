@@ -993,8 +993,8 @@ async function iniciarCameraMonitor(){
       await navigator.mediaDevices.getUserMedia({
 
         video:{
-   width:320,
-height:240,
+   width:640,
+height:480,
    facingMode:"user"
 },
 
@@ -1135,7 +1135,7 @@ async function reconhecerFace(){
     if(!matcherPronto || !faceMatcher)
       return;
 
-   if(video.readyState !== 4)
+   if(video.readyState < 2)
   return;
 
 const detections =
@@ -1151,6 +1151,8 @@ const detections =
           })
 
         )
+
+         .withFaceLandmarks()
 
         .withFaceDescriptors();
 
