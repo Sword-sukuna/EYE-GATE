@@ -537,7 +537,7 @@ button {
 
   .stat-card{
 
-    padding:20px;
+    padding: 24px;
 
   }
 
@@ -898,3 +898,70 @@ button:active{
   }
 
 }
+
+section{
+
+  margin-bottom:28px;
+
+}
+
+.user-card{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:15px;
+
+}
+
+h1,h2,h3{
+
+  letter-spacing:-0.5px;
+
+}
+
+p,
+span{
+
+  line-height:1.5;
+
+}
+
+.success{
+
+  color:#00ffae;
+
+}
+
+.warning{
+
+  color:#ffcc00;
+
+}
+
+.danger{
+
+  color:#ff5d73;
+
+}
+
+button{
+
+  transition:
+    transform .15s ease,
+    opacity .15s ease,
+    box-shadow .2s ease;
+
+}
+
+button:hover{
+
+  opacity:0.95;
+
+}
+
+btn.innerHTML = "Salvando...";
+btn.disabled = true;
