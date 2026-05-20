@@ -87,6 +87,8 @@ async function carregarFaceAPI(){
 
     await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
 
+    await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
+
     await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
 
     console.log("Face API carregada");
@@ -1144,8 +1146,8 @@ const detections =
           video,
 
           new faceapi.TinyFaceDetectorOptions({
-            inputSize:96,
-            scoreThreshold:0.45
+            inputSize:224,
+            scoreThreshold:0.5
           })
 
         )
