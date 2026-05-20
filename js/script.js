@@ -988,7 +988,11 @@ async function iniciarCameraMonitor(){
     const stream =
       await navigator.mediaDevices.getUserMedia({
 
-        video:true,
+        video:{
+   width:640,
+   height:480,
+   facingMode:"user"
+}
 
         audio:false
 
@@ -1023,10 +1027,10 @@ async function capturarFace(){
 
         video,
 
-        new faceapi.TinyFaceDetectorOptions()
-
-      )
-
+       new faceapi.TinyFaceDetectorOptions({
+   inputSize: 320,
+   scoreThreshold: 0.5
+})
       .withFaceLandmarks()
 
       .withFaceDescriptor();
@@ -1097,13 +1101,17 @@ async function capturarFace(){
 // =========================
 // 👁 MONITOR
 // =========================
-function iniciarMonitor(){
+async function iniciarMonitor(){
 
-  setInterval(async ()=>{
+  async function loop(){
 
     await reconhecerFace();
 
-  },3000);
+    requestAnimationFrame(loop);
+
+  }
+
+  loop();
 
 }
 
@@ -1113,107 +1121,84 @@ function iniciarMonitor(){
 // =========================
 async function reconhecerFace(){
 
-  if(reconhecendo)
-    return;
+  if(reconhecendo) return;
 
   reconhecendo = true;
 
   try{
 
     const video =
-      document.getElementById(
-        "monitorVideo"
-      );
+      document.getElementById("monitorVideo");
 
     if(!video) return;
-
-    const alunos = alunosCache;
-
-    if(!alunos || alunos.length === 0)
-      return;
 
     if(!matcherPronto || !faceMatcher)
       return;
 
-    const detection =
+    const detections =
       await faceapi
 
-        .detectSingleFace(
+        .detectAllFaces(
 
           video,
 
-          new faceapi.TinyFaceDetectorOptions()
+          new faceapi.TinyFaceDetectorOptions({
+            inputSize:320,
+            scoreThreshold:0.5
+          })
 
         )
 
         .withFaceLandmarks()
 
-        .withFaceDescriptor();
+        .withFaceDescriptors();
 
-    if(!detection)
-      return;
+    for(const detection of detections){
 
-    const resultado =
-      faceMatcher.findBestMatch(
-        detection.descriptor
-      );
+      const resultado =
+        faceMatcher.findBestMatch(
+          detection.descriptor
+        );
 
-    const aluno =
-      alunos.find(
+      if(resultado.label === "unknown")
+        continue;
 
-        a => a.nome === resultado.label
+      const aluno =
+        alunosCache.find(
+          a => a.nome === resultado.label
+        );
 
-      );
-
-    if(aluno){
+      if(!aluno)
+        continue;
 
       const agora = Date.now();
 
       if(
         ultimoReconhecimento[aluno.nome] &&
-        agora - ultimoReconhecimento[aluno.nome] < 10000
+        agora - ultimoReconhecimento[aluno.nome] < 30000
       ){
-        return;
+        continue;
       }
 
       ultimoReconhecimento[aluno.nome] = agora;
-
-      mostrarLoading("Face reconhecida...");
 
       mostrarMensagem(
         `Aluno reconhecido: ${aluno.nome}`
       );
 
-      const { error } =
-        await supabaseClient
+      await supabaseClient
 
-          .from("logs")
+        .from("logs")
 
-          .insert([{
+        .insert([{
 
-            aluno: aluno.nome,
+          aluno: aluno.nome,
 
-            status:"Reconhecido",
+          status:"Reconhecido",
 
-            horario: new Date().toISOString()
+          horario:new Date().toISOString()
 
-          }]);
-
-      if(error){
-
-        console.log(error);
-
-        mostrarMensagem(
-          "Erro ao salvar log"
-        );
-
-        return;
-
-      }
-
-      await carregarLogs();
-
-      await carregarStats();
+        }]);
 
     }
 
@@ -1224,8 +1209,6 @@ async function reconhecerFace(){
   }finally{
 
     reconhecendo = false;
-
-    esconderLoading();
 
   }
 
