@@ -755,6 +755,9 @@ function iniciarCadastro(){
   const btn =
     document.querySelector(".cadastro-btn");
 
+     btn.innerHTML = "Salvando...";
+  btn.disabled = true;
+
   if(!btn) return;
 
   btn.addEventListener(
@@ -1636,6 +1639,3 @@ async function carregarGraficoLogs(){
 lucide.createIcons();
 
 }
-
-btn.innerHTML = "Salvando...";
-btn.disabled = true;
