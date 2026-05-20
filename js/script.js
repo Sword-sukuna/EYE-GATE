@@ -992,7 +992,7 @@ async function iniciarCameraMonitor(){
    width:640,
    height:480,
    facingMode:"user"
-}
+},
 
         audio:false
 
