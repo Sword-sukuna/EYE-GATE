@@ -153,7 +153,8 @@ pararCameraMonitor();
 
 if(id === "monitorPage"){
 
- iniciarCameraMonitor();
+  iniciarCameraMonitor();
+  iniciarMonitor();
 
 }
 
@@ -1131,7 +1132,12 @@ function iniciarMonitor(){
 
     await reconhecerFace();
 
+     console.log("Detectados:", detections.length);
+
   },500);
+
+  const detections =
+  await faceapi
 
 }
 
@@ -1183,6 +1189,8 @@ const detections =
           detection.descriptor
         );
 
+        console.log(resultado.toString());
+
       if(resultado.label === "unknown")
         continue;
 
@@ -1208,6 +1216,8 @@ const detections =
       mostrarMensagem(
         `Aluno reconhecido: ${aluno.nome}`
       );
+
+      console.log("Tentando salvar:", aluno);
 
     const { error } =
   await supabaseClient
