@@ -31,6 +31,8 @@ let matcherPronto = false;
 
 let reconhecendo = false;
 
+let descriptorsTemp = [];
+
 const ultimoReconhecimento = {};
 
 const debugLogs = [];
@@ -109,6 +111,8 @@ function abrirPagina(id){
   pararCameraCadastro();
 
 pararCameraMonitor();
+
+pararMonitor();
 
   mostrarLoading("Abrindo página...");
 
@@ -906,15 +910,17 @@ async function cadastrarAluno(){
 
     }
 
-    if(!foto || !descriptor){
-
-      mostrarMensagem(
-        "Capture a face primeiro"
-      );
-
-      return;
-
-    }
+    if(
+ !foto ||
+ !descriptor ||
+ descriptor.length < 5
+)
+{
+ mostrarMensagem(
+   "Capture 5 posições do rosto"
+ );
+ return;
+}
 
     const { error } =
       await supabaseClient
@@ -949,6 +955,12 @@ async function cadastrarAluno(){
 
     await carregarAlunosCache();
     
+    descriptorsTemp = [];
+
+localStorage.removeItem(
+  "faceDescriptorTemp"
+);
+
     limparCampos();
 
   }finally{
@@ -1041,6 +1053,16 @@ async function iniciarCameraMonitor(){
 // =========================
 async function capturarFace(){
 
+  if(descriptorsTemp.length >= 5){
+
+  mostrarMensagem(
+    "Já capturou as 5 posições"
+  );
+
+  return;
+
+}
+
   const video =
     document.getElementById("video");
 
@@ -1061,15 +1083,24 @@ async function capturarFace(){
     .withFaceLandmarks()
     .withFaceDescriptor();
 
-  if(!detection){
+ if(!detection){
 
-    mostrarMensagem(
-      "Nenhum rosto detectado"
-    );
+  mostrarMensagem(
+    "Nenhum rosto detectado"
+  );
 
-    return;
+  return;
 
-  }
+}
+
+descriptorsTemp.push(
+  Array.from(detection.descriptor)
+);
+
+localStorage.setItem(
+  "faceDescriptorTemp",
+  JSON.stringify(descriptorsTemp)
+);
 
   const canvas =
     document.createElement("canvas");
@@ -1106,20 +1137,15 @@ async function capturarFace(){
   );
 
   localStorage.setItem(
+  "faceDescriptorTemp",
+  JSON.stringify(
+    descriptorsTemp
+  )
+);
 
-    "faceDescriptorTemp",
-
-    JSON.stringify(
-      Array.from(
-        detection.descriptor
-      )
-    )
-
-  );
-
-  mostrarMensagem(
-    "Face capturada"
-  );
+mostrarMensagem(
+  `Amostra ${descriptorsTemp.length}/5 capturada`
+);
 
 }
 
@@ -1127,13 +1153,17 @@ async function capturarFace(){
 // =========================
 // 👁 MONITOR
 // =========================
+let monitorInterval = null;
+
 function iniciarMonitor(){
 
-  setInterval(async ()=>{
+  if(monitorInterval)
+    return;
 
-    await reconhecerFace();
-
-  },500);
+  monitorInterval = setInterval(
+    reconhecerFace,
+    500
+  );
 
 }
 
@@ -1162,38 +1192,62 @@ async function reconhecerFace(){
 
 const detections =
   await faceapi
+    .detectAllFaces(
+      video,
+      new faceapi.TinyFaceDetectorOptions({
+        inputSize:224,
+        scoreThreshold:0.5
+      })
+    )
+    .withFaceLandmarks()
+    .withFaceDescriptors();
 
-        .detectAllFaces(
-
-          video,
-
-          new faceapi.TinyFaceDetectorOptions({
-            inputSize:224,
-            scoreThreshold:0.5
-          })
-
-        )
-
-         .withFaceLandmarks()
-
-        .withFaceDescriptors();
-
-        console.log(
-  "Rostos encontrados:",
-  detections.length
+console.log(
+  "Faces detectadas:",
+  detections
 );
 
     for(const detection of detections){
+
+      console.log(
+  "Rosto detectado"
+);
+
+console.log(
+  detection.descriptor
+);
 
       const resultado =
         faceMatcher.findBestMatch(
           detection.descriptor
         );
 
-        console.log(resultado.toString());
+        console.log(
+  "Resultado:",
+  resultado.label
+);
 
-      if(resultado.label === "unknown")
-        continue;
+console.log(
+  "Distância:",
+  resultado.distance
+);
+
+        console.log(
+  "Nome:",
+  resultado.label,
+  "Distância:",
+  resultado.distance
+);
+
+      if(resultado.label === "unknown"){
+
+  console.log(
+    "Desconhecido. Distância:",
+    resultado.distance
+  );
+
+  continue;
+}
 
       const aluno =
         alunosCache.find(
@@ -1854,6 +1908,15 @@ async function carregarAlunosCache(){
 
   alunosCache = alunos;
 
+  alunos.forEach(aluno=>{
+
+  console.log(
+    aluno.nome,
+    aluno.descriptor?.length
+  );
+
+});
+
   console.log(
     "Alunos carregados:",
     alunosCache.length
@@ -1863,18 +1926,11 @@ async function carregarAlunosCache(){
     alunosCache.map((aluno)=>{
 
       return new faceapi.LabeledFaceDescriptors(
-
-        aluno.nome,
-
-        [
-
-          new Float32Array(
-            aluno.descriptor
-          )
-
-        ]
-
-      );
+  aluno.nome,
+  aluno.descriptor.map(
+    d => new Float32Array(d)
+  )
+)
 
     });
 
@@ -1893,15 +1949,20 @@ async function carregarAlunosCache(){
 
       labeledDescriptors,
 
-      0.5
+      0.75
 
     );
 
   matcherPronto = true;
 
   console.log(
-    "FaceMatcher carregado"
-  );
+  "FaceMatcher carregado"
+);
+
+console.log(
+  "Alunos:",
+  alunosCache
+);
 
 }
 
@@ -1928,5 +1989,17 @@ function pararCameraMonitor(){
    .forEach(track => track.stop());
 
  streamMonitor = null;
+
+}
+
+function pararMonitor(){
+
+  if(monitorInterval){
+
+    clearInterval(monitorInterval);
+
+    monitorInterval = null;
+
+  }
 
 }
