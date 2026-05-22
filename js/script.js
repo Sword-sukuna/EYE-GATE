@@ -1111,7 +1111,7 @@ function iniciarMonitor(){
 
     await reconhecerFace();
 
-  },100);
+  },500);
 
 }
 
