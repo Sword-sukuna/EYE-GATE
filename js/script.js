@@ -33,9 +33,19 @@ let reconhecendo = false;
 
 let descriptorsTemp = [];
 
+let capturaAuto = null;
+
 const ultimoReconhecimento = {};
 
 const debugLogs = [];
+
+const poses = [
+  "Olhe para frente 👀",
+  "Vire para a esquerda ↩️",
+  "Vire para a direita ↪️",
+  "Olhe para cima ⬆️",
+  "Olhe para baixo ⬇️"
+];
 
 // =========================
 // 🚀 START
@@ -1052,6 +1062,18 @@ async function iniciarCameraMonitor(){
 // 📸 CAPTURAR FACE
 // =========================
 async function capturarFace(){
+  
+  const barra =
+  document.getElementById(
+    "faceProgress"
+  );
+
+if(barra){
+
+  barra.style.width =
+    `${descriptorsTemp.length * 20}%`;
+
+}
 
   if(descriptorsTemp.length >= 5){
 
@@ -1096,6 +1118,27 @@ async function capturarFace(){
 descriptorsTemp.push(
   Array.from(detection.descriptor)
 );
+
+const instrucao =
+  document.getElementById(
+    "instrucaoFace"
+  );
+
+if(instrucao){
+
+  if(descriptorsTemp.length < 5){
+
+    instrucao.innerText =
+      poses[descriptorsTemp.length];
+
+  }else{
+
+    instrucao.innerText =
+      "Cadastro concluído ✅";
+
+  }
+
+}
 
 localStorage.setItem(
   "faceDescriptorTemp",
