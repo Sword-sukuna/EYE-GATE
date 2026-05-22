@@ -19,6 +19,10 @@ if (!supabaseClient) {
 // =========================
 // 👁 FACE API
 // =========================
+let streamCadastro = null;
+
+let streamMonitor = null;
+
 let faceMatcher = null;
 
 let alunosCache = [];
@@ -50,12 +54,6 @@ window.addEventListener(
     iniciarCadastro();
 
     await carregarAlunosCache();
-
-    iniciarMonitor();
-
-    await iniciarCameraCadastro();
-
-    await iniciarCameraMonitor();
 
     carregarUsuario();
 
@@ -107,6 +105,10 @@ async function carregarFaceAPI(){
 // =========================
 function abrirPagina(id){
 
+  pararCameraCadastro();
+
+pararCameraMonitor();
+
   mostrarLoading("Abrindo página...");
 
   setTimeout(()=>{
@@ -142,6 +144,18 @@ function abrirPagina(id){
       .classList.add("active-page");
 
     esconderLoading();
+
+    if(id === "cadastroPage"){
+
+ iniciarCameraCadastro();
+
+}
+
+if(id === "monitorPage"){
+
+ iniciarCameraMonitor();
+
+}
 
   },500);
 
@@ -949,30 +963,34 @@ async function cadastrarAluno(){
 // =========================
 async function iniciarCameraCadastro(){
 
-  const video =
-    document.getElementById("video");
+ const video =
+ document.getElementById("video");
 
-  if(!video) return;
+ if(!video)
+   return;
 
-  try{
+ if(streamCadastro)
+   return;
 
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
+ try{
 
-        video:true,
+   streamCadastro =
+   await navigator.mediaDevices.getUserMedia({
 
-        audio:false
+     video:true,
 
-      });
+     audio:false
 
-    video.srcObject =
-      stream;
+   });
 
-  }catch(error){
+   video.srcObject =
+   streamCadastro;
 
-    console.log(error);
+ }catch(error){
 
-  }
+   console.log(error);
+
+ }
 
 }
 
@@ -982,34 +1000,36 @@ async function iniciarCameraCadastro(){
 // =========================
 async function iniciarCameraMonitor(){
 
-  const video =
-    document.getElementById("monitorVideo");
+ const video =
+ document.getElementById(
+   "monitorVideo"
+ );
 
-  if(!video) return;
+ if(!video)
+   return;
 
-  try{
+ if(streamMonitor)
+   return;
 
-    const stream =
-      await navigator.mediaDevices.getUserMedia({
+ try{
 
-        video:{
-   width:640,
-height:480,
-   facingMode:"user"
-},
+   streamMonitor =
+   await navigator.mediaDevices.getUserMedia({
 
-        audio:false
+     video:true,
 
-      });
+     audio:false
 
-    video.srcObject =
-      stream;
+   });
 
-  }catch(error){
+   video.srcObject =
+   streamMonitor;
 
-    console.log(error);
+ }catch(error){
 
-  }
+   console.log(error);
+
+ }
 
 }
 
@@ -1189,17 +1209,26 @@ const detections =
         `Aluno reconhecido: ${aluno.nome}`
       );
 
-    setTimeout(()=>{
-
-  supabaseClient
+    const { error } =
+  await supabaseClient
     .from("logs")
     .insert([{
       aluno: aluno.nome,
-      status:"Reconhecido",
-      horario:new Date().toISOString()
+      status: "Reconhecido",
+      horario: new Date().toISOString()
     }]);
 
-},0);
+if(error){
+
+  console.log(error);
+
+  alert(JSON.stringify(error));
+
+}else{
+
+  console.log("Log criado!");
+
+}
 
 }
 
@@ -1838,5 +1867,31 @@ async function carregarAlunosCache(){
   console.log(
     "FaceMatcher carregado"
   );
+
+}
+
+function pararCameraCadastro(){
+
+ if(!streamCadastro)
+   return;
+
+ streamCadastro
+   .getTracks()
+   .forEach(track => track.stop());
+
+ streamCadastro = null;
+
+}
+
+function pararCameraMonitor(){
+
+ if(!streamMonitor)
+   return;
+
+ streamMonitor
+   .getTracks()
+   .forEach(track => track.stop());
+
+ streamMonitor = null;
 
 }
