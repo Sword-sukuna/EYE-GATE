@@ -1132,12 +1132,7 @@ function iniciarMonitor(){
 
     await reconhecerFace();
 
-     console.log("Detectados:", detections.length);
-
   },500);
-
-  const detections =
-  await faceapi
 
 }
 
@@ -1181,6 +1176,11 @@ const detections =
          .withFaceLandmarks()
 
         .withFaceDescriptors();
+
+        console.log(
+  "Rostos encontrados:",
+  detections.length
+);
 
     for(const detection of detections){
 
