@@ -33,6 +33,7 @@ let reconhecendo = false;
 
 const ultimoReconhecimento = {};
 
+const debugLogs = [];
 
 // =========================
 // 🚀 START
@@ -1268,6 +1269,30 @@ function limparCampos(){
 
 }
 
+function logSistema(tipo, mensagem){
+
+  const registro = {
+
+    horario: new Date().toLocaleTimeString(),
+
+    tipo,
+
+    mensagem
+
+  };
+
+  debugLogs.push(registro);
+
+  console.log(
+    `[${tipo}]`,
+    mensagem
+  );
+
+}
+logSistema(
+  "TESTE",
+  "Sistema iniciado"
+);
 
 // =========================
 // 🍞 TOAST
