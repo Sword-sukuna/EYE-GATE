@@ -92,12 +92,7 @@ window.addEventListener(
 // =========================
 async function carregarFaceAPI(){
 
-
   try{
-
-    await faceapi.tf.setBackend("webgl");
-
-    await faceapi.tf.ready();
 
     await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
 
@@ -112,21 +107,6 @@ async function carregarFaceAPI(){
     console.log(error);
 
   }
-
-  console.log(
-  "Tiny:",
-  faceapi.nets.tinyFaceDetector.isLoaded
-);
-
-console.log(
-  "Landmark:",
-  faceapi.nets.faceLandmark68Net.isLoaded
-);
-
-console.log(
-  "Recognition:",
-  faceapi.nets.faceRecognitionNet.isLoaded
-);
 
 }
 
@@ -1136,6 +1116,14 @@ function validarPose(detection){
 // =========================
 async function capturarFace(){
   
+  if(!faceapi.nets.faceLandmark68Net.isLoaded){
+
+  alert("Landmark não carregado");
+
+  return;
+
+}
+
   const barra =
   document.getElementById(
     "faceProgress"
@@ -1155,6 +1143,11 @@ async function capturarFace(){
     document.getElementById("video");
 
   if(!video) return;
+
+  console.log(
+  "Landmark:",
+  faceapi.nets.faceLandmark68Net.isLoaded
+);
 
   const detection =
   await faceapi
