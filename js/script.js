@@ -37,7 +37,7 @@ let capturaAuto = null;
 
 const ultimoReconhecimento = {};
 
-const TEMPO_BLOQUEIO = 10 * 60 * 1000;
+const TEMPO_BLOQUEIO = 5 * 60 * 1000;
 
 const debugLogs = [];
 
@@ -1282,7 +1282,7 @@ function iniciarMonitor(){
 
   monitorInterval = setInterval(
     reconhecerFace,
-    250
+    200
   );
 
 }
@@ -1530,9 +1530,13 @@ async function carregarLogs(){
 
   data.forEach((log)=>{
 
-    const horario =
-      new Date(log.horario)
-      .toLocaleString("pt-BR");
+    const horario = new Date(log.horario)
+.toLocaleString(
+  "pt-BR",
+  {
+    timeZone: "America/Sao_Paulo"
+  }
+);
 
     tabela.innerHTML += `
 
@@ -2124,10 +2128,12 @@ function pararMonitor(){
 
 }
 
-setInterval(async () => {
+setInterval(async ()=>{
 
   await carregarStats();
 
   await carregarLogs();
 
-}, 5000);
+  await carregarGraficoLogs();
+
+},5000);

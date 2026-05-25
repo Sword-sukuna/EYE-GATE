@@ -376,6 +376,7 @@ button {
 }
 
 .camera-box video {
+  transform: scaleX(-1);
   width: 100%;
   display: block;
 }
