@@ -2123,3 +2123,11 @@ function pararMonitor(){
   }
 
 }
+
+setInterval(async () => {
+
+  await carregarStats();
+
+  await carregarLogs();
+
+}, 5000);
