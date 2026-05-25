@@ -967,6 +967,9 @@ async function cadastrarAluno(){
 
     await carregarAlunosCache();
     
+    descriptorsTemp = [];
+etapaCaptura = 0;
+
     const instrucao =
 document.getElementById(
   "instrucaoFace"
