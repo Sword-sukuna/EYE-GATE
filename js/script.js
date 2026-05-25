@@ -37,6 +37,8 @@ let capturaAuto = null;
 
 const ultimoReconhecimento = {};
 
+const TEMPO_BLOQUEIO = 10 * 60 * 1000;
+
 const debugLogs = [];
 
 const poses = [
@@ -1280,7 +1282,7 @@ function iniciarMonitor(){
 
   monitorInterval = setInterval(
     reconhecerFace,
-    500
+    250
   );
 
 }
@@ -1378,11 +1380,11 @@ console.log(
       const agora = Date.now();
 
       if(
-        ultimoReconhecimento[aluno.nome] &&
-        agora - ultimoReconhecimento[aluno.nome] < 30000
-      ){
-        continue;
-      }
+  ultimoReconhecimento[aluno.nome] &&
+  agora - ultimoReconhecimento[aluno.nome] < TEMPO_BLOQUEIO
+){
+  continue;
+}
 
       ultimoReconhecimento[aluno.nome] = agora;
 
