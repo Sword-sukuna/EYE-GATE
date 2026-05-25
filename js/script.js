@@ -92,6 +92,7 @@ window.addEventListener(
 // =========================
 async function carregarFaceAPI(){
 
+
   try{
 
     await faceapi.tf.setBackend("webgl");
@@ -111,6 +112,21 @@ async function carregarFaceAPI(){
     console.log(error);
 
   }
+
+  console.log(
+  "Tiny:",
+  faceapi.nets.tinyFaceDetector.isLoaded
+);
+
+console.log(
+  "Landmark:",
+  faceapi.nets.faceLandmark68Net.isLoaded
+);
+
+console.log(
+  "Recognition:",
+  faceapi.nets.faceRecognitionNet.isLoaded
+);
 
 }
 
