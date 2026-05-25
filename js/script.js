@@ -47,6 +47,8 @@ const poses = [
   "Olhe para baixo ⬇️"
 ];
 
+let etapaCaptura = 0;
+
 // =========================
 // 🚀 START
 // =========================
@@ -965,7 +967,23 @@ async function cadastrarAluno(){
 
     await carregarAlunosCache();
     
-    descriptorsTemp = [];
+    const instrucao =
+document.getElementById(
+  "instrucaoFace"
+);
+
+if(instrucao){
+  instrucao.innerText = poses[0];
+}
+
+const barra =
+document.getElementById(
+  "faceProgress"
+);
+
+if(barra){
+  barra.style.width = "0%";
+}
 
 localStorage.removeItem(
   "faceDescriptorTemp"
@@ -1057,6 +1075,42 @@ async function iniciarCameraMonitor(){
 
 }
 
+function validarPose(detection){
+
+  const nariz =
+    detection.landmarks.getNose()[3];
+
+  const olhoEsq =
+    detection.landmarks.getLeftEye()[0];
+
+  const olhoDir =
+    detection.landmarks.getRightEye()[3];
+
+  const centroOlhos =
+    (olhoEsq.x + olhoDir.x) / 2;
+
+  switch(etapaCaptura){
+
+    case 0:
+      return true;
+
+    case 1:
+      return nariz.x < centroOlhos - 10;
+
+    case 2:
+      return nariz.x > centroOlhos + 10;
+
+    case 3:
+      return nariz.y < olhoEsq.y - 5;
+
+    case 4:
+      return nariz.y > olhoEsq.y + 15;
+
+    default:
+      return false;
+  }
+
+}
 
 // =========================
 // 📸 CAPTURAR FACE
@@ -1067,13 +1121,6 @@ async function capturarFace(){
   document.getElementById(
     "faceProgress"
   );
-
-if(barra){
-
-  barra.style.width =
-    `${descriptorsTemp.length * 20}%`;
-
-}
 
   if(descriptorsTemp.length >= 5){
 
@@ -1115,9 +1162,25 @@ if(barra){
 
 }
 
+if(!validarPose(detection)){
+
+  mostrarMensagem(
+    poses[etapaCaptura]
+  );
+
+  return;
+}
+
 descriptorsTemp.push(
   Array.from(detection.descriptor)
 );
+
+etapaCaptura++;
+
+if(barra){
+   barra.style.width = 
+   `${descriptorsTemp.length * 20}%`;
+   }
 
 const instrucao =
   document.getElementById(
@@ -1126,10 +1189,10 @@ const instrucao =
 
 if(instrucao){
 
-  if(descriptorsTemp.length < 5){
+  if(etapaCaptura < poses.length){
 
     instrucao.innerText =
-      poses[descriptorsTemp.length];
+      poses[etapaCaptura];
 
   }else{
 
