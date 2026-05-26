@@ -1836,6 +1836,13 @@ async function deletarLog(id){
 // =========================
 async function carregarGraficoLogs(){
 
+  const existente =
+Chart.getChart("graficoLogs");
+
+if(existente){
+  existente.destroy();
+}
+
   const canvas =
     document.getElementById("graficoLogs");
 
