@@ -2086,7 +2086,7 @@ async function carregarAlunosCache(){
 
       labeledDescriptors,
 
-      0.75
+      0.55
 
     );
 
