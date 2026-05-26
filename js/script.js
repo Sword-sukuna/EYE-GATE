@@ -1331,9 +1331,20 @@ const detections =
         scoreThreshold:0.5
       })
     )
+
     .withFaceLandmarks()
     .withFaceDescriptors();
 
+    if(detections.length === 0){
+
+  document.getElementById("statusTitulo").innerText =
+    "Nenhum rosto detectado";
+
+  document.getElementById("statusTexto").innerText =
+    "Aguardando reconhecimento...";
+
+  return;
+}
 console.log(
   "Faces detectadas:",
   detections
@@ -1433,6 +1444,12 @@ contadorFrames[nome] = 0;
       mostrarMensagem(
         `Aluno reconhecido: ${aluno.nome}`
       );
+
+      document.getElementById("statusTitulo").innerText =
+  "Aluno reconhecido ✅";
+
+document.getElementById("statusTexto").innerText =
+  `${aluno.nome} identificado com sucesso`;
 
       console.log("Tentando salvar:", aluno);
 
