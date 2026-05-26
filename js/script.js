@@ -1442,7 +1442,12 @@ contadorFrames[nome] = 0;
     .insert([{
       aluno: aluno.nome,
       status: "Reconhecido",
-      horario: new Date().toISOString()
+     horario: new Date().toLocaleString(
+  "sv-SE",
+  {
+    timeZone: "America/Sao_Paulo"
+  }
+)
     }]);
 
 if(error){
