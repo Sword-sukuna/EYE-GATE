@@ -37,6 +37,8 @@ let capturaAuto = null;
 
 let graficoLogs = null;
 
+const contadorFrames = {};
+
 const ultimoReconhecimento = {};
 
 const TEMPO_BLOQUEIO = 5 * 60 * 1000;
@@ -1284,7 +1286,7 @@ function iniciarMonitor(){
 
   monitorInterval = setInterval(
     reconhecerFace,
-    200
+    100
   );
 
 }
@@ -1317,7 +1319,7 @@ const detections =
     .detectAllFaces(
       video,
       new faceapi.TinyFaceDetectorOptions({
-        inputSize:224,
+        inputSize:416,
         scoreThreshold:0.5
       })
     )
@@ -1361,7 +1363,10 @@ console.log(
   resultado.distance
 );
 
-      if(resultado.label === "unknown"){
+      if(
+  resultado.label === "unknown" ||
+  resultado.distance > 0.50
+){
 
   console.log(
     "Desconhecido. Distância:",
@@ -1370,6 +1375,33 @@ console.log(
 
   continue;
 }
+
+const nome = resultado.label;
+
+contadorFrames[nome] =
+  (contadorFrames[nome] || 0) + 1;
+
+Object.keys(contadorFrames).forEach(n => {
+
+  if(n !== nome){
+
+    contadorFrames[n] = 0;
+
+  }
+
+});
+
+console.log(
+  `${nome}: ${contadorFrames[nome]}/5`
+);
+
+if(contadorFrames[nome] < 5){
+
+  continue;
+
+}
+
+contadorFrames[nome] = 0;
 
       const aluno =
         alunosCache.find(
@@ -2086,7 +2118,7 @@ async function carregarAlunosCache(){
 
       labeledDescriptors,
 
-      0.55
+      0.50
 
     );
 
