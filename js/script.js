@@ -37,6 +37,8 @@ let capturaAuto = null;
 
 let graficoLogs = null;
 
+let faceApiPronta = false;
+
 const contadorFrames = {};
 
 const ultimoReconhecimento = {};
@@ -105,6 +107,8 @@ async function carregarFaceAPI(){
     await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
 
     await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
+
+    faceApiPronta = true;
 
     console.log("Face API carregada");
 
@@ -1297,6 +1301,10 @@ function iniciarMonitor(){
 // =========================
 async function reconhecerFace(){
 
+  if(!faceApiPronta) return;
+
+if(!faceapi.nets.faceRecognitionNet.isLoaded) return;
+
   if(reconhecendo) return;
 
   reconhecendo = true;
@@ -1365,7 +1373,7 @@ console.log(
 
       if(
   resultado.label === "unknown" ||
-  resultado.distance > 0.50
+  resultado.distance > 0.65
 ){
 
   console.log(
@@ -2118,7 +2126,7 @@ async function carregarAlunosCache(){
 
       labeledDescriptors,
 
-      0.50
+      0.65
 
     );
 
