@@ -35,6 +35,8 @@ let descriptorsTemp = [];
 
 let capturaAuto = null;
 
+let graficoLogs = null;
+
 const ultimoReconhecimento = {};
 
 const TEMPO_BLOQUEIO = 5 * 60 * 1000;
@@ -1866,7 +1868,11 @@ async function carregarGraficoLogs(){
 
   });
 
-  new Chart(canvas, {
+if(graficoLogs){
+  graficoLogs.destroy();
+}
+
+graficoLogs = new Chart(canvas,{
 
   type: "line",
 
