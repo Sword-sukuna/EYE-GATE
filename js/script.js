@@ -1572,13 +1572,10 @@ async function carregarLogs(){
 
   data.forEach((log)=>{
 
-    const horario = new Date(log.horario)
-.toLocaleString(
-  "pt-BR",
-  {
-    timeZone: "America/Sao_Paulo"
-  }
-);
+  const horario = new Date(log.horario)
+.toLocaleString("pt-BR", {
+  timeZone: "America/Sao_Paulo"
+});
 
     tabela.innerHTML += `
 
