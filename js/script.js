@@ -1,6 +1,8 @@
 // =========================
 // 👁 FACE API
 // =========================
+window.debugLogs = [];
+
 let streamCadastro = null;
 
 let streamMonitor = null;
@@ -12,8 +14,6 @@ let alunosCache = [];
 let matcherPronto = false;
 
 let reconhecendo = false;
-
-var debugLogs = [];
 
 let descriptorsTemp = [];
 
