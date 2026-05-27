@@ -76,9 +76,6 @@ window.addEventListener(
 
 );
 
-
-
-
 setInterval(async ()=>{
 
   await carregarStats();
