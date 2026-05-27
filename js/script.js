@@ -13,7 +13,7 @@ let matcherPronto = false;
 
 let reconhecendo = false;
 
-const debugLogs = [];
+window.debugLogs = [];
 
 let descriptorsTemp = [];
 
