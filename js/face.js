@@ -875,7 +875,7 @@ function logSistema(tipo, mensagem){
 
   };
 
- window.debugLogs.push(registro);
+  window.debugLogs.push(registro);
 
   console.log(
     `[${tipo}]`,
