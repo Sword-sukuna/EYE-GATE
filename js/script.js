@@ -13,6 +13,8 @@ let matcherPronto = false;
 
 let reconhecendo = false;
 
+const debugLogs = [];
+
 let descriptorsTemp = [];
 
 let capturaAuto = null;
@@ -26,8 +28,6 @@ const contadorFrames = {};
 const ultimoReconhecimento = {};
 
 const TEMPO_BLOQUEIO = 5 * 60 * 1000;
-
-const debugLogs = [];
 
 const poses = [
   "Olhe para frente 👀",
