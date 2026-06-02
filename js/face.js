@@ -809,25 +809,42 @@ document.getElementById("statusTexto").innerText =
 
       console.log("Tentando salvar:", aluno);
 
-    const { error } =
+// Busca último log do aluno
+const { data: ultimoLog } =
+  await supabaseClient
+    .from("logs")
+    .select("*")
+    .eq("aluno", aluno.nome)
+    .order("horario", {
+      ascending: false
+    })
+    .limit(1)
+    .maybeSingle();
+
+let statusAtual = "Entrada";
+
+if(
+  ultimoLog &&
+  ultimoLog.status === "Entrada"
+){
+  statusAtual = "Saída";
+}
+
+// Salva novo log
+const { error: logError } =
   await supabaseClient
     .from("logs")
     .insert([{
       aluno: aluno.nome,
-      status: "Reconhecido",
-     horario: new Date().toLocaleString(
-  "sv-SE",
-  {
-    timeZone: "America/Sao_Paulo"
-  }
-)
+      status: statusAtual,
+      horario: new Date().toISOString()
     }]);
 
-if(error){
+if(logError){
 
-  console.log(error);
+  console.log(logError);
 
-  alert(JSON.stringify(error));
+  alert(JSON.stringify(logError));
 
 }else{
 
@@ -835,20 +852,19 @@ if(error){
 
 }
 
-}
+    } // fecha o FOR
 
-  }catch(error){
+}catch(error){
 
-    console.log(error);
+  console.log(error);
 
-  }finally{
+}finally{
 
-    reconhecendo = false;
-
-  }
+  reconhecendo = false;
 
 }
 
+} // fecha reconhecerFace()
 
 // =========================
 // 🧹 LIMPAR
@@ -1499,6 +1515,9 @@ function pararMonitor(){
     monitorInterval = null;
 
   }
+
+}
+
   // =========================
 // 🧹 LIMPAR LOGS ANTIGOS (DIÁRIO)
 // =========================
@@ -1540,5 +1559,182 @@ async function iniciarLimpezaDiaria() {
 
 // Inicia a limpeza automática
 iniciarLimpezaDiaria();
+
+//Buscar alunos 
+async function buscarAlunoRelatorio(){
+
+  const busca =
+    document
+      .getElementById("buscaAluno")
+      .value
+      .toLowerCase();
+
+  const container =
+    document.getElementById("resultadoBusca");
+
+  const { data, error } =
+    await supabaseClient
+      .from("alunos")
+      .select("*");
+
+  if(error){
+
+    console.log(error);
+    return;
+
+  }
+
+  const encontrados =
+  data.filter(aluno =>
+
+    aluno.nome.toLowerCase().includes(busca) ||
+
+    aluno.matricula.toLowerCase().includes(busca) ||
+
+    aluno.turma.toLowerCase().includes(busca)
+
+  );
+
+  container.innerHTML = "";
+
+  encontrados.forEach(aluno => {
+
+    container.innerHTML += `
+
+      <div class="user-card">
+
+        <div class="info">
+
+          <strong>${aluno.nome}</strong>
+
+          <span>${aluno.turma}</span>
+
+          <span>${aluno.matricula}</span>
+
+        </div>
+
+        <button
+          class="login-btn"
+          onclick="gerarPDFAluno('${aluno.nome}')"
+        >
+          📄 Gerar PDF
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+//gerar pdf
+
+async function gerarPDFAluno(nomeAluno){
+
+  const { jsPDF } = window.jspdf;
+
+  const pdf = new jsPDF();
+
+  const { data, error } =
+    await supabaseClient
+      .from("logs")
+      .select("*")
+      .eq("aluno", nomeAluno)
+      .order("horario", {
+        ascending:false
+      });
+
+  if(error){
+
+    console.log(error);
+    return;
+
+  }
+
+  pdf.setFontSize(20);
+
+  pdf.text(
+    "RELATÓRIO ESCOLAR",
+    20,
+    20
+  );
+
+  pdf.setFontSize(14);
+
+  pdf.text(
+    `Aluno: ${nomeAluno}`,
+    20,
+    35
+  );
+
+  pdf.text(
+  `Total de registros: ${data.length}`,
+  20,
+  45
+);
+
+  let y = 55;
+
+  data.forEach((log, index)=>{
+
+  const dataHora =
+    new Date(log.horario);
+
+  const dataFormatada =
+    dataHora.toLocaleDateString("pt-BR");
+
+  const horaFormatada =
+    dataHora.toLocaleTimeString("pt-BR");
+
+  pdf.text(
+
+    `${index + 1}. ${log.status}`,
+
+    20,
+
+    y
+
+  );
+
+  y += 7;
+
+  pdf.text(
+
+    `Data: ${dataFormatada}`,
+
+    30,
+
+    y
+
+  );
+
+  y += 7;
+
+  pdf.text(
+
+    `Hora: ${horaFormatada}`,
+
+    30,
+
+    y
+
+  );
+
+  y += 12;
+
+  if(y > 270){
+
+  pdf.addPage();
+
+  y = 20;
+
+}
+
+});
+
+  pdf.save(
+    `${nomeAluno}_relatorio.pdf`
+  );
 
 }
