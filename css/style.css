@@ -1124,3 +1124,206 @@ button:hover{
   transition:.3s;
 
 }
+
+#startupScreen{
+  position:fixed;
+  inset:0;
+  background:#050816;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+  overflow:hidden;
+}
+
+.startup-content{
+  text-align:center;
+  animation:fadeIn 1s ease;
+}
+
+.startup-logo{
+  font-size:80px;
+  margin-bottom:20px;
+  animation:pulse 2s infinite;
+  filter:drop-shadow(0 0 20px #6C5CE7);
+}
+
+.startup-content h1{
+  color:white;
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.startup-content p{
+  color:#aaa;
+  margin-bottom:25px;
+}
+
+.startup-bar{
+  width:300px;
+  height:8px;
+  background:#111827;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+#startupProgress{
+  width:0%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    #6C5CE7,
+    #00C2FF
+  );
+  transition:width .4s ease;
+}
+
+@keyframes pulse{
+
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.08);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+
+}
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+/* ========================= */
+/* 🚀 STARTUP SCREEN */
+/* ========================= */
+
+#startupScreen{
+
+  position:fixed;
+  inset:0;
+
+  background:#050816;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:99999;
+
+  overflow:hidden;
+
+  transition:1s ease;
+}
+
+.startup-content{
+
+  text-align:center;
+  z-index:2;
+
+  animation:fadeStartup 1s ease;
+}
+
+.startup-logo{
+
+  font-size:90px;
+
+  animation:pulseLogo 2s infinite;
+}
+
+.startup-content h1{
+
+  color:white;
+
+  font-size:42px;
+
+  margin-top:10px;
+
+  letter-spacing:4px;
+}
+
+.startup-content p{
+
+  color:#8fa3ff;
+
+  margin-top:10px;
+
+  font-size:15px;
+}
+
+.startup-bar{
+
+  width:300px;
+  height:8px;
+
+  background:rgba(255,255,255,0.1);
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+  margin-top:30px;
+}
+
+#startupProgress{
+
+  width:0%;
+  height:100%;
+
+  background:linear-gradient(
+    90deg,
+    #6C5CE7,
+    #00d4ff
+  );
+
+  border-radius:999px;
+
+  transition:0.3s;
+}
+
+@keyframes pulseLogo{
+
+  0%{
+    transform:scale(1);
+    filter:drop-shadow(0 0 10px #6C5CE7);
+  }
+
+  50%{
+    transform:scale(1.08);
+    filter:drop-shadow(0 0 30px #00d4ff);
+  }
+
+  100%{
+    transform:scale(1);
+    filter:drop-shadow(0 0 10px #6C5CE7);
+  }
+
+}
+
+@keyframes fadeStartup{
+
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
