@@ -646,7 +646,7 @@ function iniciarMonitor(){
 
   monitorInterval = setInterval(
     reconhecerFace,
-    100
+    250
   );
 
 }
