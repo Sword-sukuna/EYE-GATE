@@ -810,16 +810,27 @@ document.getElementById("statusTexto").innerText =
       console.log("Tentando salvar:", aluno);
 
 // Busca último log do aluno
-const { data: ultimoLog } =
-  await supabaseClient
-    .from("logs")
-    .select("*")
-    .eq("aluno", aluno.nome)
-    .order("horario", {
-      ascending: false
-    })
-    .limit(1)
-    .maybeSingle();
+const respostaLogs = await supabaseClient
+  .from("logs")
+  .select("*")
+  .eq("aluno", aluno.nome)
+  .order("horario", {
+    ascending: false
+  })
+  .limit(1);
+
+const logsAluno = respostaLogs.data;
+const logsError = respostaLogs.error;
+
+if(logsError){
+
+  console.log(logsError);
+
+  continue;
+
+}
+
+const ultimoLog = logsAluno[0];
 
 let statusAtual = "Entrada";
 
@@ -862,7 +873,7 @@ if(logError){
 
   reconhecendo = false;
 
-}
+
 
 } // fecha reconhecerFace()
 
@@ -1435,6 +1446,14 @@ async function carregarAlunosCache(){
     ){
       descritores = [descritores];
     }
+
+    if(
+  !descritores ||
+  !Array.isArray(descritores) ||
+  descritores.length === 0
+){
+  return null;
+}
 
     return new faceapi.LabeledFaceDescriptors(
       aluno.nome,
