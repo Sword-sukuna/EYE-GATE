@@ -873,7 +873,7 @@ if(logError){
 
   reconhecendo = false;
 
-
+}
 
 } // fecha reconhecerFace()
 
