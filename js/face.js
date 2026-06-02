@@ -1408,16 +1408,29 @@ async function carregarAlunosCache(){
   );
 
   const labeledDescriptors =
-    alunosCache.map((aluno)=>{
+  alunosCache.map((aluno)=>{
 
-      return new faceapi.LabeledFaceDescriptors(
-  aluno.nome,
-  aluno.descriptor.map(
-    d => new Float32Array(d)
-  )
-)
+    let descritores = aluno.descriptor;
 
-    });
+    // corrige descriptor antigo quebrado
+    if(
+      descritores.length > 0 &&
+      typeof descritores[0] === "number"
+    ){
+      descritores = [descritores];
+    }
+
+    return new faceapi.LabeledFaceDescriptors(
+      aluno.nome,
+      descritores.map(
+        d => new Float32Array(d)
+      )
+    );
+
+});
+
+console.log("Descriptors carregados:");
+console.log(labeledDescriptors);
 
     if(labeledDescriptors.length === 0){
 
