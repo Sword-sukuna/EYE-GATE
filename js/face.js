@@ -1559,6 +1559,7 @@ async function limparLogsAntigos() {
         console.error("Erro na limpeza diária:", e);
     }
 }
+
 // ====================== AUTO LIMPEZA DIÁRIA ======================
 async function iniciarLimpezaDiaria() {
     await limparLogsAntigos(); // Limpa ao carregar a página
@@ -1982,6 +1983,7 @@ async function carregarLogoBase64(){
 
 }
 
+// pdf viewr
 async function visualizarPDFAluno(nomeAluno){
 
   const pdf =
@@ -1999,6 +2001,7 @@ async function visualizarPDFAluno(nomeAluno){
 
 }
 
+// download pdf
 async function baixarPDFAluno(nomeAluno){
 
   const pdf =
