@@ -1905,16 +1905,16 @@ async function criarPDFAluno(nomeAluno){
     pdf.setFontSize(11);
 
     pdf.text(
-      `📅 ${dataFormatada}`,
-      25,
-      y + 13
-    );
+  `Data: ${dataFormatada}`,
+  25,
+  y + 13
+);
 
-    pdf.text(
-      `⏰ ${horaFormatada}`,
-      100,
-      y + 13
-    );
+pdf.text(
+  `Hora: ${horaFormatada}`,
+  100,
+  y + 13
+);
 
     y += 38;
 
