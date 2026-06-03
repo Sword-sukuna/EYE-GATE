@@ -1656,10 +1656,8 @@ async function buscarAlunoRelatorio(){
 
 }
 
-//gerar pdf
-
 // =========================
-// 📄 CRIAR PDF
+// 📄 CRIAR PDF ESTILIZADO
 // =========================
 async function criarPDFAluno(nomeAluno){
 
@@ -1684,38 +1682,151 @@ async function criarPDFAluno(nomeAluno){
 
   }
 
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(20);
+  // =========================
+  // 🎨 TOPO
+  // =========================
+  pdf.setFillColor(108,92,231);
+
+  pdf.rect(
+    0,
+    0,
+    210,
+    35,
+    "F"
+  );
+
+  // =========================
+  // 👁 LOGO
+  // =========================
+  try{
+
+    const logo =
+      await carregarLogoBase64();
+
+    pdf.addImage(
+      logo,
+      "PNG",
+      15,
+      5,
+      22,
+      22
+    );
+
+  }catch(e){
+
+    console.log(
+      "Erro logo:",
+      e
+    );
+
+  }
+
+  // =========================
+  // 📝 TITULO
+  // =========================
+  pdf.setTextColor(
+    255,
+    255,
+    255
+  );
+
+  pdf.setFont(
+    "helvetica",
+    "bold"
+  );
+
+  pdf.setFontSize(24);
+
+  pdf.text(
+    "EYE Gate",
+    45,
+    18
+  );
+
+  pdf.setFontSize(10);
+
+  pdf.setFont(
+    "helvetica",
+    "normal"
+  );
+
+  pdf.text(
+    "Sistema Inteligente de Reconhecimento Facial",
+    45,
+    26
+  );
+
+  // =========================
+  // 🔙 VOLTA PRETO
+  // =========================
+  pdf.setTextColor(
+    0,
+    0,
+    0
+  );
+
+  // =========================
+  // 📋 INFO
+  // =========================
+  pdf.setFontSize(18);
+
+  pdf.setFont(
+    "helvetica",
+    "bold"
+  );
 
   pdf.text(
     "RELATÓRIO ESCOLAR",
     20,
-    20
+    55
   );
 
   pdf.setDrawColor(180);
 
-  pdf.line(20, 25, 190, 25);
+  pdf.line(
+    20,
+    60,
+    190,
+    60
+  );
 
-  pdf.setFontSize(14);
+  pdf.setFontSize(12);
+
+  pdf.setFont(
+    "helvetica",
+    "normal"
+  );
 
   pdf.text(
     `Aluno: ${nomeAluno}`,
     20,
-    40
+    75
   );
 
   pdf.text(
     `Total de registros: ${data.length}`,
     20,
-    50
+    85
   );
 
-  pdf.setFont("helvetica", "normal");
+  pdf.text(
+    `Emitido em: ${
+      new Date().toLocaleString(
+        "pt-BR"
+      )
+    }`,
+    20,
+    95
+  );
 
-  let y = 70;
+  // =========================
+  // 📄 SEM REGISTROS
+  // =========================
+  let y = 115;
 
   if(data.length === 0){
+
+    pdf.setFontSize(14);
 
     pdf.text(
       "Nenhum registro encontrado.",
@@ -1727,9 +1838,12 @@ async function criarPDFAluno(nomeAluno){
 
   }
 
+  // =========================
+  // 📦 LOGS
+  // =========================
   data.forEach((log, index)=>{
 
-    if(y > 260){
+    if(y > 250){
 
       pdf.addPage();
 
@@ -1758,43 +1872,113 @@ async function criarPDFAluno(nomeAluno){
         }
       );
 
+    // caixa
+    pdf.setDrawColor(220);
+
+    pdf.roundedRect(
+      15,
+      y - 5,
+      180,
+      28,
+      3,
+      3
+    );
+
     pdf.setFont(
       "helvetica",
       "bold"
     );
 
+    pdf.setFontSize(13);
+
     pdf.text(
       `${index + 1}. ${log.status}`,
-      20,
-      y
+      25,
+      y + 5
     );
-
-    y += 8;
 
     pdf.setFont(
       "helvetica",
       "normal"
     );
 
-    pdf.text(
-      `Data: ${dataFormatada}`,
-      30,
-      y
-    );
-
-    y += 8;
+    pdf.setFontSize(11);
 
     pdf.text(
-      `Hora: ${horaFormatada}`,
-      30,
-      y
+      `📅 ${dataFormatada}`,
+      25,
+      y + 13
     );
 
-    y += 12;
+    pdf.text(
+      `⏰ ${horaFormatada}`,
+      100,
+      y + 13
+    );
+
+    y += 38;
 
   });
 
+  // =========================
+  // 👣 RODAPÉ
+  // =========================
+  pdf.setFontSize(9);
+
+  pdf.setTextColor(120);
+
+  pdf.text(
+    "Gerado automaticamente pelo sistema EYE Gate",
+    20,
+    290
+  );
+
   return pdf;
+
+}
+
+// =========================
+// 🖼 CARREGAR LOGO
+// =========================
+async function carregarLogoBase64(){
+
+  return new Promise((resolve)=>{
+
+    const img = new Image();
+
+    img.src = "./img/logo.png";
+
+    img.onload = ()=>{
+
+      const canvas =
+        document.createElement(
+          "canvas"
+        );
+
+      canvas.width =
+        img.width;
+
+      canvas.height =
+        img.height;
+
+      const ctx =
+        canvas.getContext("2d");
+
+      ctx.drawImage(
+        img,
+        0,
+        0
+      );
+
+      resolve(
+        canvas.toDataURL(
+          "image/png"
+        )
+      );
+
+    };
+
+  });
 
 }
 
