@@ -1685,7 +1685,7 @@ async function criarPDFAluno(nomeAluno){
   // =========================
   // 🎨 TOPO
   // =========================
-  pdf.setFillColor(108,92,231);
+  pdf.setFillColor(20,20,30);
 
   pdf.rect(
     0,
@@ -1703,14 +1703,14 @@ async function criarPDFAluno(nomeAluno){
     const logo =
       await carregarLogoBase64();
 
-    pdf.addImage(
-      logo,
-      "PNG",
-      15,
-      5,
-      22,
-      22
-    );
+   pdf.addImage(
+  logo,
+  "PNG",
+  12,
+  3,
+  38,
+  38
+);
 
   }catch(e){
 
@@ -1738,10 +1738,10 @@ async function criarPDFAluno(nomeAluno){
   pdf.setFontSize(24);
 
   pdf.text(
-    "EYE Gate",
-    45,
-    18
-  );
+  "EYE Gate",
+  50,
+  17
+);
 
   pdf.setFontSize(10);
 
@@ -1751,10 +1751,10 @@ async function criarPDFAluno(nomeAluno){
   );
 
   pdf.text(
-    "Sistema Inteligente de Reconhecimento Facial",
-    45,
-    26
-  );
+  "Sistema Inteligente de Reconhecimento Facial",
+  50,
+  25
+);
 
   // =========================
   // 🔙 VOLTA PRETO
