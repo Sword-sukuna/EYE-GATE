@@ -1632,14 +1632,23 @@ async function buscarAlunoRelatorio(){
 
         </div>
 
-        <button
-          class="login-btn"
-          onclick="gerarPDFAluno('${aluno.nome}')"
-        >
-          📄 Gerar PDF
-        </button>
+        <div style="display:flex; gap:10px;">
 
-      </div>
+  <button
+    class="login-btn"
+    onclick="visualizarPDFAluno('${aluno.nome}')"
+  >
+    👁 Visualizar
+  </button>
+
+  <button
+    class="logout-btn"
+    onclick="baixarPDFAluno('${aluno.nome}')"
+  >
+    📥 Baixar
+  </button>
+
+</div>
 
     `;
 
@@ -1649,7 +1658,10 @@ async function buscarAlunoRelatorio(){
 
 //gerar pdf
 
-async function gerarPDFAluno(nomeAluno){
+// =========================
+// 📄 CRIAR PDF
+// =========================
+async function criarPDFAluno(nomeAluno){
 
   const { jsPDF } = window.jspdf;
 
@@ -1667,10 +1679,12 @@ async function gerarPDFAluno(nomeAluno){
   if(error){
 
     console.log(error);
-    return;
+
+    return null;
 
   }
 
+  pdf.setFont("helvetica", "bold");
   pdf.setFontSize(20);
 
   pdf.text(
@@ -1679,81 +1693,138 @@ async function gerarPDFAluno(nomeAluno){
     20
   );
 
+  pdf.setDrawColor(180);
+
+  pdf.line(20, 25, 190, 25);
+
   pdf.setFontSize(14);
 
   pdf.text(
     `Aluno: ${nomeAluno}`,
     20,
-    35
+    40
   );
 
   pdf.text(
-  `Total de registros: ${data.length}`,
-  20,
-  45
-);
+    `Total de registros: ${data.length}`,
+    20,
+    50
+  );
 
-  let y = 55;
+  pdf.setFont("helvetica", "normal");
+
+  let y = 70;
+
+  if(data.length === 0){
+
+    pdf.text(
+      "Nenhum registro encontrado.",
+      20,
+      y
+    );
+
+    return pdf;
+
+  }
 
   data.forEach((log, index)=>{
 
-  const dataHora =
-    new Date(log.horario);
+    if(y > 260){
 
-  const dataFormatada =
-    dataHora.toLocaleDateString("pt-BR");
+      pdf.addPage();
 
-  const horaFormatada =
-    dataHora.toLocaleTimeString("pt-BR");
+      y = 20;
 
-  pdf.text(
+    }
 
-    `${index + 1}. ${log.status}`,
+    const dataHora =
+      new Date(log.horario);
 
-    20,
+    const dataFormatada =
+      dataHora.toLocaleDateString(
+        "pt-BR",
+        {
+          timeZone:
+          "America/Sao_Paulo"
+        }
+      );
 
-    y
+    const horaFormatada =
+      dataHora.toLocaleTimeString(
+        "pt-BR",
+        {
+          timeZone:
+          "America/Sao_Paulo"
+        }
+      );
 
-  );
+    pdf.setFont(
+      "helvetica",
+      "bold"
+    );
 
-  y += 7;
+    pdf.text(
+      `${index + 1}. ${log.status}`,
+      20,
+      y
+    );
 
-  pdf.text(
+    y += 8;
 
-    `Data: ${dataFormatada}`,
+    pdf.setFont(
+      "helvetica",
+      "normal"
+    );
 
-    30,
+    pdf.text(
+      `Data: ${dataFormatada}`,
+      30,
+      y
+    );
 
-    y
+    y += 8;
 
-  );
+    pdf.text(
+      `Hora: ${horaFormatada}`,
+      30,
+      y
+    );
 
-  y += 7;
+    y += 12;
 
-  pdf.text(
+  });
 
-    `Hora: ${horaFormatada}`,
-
-    30,
-
-    y
-
-  );
-
-  y += 12;
-
-  if(y > 270){
-
-  pdf.addPage();
-
-  y = 20;
+  return pdf;
 
 }
 
-});
+async function visualizarPDFAluno(nomeAluno){
+
+  const pdf =
+    await criarPDFAluno(nomeAluno);
+
+  if(!pdf) return;
+
+  const blob =
+    pdf.output("blob");
+
+  const url =
+    URL.createObjectURL(blob);
+
+  window.open(url, "_blank");
+
+}
+
+async function baixarPDFAluno(nomeAluno){
+
+  const pdf =
+    await criarPDFAluno(nomeAluno);
+
+  if(!pdf) return;
 
   pdf.save(
     `${nomeAluno}_relatorio.pdf`
   );
 
 }
+
