@@ -52,6 +52,8 @@ window.addEventListener(
 
     iniciarLogin();
 
+    verificarSessao();
+
     iniciarAdminLogin();
 
     iniciarRegistro();

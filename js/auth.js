@@ -295,19 +295,18 @@ async function fazerLoginAdmin(){
 
     localStorage.setItem(
 
-      "usuarioLogado",
+"usuarioLogado",
 
-      JSON.stringify({
+JSON.stringify({
 
-        nome:"Administrador",
+ id:admin.id,
+ nome:"Administrador",
+ tipo:"admin",
+ email:admin.email
 
-        tipo:"admin",
+})
 
-        email:admin.email
-
-      })
-
-    );
+);
 
     carregarUsuario();
 

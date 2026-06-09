@@ -56,6 +56,28 @@ function verificarAdmin(){
 
 }
 
+//=============//
+// Validar adm //
+//=============//
+async function validarAdminBanco(){
+
+  const adminId =
+    localStorage.getItem("adminLogado");
+
+  if(!adminId)
+    return false;
+
+  const { data } =
+    await supabaseClient
+      .from("admins")
+      .select("id")
+      .eq("id", adminId)
+      .single();
+
+  return !!data;
+
+}
+
 
 // =========================
 // 🔐 ADMIN ONLY
@@ -161,7 +183,7 @@ async function carregarUsuarios(){
 // =========================
 async function deletarUsuario(id){
 
-  if(!verificarAdminLocal()){
+  if(!(await verificarAdminLocal())){
 
   mostrarMensagem(
     "Sem permissão"
@@ -1087,7 +1109,7 @@ async function carregarAlunosAdmin(){
 // =========================
 async function deletarAluno(id){
 
-  if(!verificarAdminLocal()){
+  if(!(await verificarAdminLocal())){
 
   mostrarMensagem(
     "Sem permissão"
@@ -1200,7 +1222,7 @@ async function carregarLogsAdmin(){
 // =========================
 async function deletarLog(id){
 
-  if(!verificarAdminLocal()){
+  if(!(await verificarAdminLocal())){
 
   mostrarMensagem(
     "Sem permissão"
@@ -1388,7 +1410,7 @@ graficoLogs = new Chart(canvas,{
 
 lucide.createIcons();
 
-function verificarAdminLocal(){
+async function verificarAdminLocal(){
 
   const user =
     JSON.parse(
@@ -1397,7 +1419,21 @@ function verificarAdminLocal(){
       )
     );
 
-  return user && user.tipo === "admin";
+  if(!user)
+    return false;
+
+  const { data } =
+    await supabaseClient
+
+      .from("admins")
+
+      .select("email")
+
+      .eq("email", user.email)
+
+      .maybeSingle();
+
+  return !!data;
 
 }
 
@@ -2015,3 +2051,37 @@ async function baixarPDFAluno(nomeAluno){
 
 }
 
+//================//
+// Iniciar sessão //
+//================//
+function verificarSessao(){
+
+ try{
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "usuarioLogado"
+      )
+    );
+
+  if(!user)
+    return;
+
+  carregarUsuario();
+
+  controlarPermissoes();
+
+  abrirPagina(
+    "dashboardPage"
+  );
+
+ }catch{
+
+  localStorage.removeItem(
+    "usuarioLogado"
+  );
+
+ }
+
+}
