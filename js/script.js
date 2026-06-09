@@ -86,7 +86,7 @@ setInterval(async ()=>{
 
   await carregarGraficoLogs();
 
-},5000);
+},30000);
 
 async function iniciarTelaInicial(){
 

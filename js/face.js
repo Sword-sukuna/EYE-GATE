@@ -415,11 +415,15 @@ async function iniciarCameraCadastro(){
    video.srcObject =
    streamCadastro;
 
- }catch(error){
+ catch(error){
 
-   console.log(error);
+  console.log(error);
 
- }
+  mostrarMensagem(
+    "Permita acesso à câmera para continuar."
+  );
+
+}
 
 }
 
@@ -454,11 +458,15 @@ async function iniciarCameraMonitor(){
    video.srcObject =
    streamMonitor;
 
- }catch(error){
+ catch(error){
 
-   console.log(error);
+  console.log(error);
 
- }
+  mostrarMensagem(
+    "Permita acesso à câmera para continuar."
+  );
+
+}
 
 }
 
@@ -705,7 +713,7 @@ const detections =
     .detectAllFaces(
       video,
       new faceapi.TinyFaceDetectorOptions({
-        inputSize:416,
+       inputSize:320,
         scoreThreshold:0.5
       })
     )
@@ -773,7 +781,7 @@ console.log(
   continue;
 }
 
-const nome = resultado.label;
+const nome = aluno.nome;
 
 contadorFrames[nome] =
   (contadorFrames[nome] || 0) + 1;
@@ -801,9 +809,9 @@ if(contadorFrames[nome] < 5){
 contadorFrames[nome] = 0;
 
       const aluno =
-        alunosCache.find(
-          a => a.nome === resultado.label
-        );
+  alunosCache.find(
+    a => a.id === resultado.label
+  );
 
       if(!aluno)
         continue;
@@ -1492,11 +1500,11 @@ async function carregarAlunosCache(){
 }
 
     return new faceapi.LabeledFaceDescriptors(
-      aluno.nome,
-      descritores.map(
-        d => new Float32Array(d)
-      )
-    );
+  aluno.id,
+  descritores.map(
+    d => new Float32Array(d)
+  )
+);
 
 });
 
@@ -1518,7 +1526,7 @@ console.log(labeledDescriptors);
 
       labeledDescriptors,
 
-      0.65
+      0.55
 
     );
 
