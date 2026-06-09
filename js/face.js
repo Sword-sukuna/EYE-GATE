@@ -415,7 +415,7 @@ async function iniciarCameraCadastro(){
    video.srcObject =
    streamCadastro;
 
- catch(error){
+  }catch(error){
 
   console.log(error);
 
@@ -458,7 +458,7 @@ async function iniciarCameraMonitor(){
    video.srcObject =
    streamMonitor;
 
- catch(error){
+  }catch(error){
 
   console.log(error);
 
