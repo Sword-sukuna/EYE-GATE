@@ -751,11 +751,6 @@ console.log(
           detection.descriptor
         );
 
-        const aluno =
-  alunosCache.find(
-    a => a.id === resultado.label
-  );
-  
         console.log(
   "Resultado:",
   resultado.label
@@ -786,6 +781,11 @@ console.log(
   continue;
 }
 
+const aluno =
+  alunosCache.find(
+    a => a.id === resultado.label
+  );
+  
 Object.keys(contadorFrames).forEach(n => {
 
   if(n !== nome){
