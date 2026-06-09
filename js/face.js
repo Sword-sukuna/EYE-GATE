@@ -746,6 +746,11 @@ console.log(
   detection.descriptor
 );
 
+const aluno =
+  alunosCache.find(
+    a => a.id === resultado.label
+  );
+
       const resultado =
         faceMatcher.findBestMatch(
           detection.descriptor
@@ -780,11 +785,6 @@ console.log(
 
   continue;
 }
-
-const aluno =
-  alunosCache.find(
-    a => a.id === resultado.label
-  );
 
 Object.keys(contadorFrames).forEach(n => {
 
