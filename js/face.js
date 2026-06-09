@@ -1526,7 +1526,7 @@ console.log(labeledDescriptors);
 
       labeledDescriptors,
 
-      0.55
+      0.68
 
     );
 
