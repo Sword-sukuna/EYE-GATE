@@ -746,16 +746,16 @@ console.log(
   detection.descriptor
 );
 
-const aluno =
-  alunosCache.find(
-    a => a.id === resultado.label
-  );
-
       const resultado =
         faceMatcher.findBestMatch(
           detection.descriptor
         );
 
+        const aluno =
+  alunosCache.find(
+    a => a.id === resultado.label
+  );
+  
         console.log(
   "Resultado:",
   resultado.label
