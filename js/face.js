@@ -785,6 +785,11 @@ const aluno =
   alunosCache.find(
     a => a.id === resultado.label
   );
+
+  const nome = aluno.nome;
+
+contadorFrames[nome] =
+  (contadorFrames[nome] || 0) + 1;
   
 Object.keys(contadorFrames).forEach(n => {
 
@@ -807,11 +812,6 @@ if(contadorFrames[nome] < 5){
 }
 
 contadorFrames[nome] = 0;
-
-      const nome = aluno.nome;
-
-contadorFrames[nome] =
-  (contadorFrames[nome] || 0) + 1;
 
       if(!aluno)
         continue;
