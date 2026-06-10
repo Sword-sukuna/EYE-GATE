@@ -1116,58 +1116,7 @@ button:hover{
 
 }
 
-#startupScreen{
-  position:fixed;
-  inset:0;
-  background:#050816;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:99999;
-  overflow:hidden;
-}
 
-.startup-content{
-  text-align:center;
-  animation:fadeIn 1s ease;
-}
-
-.startup-logo{
-  font-size:80px;
-  margin-bottom:20px;
-  animation:pulse 2s infinite;
-  filter:drop-shadow(0 0 20px #6C5CE7);
-}
-
-.startup-content h1{
-  color:white;
-  font-size:42px;
-  margin-bottom:10px;
-}
-
-.startup-content p{
-  color:#aaa;
-  margin-bottom:25px;
-}
-
-.startup-bar{
-  width:300px;
-  height:8px;
-  background:#111827;
-  border-radius:999px;
-  overflow:hidden;
-}
-
-#startupProgress{
-  width:0%;
-  height:100%;
-  background:linear-gradient(
-    90deg,
-    #6C5CE7,
-    #00C2FF
-  );
-  transition:width .4s ease;
-}
 
 @keyframes pulse{
 
