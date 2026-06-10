@@ -1,9 +1,0 @@
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
-
-.topbar p {
-  color: var(--soft);
-}
