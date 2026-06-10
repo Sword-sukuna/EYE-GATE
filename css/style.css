@@ -109,224 +109,41 @@ body {
   fade 0.5s cubic-bezier(0.22,1,0.36,1);
 }
 
-@keyframes fade {
 
-  from {
-
-    opacity:0;
-
-    transform:
-      translateY(20px)
-      scale(0.98);
-
-  }
-
-  to {
-
-    opacity:1;
-
-    transform:
-      translateY(0)
-      scale(1);
-
-  }
-
-}
 
 /* =========================================================
    CARDS
 ========================================================= */
 
-.card,
-.login-card,
-.form-card,
-.stat-card,
-.sidebar,
-.topbar,
-.activity-section,
-.user-card,
-.aluno-item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  backdrop-filter: blur(6px);
-}
+
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-}
 
-.login-card {
-  width: 100%;
-  max-width: 450px;
-  padding: 40px;
-}
-
-.login-logo {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.login-logo h1 {
-  font-size: 36px;
-  background: linear-gradient(90deg, var(--primary), var(--primary2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.login-logo p {
-  color: var(--soft);
-}
 
 /* =========================================================
    INPUTS
 ========================================================= */
 
-.input-group {
-  margin-bottom: 15px;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 8px;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03);
-  color: var(--text);
-  outline: none;
-}
-
-input:focus {
-
-  border-color: var(--primary);
-
-  box-shadow:
-    0 0 0 4px rgba(108,92,231,0.18);
-
-  transform:
-    scale(1.01);
-
-}
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 15px;
-  font-weight: bold;
-  transition:
-  all 0.2s ease;
-}
-
-.login-btn {
-  width: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--primary2));
-  color: white;
-}
-
-.login-btn:hover {
-
-  transform:
-    translateY(-2px)
-    scale(1.02);
-
-  box-shadow:
-    0 10px 25px rgba(108,92,231,0.4);
-
-}
-
-.logout-btn {
-  width: 100%;
-  background: rgba(255,255,255,0.05);
-  color: var(--text);
-}
 
 /* =========================================================
    DASHBOARD
 ========================================================= */
 
-.dashboard-layout {
-  display: flex;
-  align-items: stretch;
-  min-height: 100vh;
-}
 
-.sidebar {
-  width: 260px;
-  padding: 20px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  min-height: 100vh;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.menu-item {
-  padding: 12px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--text);
-  transition: 0.2s;
-}
-
-.menu-item:hover {
-
-  background:
-    rgba(255,255,255,0.06);
-
-  transform:
-    translateX(6px);
-
-}
-
-.menu-item.active {
-  background: linear-gradient(90deg, var(--primary), var(--primary2));
-  color: white;
-}
-
-.dashboard-content {
-  flex: 1;
-  padding: 30px;
-  overflow-y: auto;
-}
 
 /* =========================================================
    TOPBAR
 ========================================================= */
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
 
-.topbar p {
-  color: var(--soft);
-}
 
 /* =========================================================
    STATS
@@ -428,39 +245,13 @@ button {
 
   }
 
-  .menu{
-
-    display:flex;
-
-    flex-direction:row;
-
-    gap:12px;
-
-    overflow-x:auto;
-
-    padding-bottom:6px;
-
-    scrollbar-width:none;
-
-  }
+  
 
   .menu::-webkit-scrollbar{
     display:none;
   }
 
-  .menu-item{
-
-    flex:none;
-
-    min-width:max-content;
-
-    padding:12px 16px;
-
-    font-size:14px;
-
-    justify-content:center;
-
-  }
+ 
 
   .dashboard-content{
 
@@ -567,15 +358,7 @@ i[data-lucide]{
 
 }
 
-.sidebar-logo{
 
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
-
-}
 
 .eye-logo svg{
 
@@ -587,47 +370,9 @@ i[data-lucide]{
 
 }
 
-@keyframes glowFloat {
 
-  0%{
 
-    transform:
-      translateY(0px)
-      scale(1);
 
-  }
-
-  50%{
-
-    transform:
-      translateY(-20px)
-      scale(1.08);
-
-  }
-
-  100%{
-
-    transform:
-      translateY(0px)
-      scale(1);
-
-  }
-
-}
-
-.sidebar{
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(15,20,35,0.95),
-      rgba(10,14,24,0.92)
-    );
-
-  border-right:
-    1px solid rgba(255,255,255,0.06);
-
-}
 
 button:hover{
 
@@ -786,27 +531,7 @@ button:active{
 
 }
 
-@keyframes fadeUp{
 
-  from{
-
-    opacity:0;
-
-    transform:
-      translateY(15px);
-
-  }
-
-  to{
-
-    opacity:1;
-
-    transform:
-      translateY(0);
-
-  }
-
-}
 
 section{
 
@@ -892,21 +617,7 @@ button:hover{
 
 
 
-@keyframes spin{
 
-  from{
-
-    transform:rotate(0deg);
-
-  }
-
-  to{
-
-    transform:rotate(360deg);
-
-  }
-
-}
 
 .face-guide{
   text-align:center;
@@ -943,35 +654,7 @@ button:hover{
 
 
 
-@keyframes pulse{
 
-  0%{
-    transform:scale(1);
-  }
-
-  50%{
-    transform:scale(1.08);
-  }
-
-  100%{
-    transform:scale(1);
-  }
-
-}
-
-@keyframes fadeIn{
-
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-}
 
 /* ========================= */
 /* 🚀 STARTUP SCREEN */
@@ -1060,35 +743,3 @@ button:hover{
   transition:0.3s;
 }
 
-@keyframes pulseLogo{
-
-  0%{
-    transform:scale(1);
-    filter:drop-shadow(0 0 10px #6C5CE7);
-  }
-
-  50%{
-    transform:scale(1.08);
-    filter:drop-shadow(0 0 30px #00d4ff);
-  }
-
-  100%{
-    transform:scale(1);
-    filter:drop-shadow(0 0 10px #6C5CE7);
-  }
-
-}
-
-@keyframes fadeStartup{
-
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-}

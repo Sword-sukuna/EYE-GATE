@@ -1,0 +1,53 @@
+.sidebar{
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15,20,35,0.95),
+      rgba(10,14,24,0.92)
+    );
+
+  border-right:
+    1px solid rgba(255,255,255,0.06);
+
+}
+
+.sidebar-logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+}
+
+.menu{
+
+    display:flex;
+
+    flex-direction:row;
+
+    gap:12px;
+
+    overflow-x:auto;
+
+    padding-bottom:6px;
+
+    scrollbar-width:none;
+
+  }
+
+   .menu-item{
+
+    flex:none;
+
+    min-width:max-content;
+
+    padding:12px 16px;
+
+    font-size:14px;
+
+    justify-content:center;
+
+  }

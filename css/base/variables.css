@@ -1,0 +1,17 @@
+:root {
+  --bg: #070A12;
+  --card: rgba(12, 18, 30, 0.72);
+  --card-2: rgba(255, 255, 255, 0.08);
+
+  --text: #E6E6E6;
+  --soft: #9AA4B2;
+
+  --primary: #6C5CE7;
+  --primary2: #00D2FF;
+
+  --danger: #ff4d7a;
+
+  --border: rgba(255,255,255,.08);
+
+  --radius: 20px;
+}
