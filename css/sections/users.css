@@ -1,0 +1,19 @@
+.user-card,
+.aluno-item {
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.delete-btn {
+  margin-top: 10px;
+  background: var(--danger);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
