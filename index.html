@@ -905,10 +905,6 @@ Cadastro
 
 </section>
 
-<div class="empty-state">
-  Nenhum aluno encontrado
-</div>
-
 <div class="loading-screen" id="loadingScreen">
 
   <div class="loading-box">
@@ -960,7 +956,12 @@ Cadastro
         Buscar
       </button>
 
-      <div id="resultadoBusca"></div>
+      <div id="resultadoBusca">
+        <div class="empty-state">
+  Nenhum aluno encontrado
+</div>
+
+      </div>
 
     </div>
 
@@ -976,7 +977,7 @@ Cadastro
 
 </section>
 
-<div class="toast"></div>
+<div id="toast" class="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="./face-api.min.js"></script>
