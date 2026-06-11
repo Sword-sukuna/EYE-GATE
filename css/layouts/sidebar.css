@@ -1,0 +1,74 @@
+.sidebar-logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+}
+
+.eye-logo svg{
+
+  width:42px;
+
+  height:42px;
+
+  color:#6C5CE7;
+
+}
+
+
+
+.sidebar{
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15,20,35,0.95),
+      rgba(10,14,24,0.92)
+    );
+
+  border-right:
+    1px solid rgba(255,255,255,0.06);
+
+}
+
+.menu-item{
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+.menu-item::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.08),
+      transparent
+    );
+
+  transform:
+    translateX(-120%);
+
+  transition:
+    0.6s;
+
+}
+
+.menu-item:hover::before{
+
+  transform:
+    translateX(120%);
+
+}

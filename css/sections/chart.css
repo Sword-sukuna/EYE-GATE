@@ -1,0 +1,53 @@
+/* =========================
+   📈 GRAFICO
+========================= */
+
+.grafico-card{
+
+  padding:30px;
+
+}
+
+.grafico-topo{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:20px;
+
+}
+
+.grafico-topo span{
+
+  color:var(--soft);
+
+  font-size:14px;
+
+}
+
+.grafico-container{
+
+  position:relative;
+
+  width:100%;
+
+  height:420px;
+
+  margin-top:15px;
+
+}
+
+.grafico-card:hover{
+
+  transform:
+    translateY(-4px);
+
+  transition:0.25s ease;
+
+  border-color:
+    rgba(255,255,255,0.15);
+
+}

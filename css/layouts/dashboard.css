@@ -1,0 +1,59 @@
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard-layout {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 100vh;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: 0.2s;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.menu-item:hover {
+
+  background:
+    rgba(255,255,255,0.06);
+
+  transform:
+    translateX(6px);
+
+}
+
+.menu-item.active {
+  background: linear-gradient(90deg, var(--primary), var(--primary2));
+  color: white;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}

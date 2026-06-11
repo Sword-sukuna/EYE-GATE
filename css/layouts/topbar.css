@@ -1,0 +1,27 @@
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.topbar p {
+  color: var(--soft);
+}
+
+.topbar{
+
+  padding:20px;
+
+  align-items:center;
+
+}
+
+.topbar h1{
+
+  font-size:28px;
+
+}

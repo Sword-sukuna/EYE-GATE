@@ -1,0 +1,46 @@
+/* =========================================================
+   BASE
+========================================================= */
+
+@import url("./base/reset.css");
+@import url("./base/variables.css");
+@import url("./base/utilities.css");
+@import url("./base/animations.css");
+@import url("./base/background.css");
+
+/* =========================================================
+   COMPONENTS
+========================================================= */
+
+@import url("./components/buttons.css");
+@import url("./components/cards.css");
+@import url("./components/inputs.css");
+@import url("./components/loading.css");
+@import url("./components/startup.css");
+@import url("./components/toast.css");
+
+/* =========================================================
+   LAYOUTS
+========================================================= */
+
+@import url("./layouts/pages.css");
+@import url("./layouts/dashboard.css");
+@import url("./layouts/sidebar.css");
+@import url("./layouts/topbar.css");
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+@import url("./sections/login.css");
+@import url("./sections/stats.css");
+@import url("./sections/chart.css");
+@import url("./sections/camera.css");
+@import url("./sections/users.css");
+@import url("./sections/logs.css");
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@import url("./responsive.css");

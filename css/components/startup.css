@@ -1,0 +1,86 @@
+/* ========================= */
+/* 🚀 STARTUP SCREEN */
+/* ========================= */
+
+#startupScreen{
+
+  position:fixed;
+  inset:0;
+
+  background:#050816;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:99999;
+
+  overflow:hidden;
+
+  transition:1s ease;
+}
+
+.startup-content{
+
+  text-align:center;
+  z-index:2;
+
+  animation:fadeStartup 1s ease;
+}
+
+.startup-logo{
+
+  font-size:90px;
+
+  animation:pulseLogo 2s infinite;
+}
+
+.startup-content h1{
+
+  color:white;
+
+  font-size:42px;
+
+  margin-top:10px;
+
+  letter-spacing:4px;
+}
+
+.startup-content p{
+
+  color:#8fa3ff;
+
+  margin-top:10px;
+
+  font-size:15px;
+}
+
+.startup-bar{
+
+  width:300px;
+  height:8px;
+
+  background:rgba(255,255,255,0.1);
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+  margin-top:30px;
+}
+
+#startupProgress{
+
+  width:0%;
+  height:100%;
+
+  background:linear-gradient(
+    90deg,
+    #6C5CE7,
+    #00d4ff
+  );
+
+  border-radius:999px;
+
+  transition:0.3s;
+}

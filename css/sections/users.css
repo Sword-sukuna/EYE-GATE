@@ -1,0 +1,41 @@
+/* =========================================================
+   USERS
+========================================================= */
+
+.user-card,
+.aluno-item {
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.delete-btn {
+  margin-top: 10px;
+  background: var(--danger);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.user-card{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:15px;
+
+}
+
+.user-card:hover{
+  transform:translateY(-4px);
+  transition:0.25s ease;
+  border-color:rgba(255,255,255,0.15);
+}

@@ -1,0 +1,20 @@
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transform: translateX(120%);
+  transition: 0.3s;
+  z-index: 99999;
+}
+
+.toast.show {
+  transform: translateX(0);
+}

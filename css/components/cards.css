@@ -1,0 +1,18 @@
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card,
+.login-card,
+.form-card,
+.stat-card,
+.sidebar,
+.topbar,
+.activity-section,
+.user-card,
+.aluno-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(6px);
+}

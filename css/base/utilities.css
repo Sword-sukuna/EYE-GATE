@@ -1,0 +1,27 @@
+.success{
+
+  color:#00ffae;
+
+}
+
+.warning{
+
+  color:#ffcc00;
+
+}
+
+.danger{
+
+  color:#ff5d73;
+
+}
+
+.empty-state{
+
+  padding:30px;
+
+  text-align:center;
+
+  color:var(--soft);
+
+}

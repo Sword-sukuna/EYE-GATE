@@ -1,0 +1,77 @@
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+
+  padding:20px;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+
+}
+
+.stat-card:hover {
+
+  transform:
+    translateY(-8px);
+
+  background:
+    rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.35);
+
+}
+
+.stat-card h2{
+
+  font-size:34px;
+
+  margin-top:10px;
+
+}
+
+.stat-card p{
+
+  color:var(--soft);
+
+  font-size:14px;
+
+}
+
+/* =========================
+   GLASS EFFECT EXTRA
+========================= */
+
+.stat-card,
+.user-card,
+.topbar,
+.grafico-card{
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.25);
+
+}
+
+/* =========================
+   FADE IN GERAL
+========================= */
+
+.stat-card,
+.user-card,
+.grafico-card,
+.topbar{
+
+  animation:
+    fadeUp 0.5s ease;
+
+}
