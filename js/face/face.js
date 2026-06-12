@@ -85,5 +85,5 @@ function validarPose(detection){
     default:
       return false;
   }
-
+}
 }
