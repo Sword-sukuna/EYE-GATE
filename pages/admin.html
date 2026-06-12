@@ -1,0 +1,77 @@
+<!-- ========================= -->
+<!-- 🔐 ADMIN -->
+<!-- ========================= -->
+<section
+  id="adminPage"
+  class="page"
+>
+
+  <main class="dashboard-content">
+
+    <div class="topbar">
+
+      <h1>
+        🔐 Painel Admin
+      </h1>
+
+    </div>
+
+    <div class="activity-section">
+
+      <h2>
+        👥 Usuários
+      </h2>
+
+      <div id="adminUsers"></div>
+
+      <h2 style="margin-top:30px;">
+  🎓 Alunos
+</h2>
+
+<div id="adminAlunos"></div>
+
+<h2 style="margin-top:30px;">
+  📋 Logs
+</h2>
+
+<div id="adminLogs"></div>
+
+      <div
+        style="
+          display:flex;
+          gap:15px;
+          margin-top:20px;
+          flex-wrap:wrap;
+        "
+      >
+
+        <button
+          class="logout-btn"
+          onclick="abrirPagina('dashboardPage')"
+        >
+          ← Voltar
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</section>
+
+<div class="loading-screen" id="loadingScreen">
+
+  <div class="loading-box">
+
+    <div class="loader"></div>
+
+    <h2>EYE GATE</h2>
+
+    <p id="loadingText">
+      Carregando...
+    </p>
+
+  </div>
+
+</div>

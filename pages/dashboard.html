@@ -1,0 +1,264 @@
+<!-- ========================= -->
+<!-- 📊 DASHBOARD -->
+<!-- ========================= -->
+<section
+  id="dashboardPage"
+  class="page"
+>
+
+  <div class="dashboard-layout">
+
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div>
+
+        <div class="sidebar-logo">
+
+         <div class="eye-logo">
+
+  <i data-lucide="scan-eye"></i>
+
+</div>
+
+          <div>
+
+            <h2>EYE GATE</h2>
+
+            <p>
+              Painel Escolar
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+          <a
+            href="#"
+            class="menu-item active"
+            onclick="abrirPagina('dashboardPage')"
+          >
+
+          <i data-lucide="layout-dashboard"></i>
+Dashboard
+
+          </a>
+
+
+          <a
+  href="#"
+  class="menu-item admin-only"
+  onclick="abrirPagina('cadastroPage')"
+  style="display:none;"
+>
+  <i data-lucide="user-plus"></i>
+  Cadastro
+</a>
+
+
+          <a
+            href="#"
+            class="menu-item"
+            onclick="abrirPagina('monitorPage')"
+          >
+            <i data-lucide="camera"></i>
+Monitor
+          </a>
+
+
+          <a
+            href="#"
+            class="menu-item"
+            onclick="abrirPagina('registrosPage')"
+          >
+            <i data-lucide="clipboard-list"></i>
+Registros
+          </a>
+
+
+           <a
+  href="#"
+  class="menu-item admin-only"
+  onclick="abrirPagina('relatorioPage')"
+  style="display:none;"
+>
+  <i data-lucide="file-text"></i>
+  Relatórios
+</a>
+
+
+          <a
+            href="#"
+            class="menu-item admin-only"
+            onclick="abrirPagina('adminPage')"
+            style="display:none;"
+          >
+            <i data-lucide="shield"></i>
+Admin
+          </a>
+
+        </nav>
+
+      </div>
+  
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        <i data-lucide="log-out"></i>
+Sair
+      </button>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+    <main class="dashboard-content">
+
+      <header class="topbar">
+
+        <div>
+
+          <h1>Dashboard</h1>
+
+          <p>
+            Sistema inteligente escolar
+          </p>
+
+        </div>
+
+
+        <div class="top-user">
+
+          <div class="user-avatar">
+            👤
+          </div>
+
+          <div>
+
+            <strong id="userName">
+              Usuário
+            </strong>
+
+            <p id="userType">
+              Online
+            </p>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <section class="stats-grid">
+
+        <div class="activity-section grafico-card">
+
+  <div class="grafico-topo">
+
+    <h2>
+      📈 Reconhecimentos
+    </h2>
+
+    <span>
+      Últimos registros
+    </span>
+
+  </div>
+
+  <div class="grafico-container">
+
+    <canvas id="graficoLogs"></canvas>
+
+  </div>
+
+</div>
+
+        <div class="stat-card">
+
+          <span>👥</span>
+
+          <h2 id="totalUsers">
+            0
+          </h2>
+
+          <p>
+            Usuários
+          </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span>📡</span>
+
+          <h2>
+            Online
+          </h2>
+
+          <p>
+            Sistema ativo
+          </p>
+
+        </div>
+
+          <div class="stat-card">
+
+
+  <span>🎓</span>
+
+  <h2 id="totalAlunos">
+    0
+  </h2>
+
+  <p>
+    Alunos
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <span>🧠</span>
+
+  <h2 id="totalReconhecimentos">
+    0
+  </h2>
+
+  <p>
+    Reconhecimentos
+  </p>
+
+</div>
+
+
+<div class="stat-card">
+
+  <span>📋</span>
+
+  <h2 id="totalLogs">
+    0
+  </h2>
+
+  <p>
+    Registros Hoje
+  </p>
+
+</div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</section>

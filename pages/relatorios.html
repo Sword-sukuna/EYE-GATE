@@ -1,0 +1,55 @@
+<!-- ========================= -->
+<!-- 📄 RELATÓRIOS -->
+<!-- ========================= -->
+<section
+  id="relatorioPage"
+  class="page"
+>
+
+  <div class="page-content">
+
+    <div class="topbar">
+      <h1>Relatórios</h1>
+    </div>
+
+    <div class="activity-section">
+
+      <h2>📄 Gerar relatório do aluno</h2>
+
+      <div class="input-group">
+        <label>Buscar aluno</label>
+
+        <input
+          type="text"
+          id="buscaAluno"
+          placeholder="Nome ou matrícula"
+        />
+      </div>
+
+      <button
+        class="login-btn"
+        onclick="buscarAlunoRelatorio()"
+      >
+        Buscar
+      </button>
+
+      <div id="resultadoBusca">
+        <div class="empty-state">
+  Nenhum aluno encontrado
+</div>
+
+      </div>
+
+    </div>
+
+    <button
+      class="logout-btn"
+      onclick="abrirPagina('dashboardPage')"
+      style="margin-top:20px;"
+    >
+      ← Voltar
+    </button>
+
+  </div>
+
+</section>
