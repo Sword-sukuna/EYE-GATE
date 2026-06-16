@@ -1,4 +1,3 @@
-
 // =========================
 // 🚀 START
 // =========================
@@ -7,6 +6,14 @@ window.addEventListener(
   "DOMContentLoaded",
 
   async ()=>{
+
+    await carregarPaginas();
+
+    await carregarFaceAPI();
+
+    iniciarLogin();
+
+    verificarSessao();
 
     await carregarFaceAPI();
 
