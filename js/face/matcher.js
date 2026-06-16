@@ -1,6 +1,6 @@
+async function carregarMatcher(){
 
-
-lucide.createIcons();
+  lucide.createIcons();
 
   console.log(
     "Alunos carregados:",
@@ -8,12 +8,14 @@ lucide.createIcons();
   );
 
   const labeledDescriptors =
-  alunosCache.map((aluno)=>{
+  alunosCache
+  .map((aluno)=>{
 
     let descritores = aluno.descriptor;
 
-    // corrige descriptor antigo quebrado
+    // corrige descriptor antigo
     if(
+      descritores &&
       descritores.length > 0 &&
       typeof descritores[0] === "number"
     ){
@@ -21,56 +23,61 @@ lucide.createIcons();
     }
 
     if(
-  !descritores ||
-  !Array.isArray(descritores) ||
-  descritores.length === 0
-){
-  return null;
-}
+      !descritores ||
+      !Array.isArray(descritores) ||
+      descritores.length === 0
+    ){
+      return null;
+    }
 
     return new faceapi.LabeledFaceDescriptors(
-  aluno.id,
-  descritores.map(
-    d => new Float32Array(d)
-  )
-);
+      aluno.id,
+      descritores.map(
+        d => new Float32Array(d)
+      )
+    );
 
-});
+  })
+  .filter(Boolean);
 
-console.log("Descriptors carregados:");
-console.log(labeledDescriptors);
+  console.log(
+    "Descriptors carregados:"
+  );
 
-    if(labeledDescriptors.length === 0){
+  console.log(
+    labeledDescriptors
+  );
 
-  console.log("Nenhum aluno cadastrado");
+  if(
+    labeledDescriptors.length === 0
+  ){
 
-  matcherPronto = false;
+    console.log(
+      "Nenhum aluno cadastrado"
+    );
 
-  return;
+    matcherPronto = false;
 
-}
+    return;
+  }
 
   faceMatcher =
     new faceapi.FaceMatcher(
-
       labeledDescriptors,
-
       0.68
-
     );
 
   matcherPronto = true;
 
   console.log(
-  "FaceMatcher carregado"
-);
+    "FaceMatcher carregado"
+  );
 
-console.log(
-  "Alunos:",
-  alunosCache
-);
+  console.log(
+    "Alunos:",
+    alunosCache
+  );
 
-// Inicia a limpeza automática
-iniciarLimpezaDiaria();
+  iniciarLimpezaDiaria();
 
-
+}
