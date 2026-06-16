@@ -15,12 +15,6 @@ window.addEventListener(
 
     verificarSessao();
 
-    await carregarFaceAPI();
-
-    iniciarLogin();
-
-    verificarSessao();
-
     iniciarAdminLogin();
 
     iniciarRegistro();
