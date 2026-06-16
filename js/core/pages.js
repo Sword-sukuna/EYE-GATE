@@ -1,7 +1,6 @@
-async function carregarPaginas(){
+async function carregarPaginas() {
 
   const paginas = [
-
     "login",
     "admin-login",
     "dashboard",
@@ -10,22 +9,27 @@ async function carregarPaginas(){
     "registros",
     "relatorios",
     "admin"
-
   ];
 
-  const app =
-    document.getElementById("app");
+  const app = document.getElementById("app");
 
-  for(const pagina of paginas){
+  app.innerHTML = "";
+
+  for (const pagina of paginas) {
 
     const resposta =
-      await fetch(
-        `./pages/${pagina}.html`
-      );
+      await fetch(`./pages/${pagina}.html`);
 
-    app.innerHTML +=
+    const html =
       await resposta.text();
 
+    app.insertAdjacentHTML(
+      "beforeend",
+      html
+    );
+
   }
+
+  lucide.createIcons();
 
 }
