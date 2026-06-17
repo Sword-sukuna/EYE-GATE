@@ -3,6 +3,8 @@
 // =========================
 async function carregarFaceAPI(){
 
+  console.log("CARREGAR FACE API");
+
   try{
 
     await faceapi.nets.tinyFaceDetector.loadFromUri("./models");

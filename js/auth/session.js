@@ -57,6 +57,8 @@ function logout(){
 //================//
 function verificarSessao(){
 
+ console.log("VERIFICAR SESSAO");
+ 
  try{
 
   const user =
