@@ -53,7 +53,8 @@ async function carregarAlunosCache(){
 
 });
 
-function validarPose(detection){
+
+}function validarPose(detection){
 
   const nariz =
     detection.landmarks.getNose()[3];
@@ -87,5 +88,4 @@ function validarPose(detection){
     default:
       return false;
   }
-}
 }
