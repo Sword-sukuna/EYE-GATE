@@ -32,34 +32,40 @@ async function reconhecerFace() {
             try {
                 resultado = window.faceMatcher.findBestMatch(detection.descriptor);
             } catch (e) {
+                console.warn("Erro no findBestMatch");
                 continue;
             }
 
             console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
 
-            // ==================== RECONHECIMENTO ====================
-            if (resultado.label === "unknown" || resultado.distance > 0.75) continue;
+            // === DEBUGS EXTRAS ===
+            console.log("   → Label existe?", !!resultado.label);
+            console.log("   → Aluno encontrado no cache?", window.alunosCache.some(a => a.id === resultado.label));
+
+            if (resultado.label === "unknown" || resultado.distance > 0.75) {
+                console.log("   → Bloqueado por threshold ou unknown");
+                continue;
+            }
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
-            if (!aluno) continue;
+            if (!aluno) {
+                console.log("   → Aluno NÃO encontrado no cache!");
+                continue;
+            }
 
             const nome = aluno.nome;
-
             console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
-            // Atualiza a tela
+            // Atualiza tela
             document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
             document.getElementById("statusTexto").innerText = nome;
 
-            // Tenta mostrar toast
             if (typeof mostrarMensagem === "function") {
                 mostrarMensagem(`✅ ${nome} foi reconhecido!`);
             }
 
-            // Registra no banco
             await registrarLog(aluno);
 
-            // Anti-repetição
             window.ultimoReconhecimento[nome] = Date.now();
         }
     } catch (error) {
