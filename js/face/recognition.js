@@ -11,102 +11,62 @@ function iniciarMonitor() {
 }
 
 async function reconhecerFace() {
-    if (!window.faceApiPronta || !faceapi?.nets?.faceRecognitionNet?.isLoaded) {
-    console.log("⏳ Face API ainda não está pronta");
-    return;
-}
-    if (!faceapi?.nets?.faceRecognitionNet?.isLoaded) {
-        console.log("⏳ Modelos do Face API ainda carregando");
-        return;
-    }
-    if (window.reconhecendo || !window.matcherPronto || !window.faceMatcher) {
-        // console.log("⏳ Aguardando matcher ou já reconhecendo");
-        return;
-    }
+    if (!window.faceApiPronta || !faceapi?.nets?.faceRecognitionNet?.isLoaded) return;
+    if (window.reconhecendo || !window.matcherPronto || !window.faceMatcher) return;
 
     window.reconhecendo = true;
 
     try {
         const video = document.getElementById("monitorVideo");
-        if (!video || video.readyState < 2) {
-            // console.log("📹 Vídeo não pronto");
-            return;
-        }
+        if (!video || video.readyState < 2) return;
 
         const detections = await faceapi
-            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({
-                inputSize: 320,
-                scoreThreshold: 0.5
-            }))
+            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 }))
             .withFaceLandmarks()
             .withFaceDescriptors();
 
         if (detections.length === 0) {
             document.getElementById("statusTitulo").innerText = "Nenhum rosto detectado";
-            document.getElementById("statusTexto").innerText = "Posicione seu rosto na câmera";
+            document.getElementById("statusTexto").innerText = "Posicione seu rosto";
             return;
         }
 
-        console.log(`👀 ${detections.length} rosto(s) detectado(s)!`);   // ← Esse log deve aparecer agora
-
         for (const detection of detections) {
-    let resultado;
-    try {
-        resultado = window.faceMatcher.findBestMatch(detection.descriptor);
-    } catch (err) {
-        console.warn("Erro no match:", err.message);
-        continue;
-    }
+            let resultado;
+            try {
+                resultado = window.faceMatcher.findBestMatch(detection.descriptor);
+            } catch (e) {
+                continue;
+            }
 
-    console.log(`🔍 Match: ${resultado.label} | Distância: ${resultado.distance.toFixed(3)}`);
+            console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
 
-    // Mais tolerante para teste
-    if (resultado.label === "unknown" || resultado.distance > 0.72) {   // aumentei para 0.72
-        continue;
-    }
+            if (resultado.label === "unknown" || resultado.distance > 0.75) continue;
 
-    const aluno = window.alunosCache.find(a => a.id === resultado.label);
-    if (!aluno) continue;
+            const aluno = window.alunosCache.find(a => a.id === resultado.label);
+            if (!aluno) continue;
 
-    const nome = aluno.nome;
+            const nome = aluno.nome;
 
-    // Reduzimos a confirmação para 3 frames (mais fácil)
-    window.contadorFrames[nome] = (window.contadorFrames[nome] || 0) + 1;
+            // === FORÇANDO RECONHECIMENTO ===
+            console.log(`🎉 RECONHECIDO IMEDIATO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
-    Object.keys(window.contadorFrames).forEach(n => {
-        if (n !== nome) window.contadorFrames[n] = 0;
-    });
+            mostrarMensagem(`✅ Aluno reconhecido: ${nome}`);
+            
+            document.getElementById("statusTitulo").innerText = "Aluno reconhecido ✅";
+            document.getElementById("statusTexto").innerText = `${nome} identificado com sucesso`;
 
-    console.log(`📈 ${nome} → ${window.contadorFrames[nome]}/3 frames`);
+            await registrarLog(aluno);
 
-    if (window.contadorFrames[nome] < 3) continue;   // ← Mudado de 5 para 3
-
-    window.contadorFrames[nome] = 0;
-
-    // Anti-repetição
-    const agora = Date.now();
-    if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < 3000) {
-        continue;
-    }
-
-    window.ultimoReconhecimento[nome] = agora;
-
-    // UI - Isso deve aparecer agora
-    console.log(`🎉 RECONHECIDO: ${nome}`);
-    mostrarMensagem(`✅ Aluno reconhecido: ${nome}`);
-    
-    document.getElementById("statusTitulo").innerText = "Aluno reconhecido ✅";
-    document.getElementById("statusTexto").innerText = `${nome} identificado com sucesso`;
-
-    await registrarLog(aluno);
-}
+            // Anti-spam (não reconhece de novo por 4 segundos)
+            window.ultimoReconhecimento[nome] = Date.now();
+        }
     } catch (error) {
-        console.error("❌ Erro no reconhecimento:", error);
+        console.error("Erro no reconhecimento:", error);
     } finally {
         window.reconhecendo = false;
     }
 }
-
 async function registrarLog(aluno) {
     try {
         console.log(`📝 Tentando registrar log para: ${aluno.nome}`);
