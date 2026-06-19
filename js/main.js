@@ -25,6 +25,15 @@ window.addEventListener("DOMContentLoaded", async () => {
         iniciarMonitor();           // ← Inicia o reconhecimento
         console.log("✅ Monitor de reconhecimento iniciado");
     }, 2000);
+
+    // === INICIALIZAÇÃO DO RECONHECIMENTO ===
+    await carregarAlunosCache();
+    await criarMatcher();
+    
+    setTimeout(() => {
+        iniciarMonitor();
+        console.log("✅ Sistema de reconhecimento iniciado");
+    }, 2000);
 });
 
 setInterval(async ()=>{
@@ -37,11 +46,4 @@ setInterval(async ()=>{
 
 },30000);
 
-    // === INICIALIZAÇÃO DO RECONHECIMENTO ===
-    await carregarAlunosCache();
-    await criarMatcher();
     
-    setTimeout(() => {
-        iniciarMonitor();
-        console.log("✅ Sistema de reconhecimento iniciado");
-    }, 2000);
