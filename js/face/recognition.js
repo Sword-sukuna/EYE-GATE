@@ -3,251 +3,97 @@
 // =========================
 let monitorInterval = null;
 
-function iniciarMonitor(){
-
-  if(monitorInterval)
-    return;
-
-  monitorInterval = setInterval(
-    reconhecerFace,
-    250
-  );
-
+function iniciarMonitor() {
+    if (monitorInterval) return;
+    monitorInterval = setInterval(reconhecerFace, 250);
 }
 
-// =========================
-// 👁 RECONHECER FACE
-// =========================
-async function reconhecerFace(){
+async function reconhecerFace() {
+    if (!window.faceApiPronta || !faceapi.nets.faceRecognitionNet?.isLoaded) return;
+    if (window.reconhecendo || !window.matcherPronto || !window.faceMatcher) return;
 
-  if(!faceApiPronta) return;
+    window.reconhecendo = true;
 
-if(!faceapi.nets.faceRecognitionNet.isLoaded) return;
+    try {
+        const video = document.getElementById("monitorVideo");
+        if (!video || video.readyState < 2) return;
 
-  if(reconhecendo) return;
+        const detections = await faceapi
+            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 }))
+            .withFaceLandmarks()
+            .withFaceDescriptors();
 
-  reconhecendo = true;
+        if (detections.length === 0) {
+            document.getElementById("statusTitulo").innerText = "Nenhum rosto detectado";
+            document.getElementById("statusTexto").innerText = "Aguardando...";
+            return;
+        }
 
-  try{
+        for (const detection of detections) {
+            const resultado = window.faceMatcher.findBestMatch(detection.descriptor);
 
-    const video =
-      document.getElementById("monitorVideo");
+            if (resultado.label === "unknown" || resultado.distance > 0.65) continue;
 
-    if(!video) return;
+            const aluno = window.alunosCache.find(a => a.id === resultado.label);
+            if (!aluno) continue;
 
-    if(!matcherPronto || !faceMatcher)
-      return;
+            const nome = aluno.nome;
 
-   if(video.readyState < 2)
-  return;
+            window.contadorFrames[nome] = (window.contadorFrames[nome] || 0) + 1;
 
-const detections =
-  await faceapi
-    .detectAllFaces(
-      video,
-      new faceapi.TinyFaceDetectorOptions({
-       inputSize:320,
-        scoreThreshold:0.5
-      })
-    )
+            Object.keys(window.contadorFrames).forEach(n => {
+                if (n !== nome) window.contadorFrames[n] = 0;
+            });
 
-    .withFaceLandmarks()
-    .withFaceDescriptors();
+            if (window.contadorFrames[nome] < 5) continue;
 
-    if(detections.length === 0){
+            window.contadorFrames[nome] = 0;
 
-  document.getElementById("statusTitulo").innerText =
-    "Nenhum rosto detectado";
+            const agora = Date.now();
+            if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < window.TEMPO_BLOQUEIO) {
+                continue;
+            }
 
-  document.getElementById("statusTexto").innerText =
-    "Aguardando reconhecimento...";
+            window.ultimoReconhecimento[nome] = agora;
 
-  return;
-}
-console.log(
-  "Faces detectadas:",
-  detections
-);
+            mostrarMensagem(`Aluno reconhecido: ${nome}`);
 
-    for(const detection of detections){
+            document.getElementById("statusTitulo").innerText = "Aluno reconhecido ✅";
+            document.getElementById("statusTexto").innerText = `${nome} identificado`;
 
-      console.log(
-  "Rosto detectado"
-);
-
-console.log(
-  detection.descriptor
-);
-
-      const resultado =
-        faceMatcher.findBestMatch(
-          detection.descriptor
-        );
-
-        console.log(
-  "Resultado:",
-  resultado.label
-);
-
-console.log(
-  "Distância:",
-  resultado.distance
-);
-
-        console.log(
-  "Nome:",
-  resultado.label,
-  "Distância:",
-  resultado.distance
-);
-
-      if(
-  resultado.label === "unknown" ||
-  resultado.distance > 0.65
-){
-
-  console.log(
-    "Desconhecido. Distância:",
-    resultado.distance
-  );
-
-  continue;
+            await registrarLog(aluno);
+        }
+    } catch (error) {
+        console.error("Erro no reconhecimento:", error);
+    } finally {
+        window.reconhecendo = false;
+    }
 }
 
-const aluno =
-  alunosCache.find(
-    a => a.id === resultado.label
-  );
+async function registrarLog(aluno) {
+    try {
+        const { data: logs } = await window.supabaseClient
+            .from("logs")
+            .select("*")
+            .eq("aluno", aluno.nome)
+            .order("horario", { ascending: false })
+            .limit(1);
 
-  const nome = aluno.nome;
+        const statusAtual = (logs?.[0]?.status === "Entrada") ? "Saída" : "Entrada";
 
-contadorFrames[nome] =
-  (contadorFrames[nome] || 0) + 1;
-  
-Object.keys(contadorFrames).forEach(n => {
-
-  if(n !== nome){
-
-    contadorFrames[n] = 0;
-
-  }
-
-});
-
-console.log(
-  `${nome}: ${contadorFrames[nome]}/5`
-);
-
-if(contadorFrames[nome] < 5){
-
-  continue;
-
+        await window.supabaseClient.from("logs").insert([{
+            aluno: aluno.nome,
+            status: statusAtual,
+            horario: new Date().toISOString()
+        }]);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-contadorFrames[nome] = 0;
-
-      if(!aluno)
-        continue;
-
-      const agora = Date.now();
-
-      if(
-  ultimoReconhecimento[aluno.nome] &&
-  agora - ultimoReconhecimento[aluno.nome] < TEMPO_BLOQUEIO
-){
-  continue;
-}
-
-      ultimoReconhecimento[aluno.nome] = agora;
-
-      mostrarMensagem(
-        `Aluno reconhecido: ${aluno.nome}`
-      );
-
-      document.getElementById("statusTitulo").innerText =
-  "Aluno reconhecido ✅";
-
-document.getElementById("statusTexto").innerText =
-  `${aluno.nome} identificado com sucesso`;
-
-      console.log("Tentando salvar:", aluno);
-
-// Busca último log do aluno
-const respostaLogs = await supabaseClient
-  .from("logs")
-  .select("*")
-  .eq("aluno", aluno.nome)
-  .order("horario", {
-    ascending: false
-  })
-  .limit(1);
-
-const logsAluno = respostaLogs.data;
-const logsError = respostaLogs.error;
-
-if(logsError){
-
-  console.log(logsError);
-
-  continue;
-
-}
-
-const ultimoLog = logsAluno[0];
-
-let statusAtual = "Entrada";
-
-if(
-  ultimoLog &&
-  ultimoLog.status === "Entrada"
-){
-  statusAtual = "Saída";
-}
-
-// Salva novo log
-const { error: logError } =
-  await supabaseClient
-    .from("logs")
-    .insert([{
-      aluno: aluno.nome,
-      status: statusAtual,
-      horario: new Date().toISOString()
-    }]);
-
-if(logError){
-
-  console.log(logError);
-
-  alert(JSON.stringify(logError));
-
-}else{
-
-  console.log("Log criado!");
-
-}
-
-    } // fecha o FOR
-
-}catch(error){
-
-  console.log(error);
-
-}finally{
-
-  reconhecendo = false;
-
-}
-
-}
-
-function pararMonitor(){
-
-  if(monitorInterval){
-
-    clearInterval(monitorInterval);
-
-    monitorInterval = null;
-
-  }
-
+function pararMonitor() {
+    if (monitorInterval) {
+        clearInterval(monitorInterval);
+        monitorInterval = null;
+    }
 }
