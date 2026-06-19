@@ -1,43 +1,31 @@
 // =========================
 // 🚀 START
 // =========================
-window.addEventListener(
-
-  "DOMContentLoaded",
-
-  async ()=>{
-
+window.addEventListener("DOMContentLoaded", async () => {
     await carregarPaginas();
-
     await carregarFaceAPI();
-
     iniciarLogin();
-
     verificarSessao();
-
     iniciarAdminLogin();
-
     iniciarRegistro();
-
     iniciarCadastro();
 
     await carregarAlunosCache();
+    await criarMatcher();           // ← Adicionar isso
 
     carregarUsuario();
-
     controlarPermissoes();
-
     await carregarGraficoLogs();
-
     await carregarStats();
-
     await carregarUsuarios();
-
     await carregarLogs();
 
-  }
-
-);
+    // ←←← IMPORTANTE
+    setTimeout(() => {
+        iniciarMonitor();           // ← Inicia o reconhecimento
+        console.log("✅ Monitor de reconhecimento iniciado");
+    }, 2000);
+});
 
 setInterval(async ()=>{
 

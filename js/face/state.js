@@ -39,7 +39,7 @@ const poses = [
 
 let etapaCaptura = 0;
 
-// Tornar variáveis globais para outros scripts
+// === FORÇAR VARIÁVEIS GLOBAIS ===
 window.faceApiPronta = faceApiPronta;
 window.reconhecendo = reconhecendo;
 window.matcherPronto = matcherPronto;
@@ -48,4 +48,3 @@ window.alunosCache = alunosCache;
 window.contadorFrames = contadorFrames;
 window.ultimoReconhecimento = ultimoReconhecimento;
 window.TEMPO_BLOQUEIO = TEMPO_BLOQUEIO;
-window.supabaseClient = supabaseClient; // já existe no supabase.js

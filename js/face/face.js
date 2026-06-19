@@ -89,3 +89,22 @@ async function carregarAlunosCache(){
       return false;
   }
 }
+
+async function criarMatcher() {
+    try {
+        const labeledDescriptors = alunosCache.map(aluno => {
+            if (aluno.descriptor && aluno.descriptor.length > 0) {
+                return new faceapi.LabeledFaceDescriptors(
+                    aluno.id,
+                    [new Float32Array(aluno.descriptor)]
+                );
+            }
+        }).filter(Boolean);
+
+        window.faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
+        window.matcherPronto = true;
+        console.log(`✅ Matcher criado com ${labeledDescriptors.length} alunos`);
+    } catch (e) {
+        console.error("Erro ao criar matcher:", e);
+    }
+}
