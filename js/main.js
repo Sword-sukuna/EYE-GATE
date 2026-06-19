@@ -37,3 +37,11 @@ setInterval(async ()=>{
 
 },30000);
 
+    // === INICIALIZAÇÃO DO RECONHECIMENTO ===
+    await carregarAlunosCache();
+    await criarMatcher();
+    
+    setTimeout(() => {
+        iniciarMonitor();
+        console.log("✅ Sistema de reconhecimento iniciado");
+    }, 2000);

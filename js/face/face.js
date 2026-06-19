@@ -9,12 +9,10 @@ async function carregarFaceAPI(){
         await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
         await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
 
-        // === ATUALIZAÇÃO IMPORTANTE ===
         faceApiPronta = true;
-        window.faceApiPronta = true;   // ←←← Adicione esta linha
+        window.faceApiPronta = true;   // ← Correção importante
 
         console.log("✅ Face API carregada com sucesso");
-        
     } catch(error){
         console.error("❌ Erro ao carregar Face API:", error);
     }

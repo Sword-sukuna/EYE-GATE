@@ -5,13 +5,13 @@ let monitorInterval = null;
 
 function iniciarMonitor() {
     if (monitorInterval) return;
-    
     console.log("🔄 Iniciando monitor de reconhecimento...");
     monitorInterval = setInterval(reconhecerFace, 300);
 }
 
 async function reconhecerFace() {
-    if (!window.faceApiPronta || !faceapi?.nets?.faceRecognitionNet?.isLoaded) return;
+    if (!window.faceApiPronta) return;
+    if (!faceapi?.nets?.faceRecognitionNet?.isLoaded) return;
     if (window.reconhecendo || !window.matcherPronto || !window.faceMatcher) return;
 
     window.reconhecendo = true;
@@ -27,7 +27,7 @@ async function reconhecerFace() {
 
         if (detections.length === 0) {
             document.getElementById("statusTitulo").innerText = "Nenhum rosto detectado";
-            document.getElementById("statusTexto").innerText = "Posicione seu rosto";
+            document.getElementById("statusTexto").innerText = "Posicione seu rosto na câmera";
             return;
         }
 
@@ -41,24 +41,25 @@ async function reconhecerFace() {
 
             console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
 
-            if (resultado.label === "unknown" || resultado.distance > 0.75) continue;
+            if (resultado.label === "unknown" || resultado.distance > 0.70) continue;
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
             if (!aluno) continue;
 
             const nome = aluno.nome;
 
-            // === FORÇANDO RECONHECIMENTO ===
-            console.log(`🎉 RECONHECIDO IMEDIATO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
+            console.log(`🎉 RECONHECIDO: ${nome}`);
 
-            mostrarMensagem(`✅ Aluno reconhecido: ${nome}`);
-            
-            document.getElementById("statusTitulo").innerText = "Aluno reconhecido ✅";
-            document.getElementById("statusTexto").innerText = `${nome} identificado com sucesso`;
+            // Atualiza UI
+            mostrarMensagem?.(`✅ Aluno reconhecido: ${nome}`);
+
+            const titulo = document.getElementById("statusTitulo");
+            const texto = document.getElementById("statusTexto");
+            if (titulo) titulo.innerText = "Aluno reconhecido ✅";
+            if (texto) texto.innerText = `${nome} identificado com sucesso`;
 
             await registrarLog(aluno);
 
-            // Anti-spam (não reconhece de novo por 4 segundos)
             window.ultimoReconhecimento[nome] = Date.now();
         }
     } catch (error) {
@@ -67,23 +68,22 @@ async function reconhecerFace() {
         window.reconhecendo = false;
     }
 }
+
 async function registrarLog(aluno) {
     try {
-        console.log(`📝 Tentando registrar log para: ${aluno.nome}`);
+        console.log(`📝 Registrando log para: ${aluno.nome}`);
 
-        const { data: logs, error: logsError } = await window.supabaseClient
+        const { data: logs } = await window.supabaseClient
             .from("logs")
             .select("status")
             .eq("aluno", aluno.nome)
             .order("horario", { ascending: false })
             .limit(1);
 
-        if (logsError) console.error("Erro ao buscar log:", logsError);
+        const ultimo = logs?.[0]?.status;
+        const statusAtual = (ultimo === "Entrada") ? "Saída" : "Entrada";
 
-        const ultimoStatus = logs?.[0]?.status;
-        const statusAtual = (ultimoStatus === "Entrada") ? "Saída" : "Entrada";
-
-        const { error: insertError } = await window.supabaseClient
+        const { error } = await window.supabaseClient
             .from("logs")
             .insert([{
                 aluno: aluno.nome,
@@ -91,19 +91,16 @@ async function registrarLog(aluno) {
                 horario: new Date().toISOString()
             }]);
 
-        if (insertError) {
-            console.error("❌ Erro ao salvar no Supabase:", insertError);
-        } else {
-            console.log(`✅ LOG REGISTRADO → ${statusAtual} para ${aluno.nome}`);
-        }
+        if (error) console.error("Erro ao inserir log:", error);
+        else console.log(`✅ Log de ${statusAtual} registrado para ${aluno.nome}`);
     } catch (err) {
-        console.error("❌ Erro no registrarLog:", err);
+        console.error("Erro no registrarLog:", err);
     }
 }
+
 function pararMonitor() {
     if (monitorInterval) {
         clearInterval(monitorInterval);
         monitorInterval = null;
-        console.log("⏹ Monitor parado");
     }
 }
