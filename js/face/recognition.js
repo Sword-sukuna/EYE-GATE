@@ -50,7 +50,16 @@ async function reconhecerFace() {
         console.log(`👀 ${detections.length} rosto(s) detectado(s)!`);   // ← Esse log deve aparecer agora
 
         for (const detection of detections) {
-            const resultado = window.faceMatcher.findBestMatch(detection.descriptor);
+            // Proteção contra erro de dimensão
+if (!window.faceMatcher) return;
+
+let resultado;
+try {
+    resultado = window.faceMatcher.findBestMatch(detection.descriptor);
+} catch (err) {
+    console.warn("Erro no match de descriptor:", err);
+    continue;
+}
 
             console.log(`🔍 Match: ${resultado.label} | Distância: ${resultado.distance.toFixed(3)}`);
 

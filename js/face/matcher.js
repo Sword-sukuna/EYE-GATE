@@ -1,83 +1,39 @@
-async function carregarMatcher(){
+async function criarMatcher() {
+    try {
+        console.log("🔨 Criando Face Matcher...");
 
-  lucide.createIcons();
+        const labeledDescriptors = alunosCache
+            .map(aluno => {
+                if (!aluno.descriptor || !Array.isArray(aluno.descriptor)) {
+                    console.warn(`Aluno ${aluno.nome} sem descriptor válido`);
+                    return null;
+                }
 
-  console.log(
-    "Alunos carregados:",
-    alunosCache.length
-  );
+                try {
+                    // Força a conversão correta
+                    const descriptorArray = new Float32Array(aluno.descriptor);
+                    
+                    return new faceapi.LabeledFaceDescriptors(
+                        aluno.id,
+                        [descriptorArray]
+                    );
+                } catch (e) {
+                    console.warn(`Erro no descriptor de ${aluno.nome}:`, e);
+                    return null;
+                }
+            })
+            .filter(Boolean);
 
-  const labeledDescriptors =
-  alunosCache
-  .map((aluno)=>{
+        if (labeledDescriptors.length === 0) {
+            console.error("❌ Nenhum descriptor válido encontrado");
+            return;
+        }
 
-    let descritores = aluno.descriptor;
+        window.faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
+        window.matcherPronto = true;
 
-    // corrige descriptor antigo
-    if(
-      descritores &&
-      descritores.length > 0 &&
-      typeof descritores[0] === "number"
-    ){
-      descritores = [descritores];
+        console.log(`✅ Matcher criado com sucesso! ${labeledDescriptors.length} alunos carregados`);
+    } catch (e) {
+        console.error("❌ Erro grave ao criar matcher:", e);
     }
-
-    if(
-      !descritores ||
-      !Array.isArray(descritores) ||
-      descritores.length === 0
-    ){
-      return null;
-    }
-
-    return new faceapi.LabeledFaceDescriptors(
-      aluno.id,
-      descritores.map(
-        d => new Float32Array(d)
-      )
-    );
-
-  })
-  .filter(Boolean);
-
-  console.log(
-    "Descriptors carregados:"
-  );
-
-  console.log(
-    labeledDescriptors
-  );
-
-  if(
-    labeledDescriptors.length === 0
-  ){
-
-    console.log(
-      "Nenhum aluno cadastrado"
-    );
-
-    matcherPronto = false;
-
-    return;
-  }
-
-  faceMatcher =
-    new faceapi.FaceMatcher(
-      labeledDescriptors,
-      0.68
-    );
-
-  matcherPronto = true;
-
-  console.log(
-    "FaceMatcher carregado"
-  );
-
-  console.log(
-    "Alunos:",
-    alunosCache
-  );
-
-  iniciarLimpezaDiaria();
-
 }
