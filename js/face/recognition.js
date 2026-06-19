@@ -11,10 +11,10 @@ function iniciarMonitor() {
 }
 
 async function reconhecerFace() {
-    if (!window.faceApiPronta) {
-        console.log("⏳ Face API ainda não está pronta");
-        return;
-    }
+    if (!window.faceApiPronta || !faceapi?.nets?.faceRecognitionNet?.isLoaded) {
+    console.log("⏳ Face API ainda não está pronta");
+    return;
+}
     if (!faceapi?.nets?.faceRecognitionNet?.isLoaded) {
         console.log("⏳ Modelos do Face API ainda carregando");
         return;

@@ -2,27 +2,22 @@
 // 👁 FACE API
 // =========================
 async function carregarFaceAPI(){
+    console.log("CARREGAR FACE API");
 
-  console.log("CARREGAR FACE API");
+    try{
+        await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
+        await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
+        await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
 
-  try{
+        // === ATUALIZAÇÃO IMPORTANTE ===
+        faceApiPronta = true;
+        window.faceApiPronta = true;   // ←←← Adicione esta linha
 
-    await faceapi.nets.tinyFaceDetector.loadFromUri("./models");
-
-    await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
-
-    await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
-
-    faceApiPronta = true;
-
-    console.log("Face API carregada");
-
-  }catch(error){
-
-    console.log(error);
-
-  }
-
+        console.log("✅ Face API carregada com sucesso");
+        
+    } catch(error){
+        console.error("❌ Erro ao carregar Face API:", error);
+    }
 }
 
 async function carregarAlunosCache(){
