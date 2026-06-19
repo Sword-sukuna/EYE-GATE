@@ -1,39 +1,41 @@
 async function criarMatcher() {
     try {
-        console.log("🔨 Criando Face Matcher...");
+        console.log("🔨 Criando Face Matcher... Alunos:", alunosCache.length);
 
-        const labeledDescriptors = alunosCache
-            .map(aluno => {
-                if (!aluno.descriptor || !Array.isArray(aluno.descriptor)) {
-                    console.warn(`Aluno ${aluno.nome} sem descriptor válido`);
-                    return null;
-                }
+        const labeledDescriptors = [];
 
-                try {
-                    // Força a conversão correta
-                    const descriptorArray = new Float32Array(aluno.descriptor);
-                    
-                    return new faceapi.LabeledFaceDescriptors(
-                        aluno.id,
-                        [descriptorArray]
-                    );
-                } catch (e) {
-                    console.warn(`Erro no descriptor de ${aluno.nome}:`, e);
-                    return null;
-                }
-            })
-            .filter(Boolean);
+        for (const aluno of alunosCache) {
+            if (!aluno.descriptor) continue;
+
+            let descriptors = aluno.descriptor;
+
+            // Se for array de arrays (5 poses), pega o primeiro ou calcula média
+            if (Array.isArray(descriptors) && Array.isArray(descriptors[0])) {
+                console.log(`Aluno ${aluno.nome} tem múltiplos descriptors → usando o primeiro`);
+                descriptors = descriptors[0]; // pega só o primeiro por enquanto
+            }
+
+            try {
+                const floatDescriptor = new Float32Array(descriptors);
+                
+                labeledDescriptors.push(
+                    new faceapi.LabeledFaceDescriptors(aluno.id, [floatDescriptor])
+                );
+            } catch (e) {
+                console.warn(`Descriptor inválido do aluno ${aluno.nome}:`, e);
+            }
+        }
 
         if (labeledDescriptors.length === 0) {
-            console.error("❌ Nenhum descriptor válido encontrado");
+            console.error("❌ Nenhum descriptor válido!");
             return;
         }
 
         window.faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
         window.matcherPronto = true;
 
-        console.log(`✅ Matcher criado com sucesso! ${labeledDescriptors.length} alunos carregados`);
+        console.log(`✅ Matcher criado com ${labeledDescriptors.length} alunos`);
     } catch (e) {
-        console.error("❌ Erro grave ao criar matcher:", e);
+        console.error("❌ Erro ao criar matcher:", e);
     }
 }
