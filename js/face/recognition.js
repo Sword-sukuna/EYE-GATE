@@ -25,11 +25,7 @@ async function reconhecerFace() {
             .withFaceLandmarks()
             .withFaceDescriptors();
 
-        if (detections.length === 0) {
-            document.getElementById("statusTitulo").innerText = "Nenhum rosto detectado";
-            document.getElementById("statusTexto").innerText = "Posicione seu rosto na câmera";
-            return;
-        }
+        if (detections.length === 0) return;
 
         for (const detection of detections) {
             let resultado;
@@ -41,22 +37,23 @@ async function reconhecerFace() {
 
             console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
 
-            if (resultado.label === "unknown" || resultado.distance > 0.70) continue;
+            if (resultado.label === "unknown" || resultado.distance > 0.75) continue;
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
             if (!aluno) continue;
 
             const nome = aluno.nome;
 
-            console.log(`🎉 RECONHECIDO: ${nome}`);
+            console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
-            // Atualiza UI
-            mostrarMensagem?.(`✅ Aluno reconhecido: ${nome}`);
+            // Forçar atualização na tela
+            document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
+            document.getElementById("statusTexto").innerText = nome;
 
-            const titulo = document.getElementById("statusTitulo");
-            const texto = document.getElementById("statusTexto");
-            if (titulo) titulo.innerText = "Aluno reconhecido ✅";
-            if (texto) texto.innerText = `${nome} identificado com sucesso`;
+            // Tentar mostrar mensagem
+            if (typeof mostrarMensagem === "function") {
+                mostrarMensagem(`✅ ${nome} reconhecido!`);
+            }
 
             await registrarLog(aluno);
 
