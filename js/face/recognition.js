@@ -37,6 +37,7 @@ async function reconhecerFace() {
 
             console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
 
+            // ==================== RECONHECIMENTO ====================
             if (resultado.label === "unknown" || resultado.distance > 0.75) continue;
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
@@ -46,17 +47,19 @@ async function reconhecerFace() {
 
             console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
-            // Forçar atualização na tela
+            // Atualiza a tela
             document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
             document.getElementById("statusTexto").innerText = nome;
 
-            // Tentar mostrar mensagem
+            // Tenta mostrar toast
             if (typeof mostrarMensagem === "function") {
-                mostrarMensagem(`✅ ${nome} reconhecido!`);
+                mostrarMensagem(`✅ ${nome} foi reconhecido!`);
             }
 
+            // Registra no banco
             await registrarLog(aluno);
 
+            // Anti-repetição
             window.ultimoReconhecimento[nome] = Date.now();
         }
     } catch (error) {
