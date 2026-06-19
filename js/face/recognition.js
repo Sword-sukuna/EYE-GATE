@@ -111,20 +111,22 @@ async function registrarLog(aluno) {
     try {
         console.log(`📝 Tentando registrar log para: ${aluno.nome}`);
 
+        // Pega o último status do aluno
         const { data: logs, error: logsError } = await window.supabaseClient
             .from("logs")
-            .select("*")
+            .select("status")
             .eq("aluno", aluno.nome)
             .order("horario", { ascending: false })
             .limit(1);
 
         if (logsError) {
-            console.error("Erro ao buscar último log:", logsError);
+            console.error("Erro ao buscar logs:", logsError);
         }
 
         const ultimoStatus = logs?.[0]?.status;
         const statusAtual = (ultimoStatus === "Entrada") ? "Saída" : "Entrada";
 
+        // Insere o novo registro
         const { error: insertError } = await window.supabaseClient
             .from("logs")
             .insert([{
@@ -134,9 +136,9 @@ async function registrarLog(aluno) {
             }]);
 
         if (insertError) {
-            console.error("❌ Erro ao inserir log:", insertError);
+            console.error("❌ Erro ao inserir log no Supabase:", insertError);
         } else {
-            console.log(`✅ Log de ${statusAtual} registrado com sucesso para ${aluno.nome}`);
+            console.log(`✅ SUCESSO! Log de ${statusAtual} registrado para ${aluno.nome}`);
         }
     } catch (err) {
         console.error("❌ Erro geral no registrarLog:", err);
