@@ -107,8 +107,40 @@ async function reconhecerFace() {
     }
 }
 
-async function registrarLog(aluno) { /* mesma função anterior */ 
-    // ... (pode deixar a mesma que eu te passei antes)
+async function registrarLog(aluno) {
+    try {
+        console.log(`📝 Tentando registrar log para: ${aluno.nome}`);
+
+        const { data: logs, error: logsError } = await window.supabaseClient
+            .from("logs")
+            .select("*")
+            .eq("aluno", aluno.nome)
+            .order("horario", { ascending: false })
+            .limit(1);
+
+        if (logsError) {
+            console.error("Erro ao buscar último log:", logsError);
+        }
+
+        const ultimoStatus = logs?.[0]?.status;
+        const statusAtual = (ultimoStatus === "Entrada") ? "Saída" : "Entrada";
+
+        const { error: insertError } = await window.supabaseClient
+            .from("logs")
+            .insert([{
+                aluno: aluno.nome,
+                status: statusAtual,
+                horario: new Date().toISOString()
+            }]);
+
+        if (insertError) {
+            console.error("❌ Erro ao inserir log:", insertError);
+        } else {
+            console.log(`✅ Log de ${statusAtual} registrado com sucesso para ${aluno.nome}`);
+        }
+    } catch (err) {
+        console.error("❌ Erro geral no registrarLog:", err);
+    }
 }
 
 function pararMonitor() {
