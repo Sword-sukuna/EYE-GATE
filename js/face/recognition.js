@@ -66,19 +66,19 @@ async function reconhecerFace() {
 
 async function registrarLog(aluno) {
     if (!aluno?.nome) {
-        console.error("❌ registrarLog: aluno ou nome inválido", aluno);
+        console.error("❌ registrarLog: aluno inválido", aluno);
         return;
     }
 
     try {
-        console.log(`📝 [LOG] Iniciando registro para: ${aluno.nome}`);
+        console.log(`📝 [LOG] Tentando registrar para: ${aluno.nome}`);
 
         if (!window.supabaseClient) {
-            console.error("❌ supabaseClient não está inicializado!");
+            console.error("❌ supabaseClient não encontrado!");
             return;
         }
 
-        // === BUSCA ÚLTIMO STATUS ===
+        // Busca último log
         const { data: logs, error: selectError } = await window.supabaseClient
             .from("logs_reconhecimento")
             .select("status")
@@ -87,15 +87,15 @@ async function registrarLog(aluno) {
             .limit(1);
 
         if (selectError) {
-            console.error("❌ Erro na consulta (select):", selectError);
+            console.error("❌ Erro ao buscar último log:", selectError);
         }
 
         const ultimo = logs?.[0]?.status || null;
         const statusAtual = (ultimo === "Entrada") ? "Saída" : "Entrada";
 
-        console.log(`⏭ Status anterior: ${ultimo || 'Nenhum'} | Novo: ${statusAtual}`);
+        console.log(`⏭ Status anterior: ${ultimo || 'Nenhum'} → Novo: ${statusAtual}`);
 
-        // === INSERE NOVO LOG ===
+        // Insere novo log
         const { error: insertError } = await window.supabaseClient
             .from("logs_reconhecimento")
             .insert([{
@@ -106,42 +106,12 @@ async function registrarLog(aluno) {
 
         if (insertError) {
             console.error("❌ Erro ao INSERIR log:", insertError);
-            console.error("Código do erro:", insertError.code);
-            console.error("Mensagem:", insertError.message);
+            console.error("Código:", insertError.code, "| Mensagem:", insertError.message);
         } else {
             console.log(`✅ SUCESSO! Log de ${statusAtual} registrado para ${aluno.nome}`);
         }
-
     } catch (err) {
-        console.error("💥 ERRO GERAL no registrarLog:", err);
-        console.error("Stack trace:", err.stack);
-    }
-}async function registrarLog(aluno) {
-    try {
-        console.log(`📝 Registrando log para: ${aluno.nome}`);
-
-        const { data: logs } = await window.supabaseClient
-            .from("logs_reconhecimento")   // ← alterado aqui
-            .select("status")
-            .eq("aluno", aluno.nome)
-            .order("horario", { ascending: false })
-            .limit(1);
-
-        const ultimo = logs?.[0]?.status;
-        const statusAtual = (ultimo === "Entrada") ? "Saída" : "Entrada";
-
-        const { error } = await window.supabaseClient
-            .from("logs_reconhecimento")   // ← alterado aqui
-            .insert([{
-                aluno: aluno.nome,
-                status: statusAtual,
-                horario: new Date().toISOString()
-            }]);
-
-        if (error) console.error("Erro ao inserir log:", error);
-        else console.log(`✅ Log de ${statusAtual} registrado para ${aluno.nome}`);
-    } catch (err) {
-        console.error("Erro no registrarLog:", err);
+        console.error("💥 Erro grave no registrarLog:", err);
     }
 }
 
