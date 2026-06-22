@@ -4,6 +4,10 @@
 window.addEventListener("DOMContentLoaded", async () => {
     console.log("[TESTE] Sistema iniciado");
 
+    //supabase
+    await import('./core/supabase.js');
+    console.log("✅ Supabase carregado");
+    
     // 1. Carregar estrutura básica
     await carregarPaginas();
     
