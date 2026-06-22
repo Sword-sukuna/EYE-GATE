@@ -94,6 +94,11 @@ async function registrarLog(aluno) {
     } catch (err) {
         console.error("💥 Erro no registrarLog:", err);
     }
+
+            // Atualiza interfaces após inserir log
+        await carregarStats();
+        await carregarGraficoLogs();
+        await carregarLogs();   // se estiver na página de registros
 }
 
 function pararMonitor() {
