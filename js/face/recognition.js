@@ -66,50 +66,35 @@ async function reconhecerFace() {
 }
 
 async function registrarLog(aluno) {
-    if (!aluno?.nome) {
+    if (!aluno?.id || !aluno?.nome) {
         console.error("❌ registrarLog: aluno inválido", aluno);
         return;
     }
 
     try {
-        console.log(`📝 [LOG] Tentando registrar para: ${aluno.nome}`);
+        console.log(`📝 Tentando registrar log para: ${aluno.nome} (ID: ${aluno.id})`);
 
         if (!window.supabaseClient) {
-            console.error("❌ supabaseClient não encontrado!");
+            console.error("❌ supabaseClient não encontrado");
             return;
         }
 
-        // Busca último log
-        const { data: logs, error: selectError } = await window.supabaseClient
-            .from("logs_reconhecimento")
-            .select("status")
-            .eq("aluno", aluno.nome)
-            .order("horario", { ascending: false })
-            .limit(1);
+        const statusAtual = "Entrada"; // Temporário para teste
 
-        if (selectError) {
-            console.error("❌ Erro ao buscar último log:", selectError);
-        }
-
-        const ultimo = logs?.[0]?.status || null;
-        const statusAtual = (ultimo === "Entrada") ? "Saída" : "Entrada";
-
-        console.log(`⏭ Status anterior: ${ultimo || 'Nenhum'} → Novo: ${statusAtual}`);
-
-        // Insere novo log
-        const { error: insertError } = await window.supabaseClient
+        const { error } = await window.supabaseClient
             .from("logs_reconhecimento")
             .insert([{
-                aluno: aluno.nome,
+                aluno_id: aluno.id,           // ← Coluna correta
+                nome_aluno: aluno.nome,       // ← Coluna correta
                 status: statusAtual,
                 horario: new Date().toISOString()
             }]);
 
-        if (insertError) {
-            console.error("❌ Erro ao INSERIR log:", insertError);
-            console.error("Código:", insertError.code, "| Mensagem:", insertError.message);
+        if (error) {
+            console.error("❌ Erro ao inserir log:", error.message);
+            console.error("Detalhes completos:", error);
         } else {
-            console.log(`✅ SUCESSO! Log de ${statusAtual} registrado para ${aluno.nome}`);
+            console.log(`✅ LOG INSERIDO COM SUCESSO → ${statusAtual} | ${aluno.nome}`);
         }
     } catch (err) {
         console.error("💥 Erro grave no registrarLog:", err);
