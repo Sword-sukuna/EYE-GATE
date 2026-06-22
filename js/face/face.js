@@ -9,9 +9,7 @@ async function carregarFaceAPI(){
         await faceapi.nets.faceLandmark68Net.loadFromUri("./models");
         await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
 
-        faceApiPronta = true;
-        window.faceApiPronta = true;   // ← Correção importante
-
+        window.faceApiPronta = true;
         console.log("✅ Face API carregada com sucesso");
     } catch(error){
         console.error("❌ Erro ao carregar Face API:", error);
@@ -19,66 +17,52 @@ async function carregarFaceAPI(){
 }
 
 async function carregarAlunosCache(){
+    try {
+        if (!window.supabaseClient) {
+            console.error("❌ supabaseClient não encontrado em carregarAlunosCache");
+            return;
+        }
 
-  const { data:alunos, error } =
-    await supabaseClient
+        const { data: alunos, error } = await window.supabaseClient
+            .from("alunos")
+            .select("id, nome, descriptor");
 
-      .from("alunos")
+        if (error) {
+            console.error("Erro ao carregar alunos:", error);
+            return;
+        }
 
-      .select("id,nome,descriptor");
+        window.alunosCache = alunos || [];
+        
+        console.log(`✅ ${alunos.length} alunos carregados do banco`);
 
-  if(error){
+        alunos.forEach(aluno => {
+            console.log(`Aluno: ${aluno.nome} | Descriptor: ${aluno.descriptor ? aluno.descriptor.length : 0}`);
+        });
 
-    console.log(error);
-
-    return;
-
-  }
-
-  alunosCache = alunos;
-
-  alunos.forEach(aluno=>{
-
-  console.log(
-    aluno.nome,
-    aluno.descriptor?.length
-  );
-
-});
-
-
-}function validarPose(detection){
-
-  const nariz =
-    detection.landmarks.getNose()[3];
-
-  const olhoEsq =
-    detection.landmarks.getLeftEye()[0];
-
-  const olhoDir =
-    detection.landmarks.getRightEye()[3];
-
-  const centroOlhos =
-    (olhoEsq.x + olhoDir.x) / 2;
-
-  switch(etapaCaptura){
-
-    case 0:
-      return true;
-
-    case 1:
-      return nariz.x < centroOlhos - 10;
-
-    case 2:
-      return nariz.x > centroOlhos + 10;
-
-    case 3:
-      return nariz.y < olhoEsq.y - 5;
-
-    case 4:
-      return nariz.y > olhoEsq.y + 15;
-
-    default:
-      return false;
-  }
+        // Atualiza matcher depois de carregar alunos
+        if (typeof criarMatcher === 'function') {
+            await criarMatcher();
+        }
+    } catch (e) {
+        console.error("Erro geral em carregarAlunosCache:", e);
+    }
 }
+
+window.validarPose = function(detection){
+    if (!detection || !detection.landmarks) return false;
+
+    const nariz = detection.landmarks.getNose()[3];
+    const olhoEsq = detection.landmarks.getLeftEye()[0];
+    const olhoDir = detection.landmarks.getRightEye()[3];
+    const centroOlhos = (olhoEsq.x + olhoDir.x) / 2;
+
+    switch(window.etapaCaptura || 0){
+        case 0: return true;
+        case 1: return nariz.x < centroOlhos - 10;
+        case 2: return nariz.x > centroOlhos + 10;
+        case 3: return nariz.y < olhoEsq.y - 5;
+        case 4: return nariz.y > olhoEsq.y + 15;
+        default: return false;
+    }
+};
