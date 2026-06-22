@@ -10,9 +10,8 @@ function iniciarMonitor() {
 }
 
 async function reconhecerFace() {
-    if (!window.faceApiPronta) return;
-    if (!faceapi?.nets?.faceRecognitionNet?.isLoaded) return;
-    if (window.reconhecendo || !window.matcherPronto || !window.faceMatcher) return;
+    if (!window.faceApiPronta || !window.matcherPronto || !window.faceMatcher) return;
+    if (window.reconhecendo) return;
 
     window.reconhecendo = true;
 
@@ -28,12 +27,7 @@ async function reconhecerFace() {
         if (detections.length === 0) return;
 
         for (const detection of detections) {
-            let resultado;
-            try {
-                resultado = window.faceMatcher.findBestMatch(detection.descriptor);
-            } catch (e) {
-                continue;
-            }
+            const resultado = window.faceMatcher.findBestMatch(detection.descriptor);
 
             console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
 
@@ -43,6 +37,14 @@ async function reconhecerFace() {
             if (!aluno) continue;
 
             const nome = aluno.nome;
+
+            // === COOLDOWN (anti-spam) ===
+            const agora = Date.now();
+            window.ultimoReconhecimento = window.ultimoReconhecimento || {};
+            
+            if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < 8000) {
+                continue; // 8 segundos de cooldown por pessoa
+            }
 
             console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
@@ -54,9 +56,11 @@ async function reconhecerFace() {
                 mostrarMensagem(`✅ ${nome} reconhecido!`);
             }
 
-            await registrarLog(aluno);   // ← deve aparecer agora
-            window.ultimoReconhecimento = window.ultimoReconhecimento || {};
-            window.ultimoReconhecimento[nome] = Date.now();
+            // Salva o horário do último reconhecimento
+            window.ultimoReconhecimento[nome] = agora;
+
+            // Registra no banco
+            await registrarLog(aluno);
         }
     } catch (error) {
         console.error("Erro no reconhecimento:", error);
@@ -66,38 +70,29 @@ async function reconhecerFace() {
 }
 
 async function registrarLog(aluno) {
-    if (!aluno?.id || !aluno?.nome) {
-        console.error("❌ registrarLog: aluno inválido", aluno);
-        return;
-    }
+    if (!aluno?.id || !aluno?.nome) return;
 
     try {
-        console.log(`📝 Tentando registrar log para: ${aluno.nome} (ID: ${aluno.id})`);
+        console.log(`📝 Tentando registrar log para: ${aluno.nome}`);
 
-        if (!window.supabaseClient) {
-            console.error("❌ supabaseClient não encontrado");
-            return;
-        }
-
-        const statusAtual = "Entrada"; // Temporário para teste
+        const statusAtual = "Entrada";   // ← depois podemos melhorar pra alternar
 
         const { error } = await window.supabaseClient
             .from("logs_reconhecimento")
             .insert([{
-                aluno_id: aluno.id,           // ← Coluna correta
-                nome_aluno: aluno.nome,       // ← Coluna correta
+                aluno_id: aluno.id,
+                nome_aluno: aluno.nome,
                 status: statusAtual,
                 horario: new Date().toISOString()
             }]);
 
         if (error) {
             console.error("❌ Erro ao inserir log:", error.message);
-            console.error("Detalhes completos:", error);
         } else {
-            console.log(`✅ LOG INSERIDO COM SUCESSO → ${statusAtual} | ${aluno.nome}`);
+            console.log(`✅ LOG REGISTRADO → ${statusAtual} | ${aluno.nome}`);
         }
     } catch (err) {
-        console.error("💥 Erro grave no registrarLog:", err);
+        console.error("💥 Erro no registrarLog:", err);
     }
 }
 
