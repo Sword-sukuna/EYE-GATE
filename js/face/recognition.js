@@ -69,7 +69,7 @@ async function registrarLog(aluno) {
         console.log(`📝 Registrando log para: ${aluno.nome}`);
 
         const { data: logs } = await window.supabaseClient
-            .from("logs")
+            .from("logs_reconhecimento")   // ← alterado aqui
             .select("status")
             .eq("aluno", aluno.nome)
             .order("horario", { ascending: false })
@@ -79,7 +79,7 @@ async function registrarLog(aluno) {
         const statusAtual = (ultimo === "Entrada") ? "Saída" : "Entrada";
 
         const { error } = await window.supabaseClient
-            .from("logs")
+            .from("logs_reconhecimento")   // ← alterado aqui
             .insert([{
                 aluno: aluno.nome,
                 status: statusAtual,
