@@ -65,6 +65,58 @@ async function reconhecerFace() {
 }
 
 async function registrarLog(aluno) {
+    if (!aluno?.nome) {
+        console.error("❌ registrarLog: aluno ou nome inválido", aluno);
+        return;
+    }
+
+    try {
+        console.log(`📝 [LOG] Iniciando registro para: ${aluno.nome}`);
+
+        if (!window.supabaseClient) {
+            console.error("❌ supabaseClient não está inicializado!");
+            return;
+        }
+
+        // === BUSCA ÚLTIMO STATUS ===
+        const { data: logs, error: selectError } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .select("status")
+            .eq("aluno", aluno.nome)
+            .order("horario", { ascending: false })
+            .limit(1);
+
+        if (selectError) {
+            console.error("❌ Erro na consulta (select):", selectError);
+        }
+
+        const ultimo = logs?.[0]?.status || null;
+        const statusAtual = (ultimo === "Entrada") ? "Saída" : "Entrada";
+
+        console.log(`⏭ Status anterior: ${ultimo || 'Nenhum'} | Novo: ${statusAtual}`);
+
+        // === INSERE NOVO LOG ===
+        const { error: insertError } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .insert([{
+                aluno: aluno.nome,
+                status: statusAtual,
+                horario: new Date().toISOString()
+            }]);
+
+        if (insertError) {
+            console.error("❌ Erro ao INSERIR log:", insertError);
+            console.error("Código do erro:", insertError.code);
+            console.error("Mensagem:", insertError.message);
+        } else {
+            console.log(`✅ SUCESSO! Log de ${statusAtual} registrado para ${aluno.nome}`);
+        }
+
+    } catch (err) {
+        console.error("💥 ERRO GERAL no registrarLog:", err);
+        console.error("Stack trace:", err.stack);
+    }
+}async function registrarLog(aluno) {
     try {
         console.log(`📝 Registrando log para: ${aluno.nome}`);
 
