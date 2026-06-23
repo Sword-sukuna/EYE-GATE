@@ -1,18 +1,17 @@
 // =========================
-// 📊 STATS DO DASHBOARD
+// 📊 STATS DO DASHBOARD - VERSÃO LIMPA
 // =========================
 async function carregarStats() {
     try {
-        console.log("📊 Carregando estatísticas do dashboard...");
+        console.log("📊 Carregando estatísticas...");
 
         if (!window.supabaseClient) {
-            console.warn("⚠️ supabaseClient não disponível");
+            console.warn("supabaseClient não disponível");
             return;
         }
 
         const hoje = new Date().toISOString().split('T')[0];
 
-        // Busca os totais
         const { count: totalAlunos } = await window.supabaseClient
             .from("alunos").select("*", { count: 'exact', head: true });
 
@@ -30,12 +29,11 @@ async function carregarStats() {
         document.getElementById("totalReconhecimentos")?.innerText = reconhecimentosHoje || 0;
         document.getElementById("registrosHoje")?.innerText = reconhecimentosHoje || 0;
 
-        console.log(`✅ Dashboard atualizado | Hoje: ${reconhecimentosHoje} reconhecimentos`);
+        console.log(`✅ Stats carregados | Hoje: ${reconhecimentosHoje}`);
 
     } catch (e) {
-        console.error("❌ Erro ao carregar stats do dashboard:", e);
+        console.error("❌ Erro ao carregar stats:", e);
     }
 }
 
-// Expor globalmente
 window.carregarStats = carregarStats;
