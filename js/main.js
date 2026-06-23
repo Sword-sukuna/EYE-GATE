@@ -1,54 +1,58 @@
 // =========================
-// 🚀 START - EYE-GATE
+// 🚀 START - EYE-GATE (VERSÃO FINAL)
 // =========================
 window.addEventListener("DOMContentLoaded", async () => {
     console.log("[TESTE] Sistema iniciado");
 
-    // 1. Supabase (primeiro!)
-    await import('./core/supabase.js');
-    console.log("✅ Supabase carregado");
+    try {
+        // 1. Supabase (PRIMEIRO!)
+        await import('./core/supabase.js');
+        console.log("✅ Supabase carregado");
 
-    // 2. Carregar estrutura básica
-    await carregarPaginas();
+        // 2. Carregar estrutura das páginas
+        await carregarPaginas();
 
-    // 3. Face API + Alunos + Matcher
-    await carregarFaceAPI();
-    await carregarAlunosCache();
-    await criarMatcher();
+        // 3. Face API + Alunos + Matcher
+        await carregarFaceAPI();
+        await carregarAlunosCache();
+        await criarMatcher();
 
-    // 4. Autenticações
-    iniciarLogin();
-    verificarSessao();
-    iniciarAdminLogin();
-    iniciarRegistro();
-    iniciarCadastro();
+        // 4. Autenticações e UI
+        iniciarLogin();
+        verificarSessao();
+        iniciarAdminLogin();
+        iniciarRegistro();
+        iniciarCadastro();
 
-    // 5. Interface e dados
-    carregarUsuario();
-    controlarPermissoes();
+        carregarUsuario();
+        controlarPermissoes();
 
-    // 6. Carregar estatísticas e gráficos (depois das funções estarem definidas)
-    await carregarStats();
-    await carregarGraficoLogs();
-    await carregarLogs();
-    await carregarUsuarios();
+        // 5. Carregar dados do Dashboard e Registros
+        await carregarStats();
+        await carregarGraficoLogs();
+        await carregarLogs();
+        await carregarUsuarios?.(); // opcional com ? para evitar erro
 
-    console.log("✅ Sistema carregado com sucesso");
+        console.log("✅ Sistema carregado com sucesso");
 
-    // 7. Iniciar reconhecimento facial
-    setTimeout(() => {
-        iniciarMonitor();
-        console.log("✅ Sistema de reconhecimento iniciado com sucesso");
-    }, 1500);
+        // 6. Iniciar monitoramento facial
+        setTimeout(() => {
+            iniciarMonitor();
+            console.log("✅ Sistema de reconhecimento iniciado com sucesso");
+        }, 1200);
+
+    } catch (error) {
+        console.error("💥 Erro crítico durante inicialização:", error);
+    }
 });
 
-// Atualização automática (a cada 30 segundos)
+// ====================== ATUALIZAÇÃO AUTOMÁTICA ======================
 setInterval(async () => {
     try {
         await carregarStats();
         await carregarGraficoLogs();
         await carregarLogs();
     } catch (e) {
-        console.warn("Erro na atualização automática:", e);
+        console.warn("⚠️ Erro na atualização automática:", e);
     }
-}, 30000);
+}, 30000); // 30 segundos

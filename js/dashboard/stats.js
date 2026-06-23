@@ -1,17 +1,18 @@
 // =========================
-// 📊 STATS DO DASHBOARD - VERSÃO LIMPA
+// 📊 STATS DO DASHBOARD - VERSÃO FINAL
 // =========================
 async function carregarStats() {
     try {
-        console.log("📊 Carregando estatísticas...");
+        console.log("📊 Carregando estatísticas do Dashboard...");
 
         if (!window.supabaseClient) {
-            console.warn("supabaseClient não disponível");
+            console.warn("⚠️ supabaseClient não disponível no stats");
             return;
         }
 
         const hoje = new Date().toISOString().split('T')[0];
 
+        // Buscando contagens
         const { count: totalAlunos } = await window.supabaseClient
             .from("alunos").select("*", { count: 'exact', head: true });
 
@@ -23,17 +24,23 @@ async function carregarStats() {
             .select("*", { count: 'exact', head: true })
             .gte("horario", `${hoje}T00:00:00`);
 
-        // Atualiza os cards
-        document.getElementById("totalAlunos")?.innerText = totalAlunos || 0;
-        document.getElementById("totalUsers")?.innerText = totalUsers || 0;
-        document.getElementById("totalReconhecimentos")?.innerText = reconhecimentosHoje || 0;
-        document.getElementById("registrosHoje")?.innerText = reconhecimentosHoje || 0;
+        // Atualiza os cards do Dashboard
+        const totalAlunosEl = document.getElementById("totalAlunos");
+        const totalUsersEl = document.getElementById("totalUsers");
+        const totalReconhecimentosEl = document.getElementById("totalReconhecimentos");
+        const registrosHojeEl = document.getElementById("registrosHoje");
 
-        console.log(`✅ Stats carregados | Hoje: ${reconhecimentosHoje}`);
+        if (totalAlunosEl) totalAlunosEl.innerText = totalAlunos || 0;
+        if (totalUsersEl) totalUsersEl.innerText = totalUsers || 0;
+        if (totalReconhecimentosEl) totalReconhecimentosEl.innerText = reconhecimentosHoje || 0;
+        if (registrosHojeEl) registrosHojeEl.innerText = reconhecimentosHoje || 0;
+
+        console.log(`✅ Dashboard Stats atualizado | Hoje: ${reconhecimentosHoje} reconhecimentos`);
 
     } catch (e) {
-        console.error("❌ Erro ao carregar stats:", e);
+        console.error("❌ Erro ao carregar stats do dashboard:", e);
     }
 }
 
+// Expor globalmente
 window.carregarStats = carregarStats;

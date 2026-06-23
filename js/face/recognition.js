@@ -1,5 +1,5 @@
 // =========================
-// 👁 MONITOR
+// 👁 MONITOR DE RECONHECIMENTO
 // =========================
 let monitorInterval = null;
 
@@ -20,7 +20,10 @@ async function reconhecerFace() {
         if (!video || video.readyState < 2) return;
 
         const detections = await faceapi
-            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 }))
+            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ 
+                inputSize: 320, 
+                scoreThreshold: 0.5 
+            }))
             .withFaceLandmarks()
             .withFaceDescriptors();
 
@@ -38,17 +41,17 @@ async function reconhecerFace() {
 
             const nome = aluno.nome;
 
-            // === COOLDOWN (anti-spam) ===
+            // === COOLDOWN ANTI-SPAM ===
             const agora = Date.now();
             window.ultimoReconhecimento = window.ultimoReconhecimento || {};
             
-            if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < 8000) {
-                continue; // 8 segundos de cooldown por pessoa
+            if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < 7000) {
+                continue; // 7 segundos de cooldown
             }
 
             console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
-            // UI
+            // Atualiza UI
             document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
             document.getElementById("statusTexto").innerText = nome;
 
@@ -56,7 +59,7 @@ async function reconhecerFace() {
                 mostrarMensagem(`✅ ${nome} reconhecido!`);
             }
 
-            // Salva o horário do último reconhecimento
+            // Salva último reconhecimento
             window.ultimoReconhecimento[nome] = agora;
 
             // Registra no banco
@@ -75,7 +78,16 @@ async function registrarLog(aluno) {
     try {
         console.log(`📝 Tentando registrar log para: ${aluno.nome}`);
 
-        const statusAtual = "Entrada";   // ← depois podemos melhorar pra alternar
+        // Lógica de Entrada / Saída
+        const { data: ultimoLog } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .select("status")
+            .eq("aluno_id", aluno.id)
+            .order("horario", { ascending: false })
+            .limit(1);
+
+        const ultimoStatus = ultimoLog?.[0]?.status;
+        const statusAtual = (ultimoStatus === "Entrada") ? "Saída" : "Entrada";
 
         const { error } = await window.supabaseClient
             .from("logs_reconhecimento")
@@ -91,14 +103,15 @@ async function registrarLog(aluno) {
         } else {
             console.log(`✅ LOG REGISTRADO → ${statusAtual} | ${aluno.nome}`);
         }
+
+        // Atualiza telas
+        await carregarStats?.();
+        await carregarGraficoLogs?.();
+        await carregarLogs?.();
+
     } catch (err) {
         console.error("💥 Erro no registrarLog:", err);
     }
-
-            // Atualiza interfaces após inserir log
-        await carregarStats();
-        await carregarGraficoLogs();
-        await carregarLogs();   // se estiver na página de registros
 }
 
 function pararMonitor() {
@@ -107,3 +120,7 @@ function pararMonitor() {
         monitorInterval = null;
     }
 }
+
+// Expor funções globais
+window.iniciarMonitor = iniciarMonitor;
+window.pararMonitor = pararMonitor;
