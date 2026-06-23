@@ -20,7 +20,10 @@ async function reconhecerFace() {
         if (!video || video.readyState < 2) return;
 
         const detections = await faceapi
-            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 }))
+            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ 
+                inputSize: 416,           // mais qualidade
+                scoreThreshold: 0.5 
+            }))
             .withFaceLandmarks()
             .withFaceDescriptors();
 
@@ -29,32 +32,36 @@ async function reconhecerFace() {
         for (const detection of detections) {
             const resultado = window.faceMatcher.findBestMatch(detection.descriptor);
 
-            if (resultado.label === "unknown" || resultado.distance > 0.65) continue;
+            console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
+
+            // MAIS PRECISO: threshold mais baixo + exige boa confiança
+            if (resultado.label === "unknown" || resultado.distance > 0.55) continue;
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
             if (!aluno) continue;
 
             const nome = aluno.nome;
 
-            // COOLDOWN FORTE - 15 SEGUNDOS
+            // Cooldown forte
             const agora = Date.now();
             window.ultimoReconhecimento = window.ultimoReconhecimento || {};
 
-            if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < 15000) {
-                continue; // 15 segundos de bloqueio
+            if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < 12000) {
+                continue;
             }
 
-            console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
+            console.log(`🎉 RECONHECIDO COM CONFIANÇA: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
             // UI
             document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
             document.getElementById("statusTexto").innerText = nome;
 
-            if (typeof mostrarMensagem === "function") mostrarMensagem(`✅ ${nome} reconhecido!`);
+            if (typeof mostrarMensagem === "function") {
+                mostrarMensagem(`✅ ${nome} reconhecido!`);
+            }
 
             window.ultimoReconhecimento[nome] = agora;
-
-            await registrarLog(aluno);   // registra só uma vez
+            await registrarLog(aluno);
         }
     } catch (error) {
         console.error("Erro no reconhecimento:", error);

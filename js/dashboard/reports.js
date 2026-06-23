@@ -79,281 +79,101 @@ async function buscarAlunoRelatorio(){
 // 📄 CRIAR PDF ESTILIZADO
 // =========================
 async function criarPDFAluno(nomeAluno){
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
 
-  const { jsPDF } = window.jspdf;
+    try {
+        const { data, error } = await supabaseClient
+            .from("logs_reconhecimento")           // ← Tabela correta
+            .select("*")
+            .eq("nome_aluno", nomeAluno)           // ← Coluna correta
+            .order("horario", { ascending: false });
 
-  const pdf = new jsPDF();
+        if (error) {
+            console.error("Erro ao buscar logs para PDF:", error);
+            return null;
+        }
 
-  const { data, error } =
-    await supabaseClient
-      .from("logs")
-      .select("*")
-      .eq("aluno", nomeAluno)
-      .order("horario", {
-        ascending:false
-      });
+        // === RESTO DO CÓDIGO (TOPO, LOGO, etc) continua igual ===
+        pdf.setFillColor(20,20,30);
+        pdf.rect(0, 0, 210, 35, "F");
+// =========================
+        // Logo
+        try {
+            const logo = await carregarLogoBase64();
+            pdf.addImage(logo, "PNG", 12, 3, 38, 38);
+        } catch(e) {
+            console.log("Erro logo:", e);
+        }
 
-  if(error){
+        // Título
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(24);
+        pdf.text("EYE Gate", 50, 17);
+        pdf.setFontSize(10);
+        pdf.setFont("helvetica", "normal");
+        pdf.text("Sistema Inteligente de Reconhecimento Facial", 50, 25);
 
-    console.log(error);
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(18);
+        pdf.setFont("helvetica", "bold");
+        pdf.text("RELATÓRIO ESCOLAR", 20, 55);
 
-    return null;
+        pdf.setDrawColor(180);
+        pdf.line(20, 60, 190, 60);
 
-  }
+        pdf.setFontSize(12);
+        pdf.setFont("helvetica", "normal");
+        pdf.text(`Aluno: ${nomeAluno}`, 20, 75);
+        pdf.text(`Total de registros: ${data.length}`, 20, 85);
+        pdf.text(`Emitido em: ${new Date().toLocaleString("pt-BR")}`, 20, 95);
 
-  // =========================
-  // 🎨 TOPO
-  // =========================
-  pdf.setFillColor(20,20,30);
+        let y = 115;
 
-  pdf.rect(
-    0,
-    0,
-    210,
-    35,
-    "F"
-  );
+        if (data.length === 0) {
+            pdf.setFontSize(14);
+            pdf.text("Nenhum registro encontrado.", 20, y);
+            return pdf;
+        }
 
-  // =========================
-  // 👁 LOGO
-  // =========================
-  try{
+        // Logs
+        data.forEach((log, index) => {
+            if (y > 250) {
+                pdf.addPage();
+                y = 20;
+            }
 
-    const logo =
-      await carregarLogoBase64();
+            const dataHora = new Date(log.horario);
+            const dataFormatada = dataHora.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
+            const horaFormatada = dataHora.toLocaleTimeString("pt-BR", { timeZone: "America/Sao_Paulo" });
 
-   pdf.addImage(
-  logo,
-  "PNG",
-  12,
-  3,
-  38,
-  38
-);
+            pdf.setDrawColor(220);
+            pdf.roundedRect(15, y - 5, 180, 28, 3, 3);
 
-  }catch(e){
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(13);
+            pdf.text(`${index + 1}. ${log.status}`, 25, y + 5);
 
-    console.log(
-      "Erro logo:",
-      e
-    );
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(11);
+            pdf.text(`Data: ${dataFormatada}`, 25, y + 13);
+            pdf.text(`Hora: ${horaFormatada}`, 100, y + 13);
 
-  }
+            y += 38;
+        });
 
-  // =========================
-  // 📝 TITULO
-  // =========================
-  pdf.setTextColor(
-    255,
-    255,
-    255
-  );
+        // Rodapé
+        pdf.setFontSize(9);
+        pdf.setTextColor(120);
+        pdf.text("Gerado automaticamente pelo sistema EYE Gate", 20, 290);
 
-  pdf.setFont(
-    "helvetica",
-    "bold"
-  );
+        return pdf;
 
-  pdf.setFontSize(24);
-
-  pdf.text(
-  "EYE Gate",
-  50,
-  17
-);
-
-  pdf.setFontSize(10);
-
-  pdf.setFont(
-    "helvetica",
-    "normal"
-  );
-
-  pdf.text(
-  "Sistema Inteligente de Reconhecimento Facial",
-  50,
-  25
-);
-
-  // =========================
-  // 🔙 VOLTA PRETO
-  // =========================
-  pdf.setTextColor(
-    0,
-    0,
-    0
-  );
-
-  // =========================
-  // 📋 INFO
-  // =========================
-  pdf.setFontSize(18);
-
-  pdf.setFont(
-    "helvetica",
-    "bold"
-  );
-
-  pdf.text(
-    "RELATÓRIO ESCOLAR",
-    20,
-    55
-  );
-
-  pdf.setDrawColor(180);
-
-  pdf.line(
-    20,
-    60,
-    190,
-    60
-  );
-
-  pdf.setFontSize(12);
-
-  pdf.setFont(
-    "helvetica",
-    "normal"
-  );
-
-  pdf.text(
-    `Aluno: ${nomeAluno}`,
-    20,
-    75
-  );
-
-  pdf.text(
-    `Total de registros: ${data.length}`,
-    20,
-    85
-  );
-
-  pdf.text(
-    `Emitido em: ${
-      new Date().toLocaleString(
-        "pt-BR"
-      )
-    }`,
-    20,
-    95
-  );
-
-  // =========================
-  // 📄 SEM REGISTROS
-  // =========================
-  let y = 115;
-
-  if(data.length === 0){
-
-    pdf.setFontSize(14);
-
-    pdf.text(
-      "Nenhum registro encontrado.",
-      20,
-      y
-    );
-
-    return pdf;
-
-  }
-
-  // =========================
-  // 📦 LOGS
-  // =========================
-  data.forEach((log, index)=>{
-
-    if(y > 250){
-
-      pdf.addPage();
-
-      y = 20;
-
+    } catch (e) {
+        console.error("Erro ao gerar PDF:", e);
+        return null;
     }
-
-    const dataHora =
-      new Date(log.horario);
-
-    const dataFormatada =
-      dataHora.toLocaleDateString(
-        "pt-BR",
-        {
-          timeZone:
-          "America/Sao_Paulo"
-        }
-      );
-
-    const horaFormatada =
-      dataHora.toLocaleTimeString(
-        "pt-BR",
-        {
-          timeZone:
-          "America/Sao_Paulo"
-        }
-      );
-
-    // caixa
-    pdf.setDrawColor(220);
-
-    pdf.roundedRect(
-      15,
-      y - 5,
-      180,
-      28,
-      3,
-      3
-    );
-
-    pdf.setFont(
-      "helvetica",
-      "bold"
-    );
-
-    pdf.setFontSize(13);
-
-    pdf.text(
-      `${index + 1}. ${log.status}`,
-      25,
-      y + 5
-    );
-
-    pdf.setFont(
-      "helvetica",
-      "normal"
-    );
-
-    pdf.setFontSize(11);
-
-    pdf.text(
-  `Data: ${dataFormatada}`,
-  25,
-  y + 13
-);
-
-pdf.text(
-  `Hora: ${horaFormatada}`,
-  100,
-  y + 13
-);
-
-    y += 38;
-
-  });
-
-  // =========================
-  // 👣 RODAPÉ
-  // =========================
-  pdf.setFontSize(9);
-
-  pdf.setTextColor(120);
-
-  pdf.text(
-    "Gerado automaticamente pelo sistema EYE Gate",
-    20,
-    290
-  );
-
-  return pdf;
-
 }
 
 // =========================
