@@ -1,5 +1,5 @@
 // =========================
-// 🚀 START - EYE-GATE (VERSÃO FINAL)
+// 🚀 START - EYE-GATE (VERSÃO OTIMIZADA)
 // =========================
 window.addEventListener("DOMContentLoaded", async () => {
     console.log("[TESTE] Sistema iniciado");
@@ -9,50 +9,64 @@ window.addEventListener("DOMContentLoaded", async () => {
         await import('./core/supabase.js');
         console.log("✅ Supabase carregado");
 
-        // 2. Carregar estrutura das páginas
+        // 2. Estrutura das páginas
         await carregarPaginas();
 
-        // 3. Face API + Alunos + Matcher
+        // 3. Face API + Alunos + Matcher (uma única vez)
         await carregarFaceAPI();
         await carregarAlunosCache();
         await criarMatcher();
 
-        // 4. Autenticações e UI
+        // 4. Autenticações
         iniciarLogin();
         verificarSessao();
         iniciarAdminLogin();
         iniciarRegistro();
         iniciarCadastro();
 
+        // 5. UI e permissões
         carregarUsuario();
         controlarPermissoes();
 
-        // 5. Carregar dados do Dashboard e Registros
-        await carregarStats();
-        await carregarGraficoLogs();
-        await carregarLogs();
-        await carregarUsuarios?.(); // opcional com ? para evitar erro
+        // 6. Carregar dados iniciais (apenas uma vez)
+        console.log("📊 Carregando dados iniciais...");
+        await Promise.all([
+            carregarStats(),
+            carregarGraficoLogs(),
+            carregarLogs(),
+            carregarUsuarios?.()
+        ]);
 
         console.log("✅ Sistema carregado com sucesso");
 
-        // 6. Iniciar monitoramento facial
+        // 7. Iniciar reconhecimento facial
         setTimeout(() => {
             iniciarMonitor();
-            console.log("✅ Sistema de reconhecimento iniciado com sucesso");
-        }, 1200);
+            console.log("✅ Monitor de reconhecimento iniciado");
+        }, 1500);
 
     } catch (error) {
         console.error("💥 Erro crítico durante inicialização:", error);
     }
 });
 
-// ====================== ATUALIZAÇÃO AUTOMÁTICA ======================
+// ====================== ATUALIZAÇÃO AUTOMÁTICA (OTIMIZADA) ======================
+let ultimaAtualizacao = 0;
+
 setInterval(async () => {
+    const agora = Date.now();
+    
+    // Evita atualizações muito seguidas
+    if (agora - ultimaAtualizacao < 25000) return; // mínimo 25s
+    
     try {
-        await carregarStats();
-        await carregarGraficoLogs();
-        await carregarLogs();
+        ultimaAtualizacao = agora;
+        await Promise.allSettled([
+            carregarStats(),
+            carregarGraficoLogs(),
+            carregarLogs()
+        ]);
     } catch (e) {
         console.warn("⚠️ Erro na atualização automática:", e);
     }
-}, 30000); // 30 segundos
+}, 30000);
