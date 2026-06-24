@@ -1,14 +1,14 @@
 // =========================
-// 📄 TROCAR PÁGINA (VERSÃO OTIMIZADA)
+// 📄 TROCAR PÁGINA (VERSÃO CORRIGIDA)
 // =========================
 function abrirPagina(id) {
 
-    // Para tudo que consome recurso antes de trocar de página
+    mostrarLoading("Abrindo página...");
+
+    // Para tudo ANTES de trocar de página
     pararCameraCadastro();
     pararCameraMonitor();
-    pararMonitor();           // ← Já tinha, bom
-
-    mostrarLoading("Abrindo página...");
+    pararMonitor();           // Para o reconhecimento imediatamente
 
     setTimeout(() => {
 
@@ -19,14 +19,12 @@ function abrirPagina(id) {
             return;
         }
 
-        // Remove active de todas as páginas
+        // Remove active de todas
         document.querySelectorAll(".page").forEach(page => {
             page.classList.remove("active-page");
         });
 
         const pagina = document.getElementById(id);
-
-        console.log("Tentando abrir:", id);
 
         if (!pagina) {
             console.error("Página não encontrada:", id);
@@ -38,19 +36,18 @@ function abrirPagina(id) {
 
         esconderLoading();
 
-        // ==================== CONTROLE DE CÂMERAS E MONITOR ====================
+        // ==================== CONTROLE ESPECÍFICO POR PÁGINA ====================
         if (id === "cadastroPage") {
             iniciarCameraCadastro();
         } 
         else if (id === "monitorPage") {
             iniciarCameraMonitor();
-            iniciarMonitor();           // ← Garante que inicia
+            iniciarMonitor();        // Só inicia quando realmente entrar
         } 
+        // Em qualquer outra página → garante que o monitor está pausado
         else {
-            // Para o monitor se sair de qualquer outra página
             pararMonitor();
         }
 
-    }, 500);
+    }, 400); // Reduzi um pouco o delay
 }
-//teste
