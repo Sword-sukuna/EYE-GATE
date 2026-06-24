@@ -1,112 +1,101 @@
 // =========================
-// 📋 ADMIN LOGS
+// 📋 ADMIN LOGS (CORRIGIDO)
 // =========================
-async function carregarLogsAdmin(){
+async function carregarLogsAdmin() {
+    const container = document.getElementById("adminLogs");
+    if (!container) return;
 
-  const container =
-    document.getElementById("adminLogs");
+    try {
+        if (!window.supabaseClient) {
+            console.error("supabaseClient não encontrado");
+            return;
+        }
 
-  if(!container) return;
+        const { data, error } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .select("*")
+            .order("horario", { ascending: false })
+            .limit(100);
 
-  const { data, error } =
-    await supabaseClient
+        if (error) {
+            console.error("Erro ao carregar logs admin:", error);
+            container.innerHTML = `<p style="color:red; text-align:center;">Erro ao carregar logs</p>`;
+            return;
+        }
 
-      .from("logs")
+        container.innerHTML = "";
 
-      .select("*")
+        if (!data || data.length === 0) {
+            container.innerHTML = `<p style="text-align:center; color:#aaa; padding:20px;">Nenhum registro encontrado</p>`;
+            return;
+        }
 
-      .order("horario",{
-        ascending:false
-      });
+        data.forEach((log) => {
+            const horario = new Date(log.horario).toLocaleString("pt-BR", {
+                timeZone: "America/Sao_Paulo"
+            });
 
-  if(error){
+            container.innerHTML += `
+                <div class="user-card">
+                    <div class="info">
+                        <strong>${log.nome_aluno || 'Desconhecido'}</strong>
+                        <span>${log.status}</span>
+                        <small>${horario}</small>
+                    </div>
+                    <button
+                        class="delete-btn"
+                        onclick="deletarLog('${log.id}')"
+                    >
+                        🗑 Excluir
+                    </button>
+                </div>
+            `;
+        });
 
-    console.log(error);
+        console.log(`✅ ${data.length} logs carregados no Admin`);
 
-    return;
-
-  }
-
-  container.innerHTML = "";
-
-  data.forEach((log)=>{
-
-    container.innerHTML += `
-
-      <div class="user-card">
-
-        <div class="info">
-
-          <strong>
-            ${log.aluno}
-          </strong>
-
-          <span>
-            ${log.status}
-          </span>
-
-        </div>
-
-        <button
-          class="delete-btn"
-          onclick="deletarLog('${log.id}')"
-        >
-          🗑 Excluir
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
+    } catch (e) {
+        console.error("Erro geral no carregarLogsAdmin:", e);
+    }
 }
 
 // =========================
 // 🗑 DELETE LOG
 // =========================
-async function deletarLog(id){
+async function deletarLog(id) {
+    if (!(await verificarAdminLocal?.())) {
+        mostrarMensagem("Sem permissão");
+        return;
+    }
 
-  if(!(await verificarAdminLocal())){
+    if (!confirm("Tem certeza que deseja excluir este registro?")) return;
 
-  mostrarMensagem(
-    "Sem permissão"
-  );
+    try {
+        const { error } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .delete()
+            .eq("id", id);
 
-  return;
+        if (error) {
+            console.error(error);
+            mostrarMensagem("Erro ao excluir");
+            return;
+        }
 
+        mostrarMensagem("Registro excluído com sucesso");
+        
+        // Atualiza as telas
+        await carregarLogsAdmin();
+        await carregarStats();
+        await carregarGraficoLogs();
+        await carregarLogs();
+
+    } catch (err) {
+        console.error("Erro ao deletar log:", err);
+        mostrarMensagem("Erro ao excluir");
+    }
 }
 
-  if(!confirm("Excluir registro?"))
-    return;
-
-  const { error } =
-    await supabaseClient
-
-      .from("logs")
-
-      .delete()
-
-      .eq("id", id);
-
-  if(error){
-
-    console.log(error);
-
-    mostrarMensagem(
-      "Erro ao excluir"
-    );
-
-    return;
-
-  }
-
-  mostrarMensagem(
-    "Registro removido"
-  );
-
-  await carregarLogsAdmin();
-
-  await carregarStats();
-
-}
+// Expor funções globalmente
+window.carregarLogsAdmin = carregarLogsAdmin;
+window.deletarLog = deletarLog;
