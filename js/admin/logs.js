@@ -99,3 +99,5 @@ async function deletarLog(id) {
 // Expor funções globalmente
 window.carregarLogsAdmin = carregarLogsAdmin;
 window.deletarLog = deletarLog;
+
+//teste

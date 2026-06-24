@@ -50,3 +50,5 @@ setInterval(async () => {
         ]);
     } catch (e) {}
 }, 30000);
+
+//teste
