@@ -1,85 +1,55 @@
 // =========================
-// 📄 TROCAR PÁGINA
+// 📄 TROCAR PÁGINA (VERSÃO OTIMIZADA)
 // =========================
-function abrirPagina(id){
+function abrirPagina(id) {
 
-  pararCameraCadastro();
+    // Para tudo que consome recurso antes de trocar de página
+    pararCameraCadastro();
+    pararCameraMonitor();
+    pararMonitor();           // ← Já tinha, bom
 
-  pararCameraMonitor();
+    mostrarLoading("Abrindo página...");
 
-  pararMonitor();
+    setTimeout(() => {
 
-  mostrarLoading("Abrindo página...");
+        // Verificação de admin
+        if (id === "adminPage" && !verificarAdminLocal()) {
+            mostrarMensagem("Acesso negado");
+            esconderLoading();
+            return;
+        }
 
-  setTimeout(()=>{
+        // Remove active de todas as páginas
+        document.querySelectorAll(".page").forEach(page => {
+            page.classList.remove("active-page");
+        });
 
-    if(
+        const pagina = document.getElementById(id);
 
-      id === "adminPage" &&
+        console.log("Tentando abrir:", id);
 
-      !verificarAdminLocal()
+        if (!pagina) {
+            console.error("Página não encontrada:", id);
+            esconderLoading();
+            return;
+        }
 
-    ){
+        pagina.classList.add("active-page");
 
-      mostrarMensagem(
-        "Acesso negado"
-      );
+        esconderLoading();
 
-      esconderLoading();
+        // ==================== CONTROLE DE CÂMERAS E MONITOR ====================
+        if (id === "cadastroPage") {
+            iniciarCameraCadastro();
+        } 
+        else if (id === "monitorPage") {
+            iniciarCameraMonitor();
+            iniciarMonitor();           // ← Garante que inicia
+        } 
+        else {
+            // Para o monitor se sair de qualquer outra página
+            pararMonitor();
+        }
 
-      return;
-
-    }
-
-    document
-      .querySelectorAll(".page")
-      .forEach(page => {
-
-        page.classList.remove("active-page");
-
-      });
-
-    const pagina =
-document.getElementById(id);
-
-console.log(
-  "Tentando abrir:",
-  id
-);
-
-console.log(
-  "Elemento:",
-  pagina
-);
-
-if(!pagina){
-  console.error(
-    "Página não encontrada:",
-    id
-  );
-  return;
-}
-
-pagina.classList.add(
-  "active-page"
-);
-
-    esconderLoading();
-
-    if(id === "cadastroPage"){
-
-      iniciarCameraCadastro();
-
-    }
-
-    if(id === "monitorPage"){
-
-      iniciarCameraMonitor();
-
-      iniciarMonitor();
-
-    }
-
-  },500);
-
+    }, 500);
 }
