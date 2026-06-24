@@ -1,15 +1,29 @@
 // =========================
-// 👁 MONITOR DE RECONHECIMENTO
+// 👁 MONITOR DE RECONHECIMENTO (VERSÃO OTIMIZADA)
 // =========================
 let monitorInterval = null;
+let estaNoMonitor = false;   // Controle para pausar quando sair da página
 
 function iniciarMonitor() {
     if (monitorInterval) return;
-    console.log("🔄 Iniciando monitor de reconhecimento...");
-    monitorInterval = setInterval(reconhecerFace, 300);
+    
+    console.log("🔄 Monitor de reconhecimento ATIVADO");
+    estaNoMonitor = true;
+    monitorInterval = setInterval(reconhecerFace, 350);
 }
 
+function pararMonitor() {
+    if (monitorInterval) {
+        clearInterval(monitorInterval);
+        monitorInterval = null;
+    }
+    estaNoMonitor = false;
+    console.log("⏹ Monitor de reconhecimento PAUSADO");
+}
+
+// Função principal de reconhecimento
 async function reconhecerFace() {
+    if (!estaNoMonitor) return;                    // ← Impede execução quando não estiver na página
     if (!window.faceApiPronta || !window.matcherPronto || !window.faceMatcher) return;
     if (window.reconhecendo) return;
 
@@ -21,7 +35,7 @@ async function reconhecerFace() {
 
         const detections = await faceapi
             .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ 
-                inputSize: 416,           // mais qualidade
+                inputSize: 416, 
                 scoreThreshold: 0.5 
             }))
             .withFaceLandmarks()
@@ -32,9 +46,6 @@ async function reconhecerFace() {
         for (const detection of detections) {
             const resultado = window.faceMatcher.findBestMatch(detection.descriptor);
 
-            console.log(`🔍 Match: ${resultado.label} | Dist: ${resultado.distance.toFixed(3)}`);
-
-            // MAIS PRECISO: threshold mais baixo + exige boa confiança
             if (resultado.label === "unknown" || resultado.distance > 0.55) continue;
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
@@ -42,7 +53,7 @@ async function reconhecerFace() {
 
             const nome = aluno.nome;
 
-            // Cooldown forte
+            // Cooldown
             const agora = Date.now();
             window.ultimoReconhecimento = window.ultimoReconhecimento || {};
 
@@ -50,9 +61,9 @@ async function reconhecerFace() {
                 continue;
             }
 
-            console.log(`🎉 RECONHECIDO COM CONFIANÇA: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
+            console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
-            // UI
+            // Atualiza UI
             document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
             document.getElementById("statusTexto").innerText = nome;
 
@@ -70,13 +81,13 @@ async function reconhecerFace() {
     }
 }
 
+// =========================
+// REGISTRAR LOG
+// =========================
 async function registrarLog(aluno) {
     if (!aluno?.id || !aluno?.nome) return;
 
     try {
-        console.log(`📝 Tentando registrar log para: ${aluno.nome}`);
-
-        // Lógica de Entrada / Saída
         const { data: ultimoLog } = await window.supabaseClient
             .from("logs_reconhecimento")
             .select("status")
@@ -112,13 +123,6 @@ async function registrarLog(aluno) {
     }
 }
 
-function pararMonitor() {
-    if (monitorInterval) {
-        clearInterval(monitorInterval);
-        monitorInterval = null;
-    }
-}
-
-// Expor funções globais
+// Expor funções globalmente
 window.iniciarMonitor = iniciarMonitor;
 window.pararMonitor = pararMonitor;
