@@ -1,13 +1,12 @@
 // =========================
-// 👁 MONITOR DE RECONHECIMENTO (VERSÃO OTIMIZADA)
+// 👁 MONITOR DE RECONHECIMENTO (CONSOLE LIMPO)
 // =========================
 let monitorInterval = null;
-let estaNoMonitor = false;   // Controle para pausar quando sair da página
+let estaNoMonitor = false;
 
 function iniciarMonitor() {
     if (monitorInterval) return;
-    
-    console.log("🔄 Monitor de reconhecimento ATIVADO");
+    console.log("🔄 Monitor ATIVADO");
     estaNoMonitor = true;
     monitorInterval = setInterval(reconhecerFace, 350);
 }
@@ -18,12 +17,11 @@ function pararMonitor() {
         monitorInterval = null;
     }
     estaNoMonitor = false;
-    console.log("⏹ Monitor de reconhecimento PAUSADO");
+    console.log("⏹ Monitor PAUSADO");
 }
 
-// Função principal de reconhecimento
 async function reconhecerFace() {
-    if (!estaNoMonitor) return;                    // ← Impede execução quando não estiver na página
+    if (!estaNoMonitor) return;
     if (!window.faceApiPronta || !window.matcherPronto || !window.faceMatcher) return;
     if (window.reconhecendo) return;
 
@@ -34,10 +32,7 @@ async function reconhecerFace() {
         if (!video || video.readyState < 2) return;
 
         const detections = await faceapi
-            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ 
-                inputSize: 416, 
-                scoreThreshold: 0.5 
-            }))
+            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.5 }))
             .withFaceLandmarks()
             .withFaceDescriptors();
 
@@ -53,7 +48,6 @@ async function reconhecerFace() {
 
             const nome = aluno.nome;
 
-            // Cooldown
             const agora = Date.now();
             window.ultimoReconhecimento = window.ultimoReconhecimento || {};
 
@@ -61,9 +55,10 @@ async function reconhecerFace() {
                 continue;
             }
 
-            console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
+            // LOG MÍNIMO
+            console.log(`✅ ${nome} reconhecido`);
 
-            // Atualiza UI
+            // UI
             document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
             document.getElementById("statusTexto").innerText = nome;
 
@@ -81,9 +76,7 @@ async function reconhecerFace() {
     }
 }
 
-// =========================
-// REGISTRAR LOG
-// =========================
+// Registrar Log (mantido, mas com menos logs)
 async function registrarLog(aluno) {
     if (!aluno?.id || !aluno?.nome) return;
 
@@ -108,21 +101,19 @@ async function registrarLog(aluno) {
             }]);
 
         if (error) {
-            console.error("❌ Erro ao inserir log:", error.message);
+            console.error("Erro ao inserir log:", error.message);
         } else {
-            console.log(`✅ LOG REGISTRADO → ${statusAtual} | ${aluno.nome}`);
+            console.log(`📝 ${statusAtual} → ${aluno.nome}`);
         }
 
-        // Atualiza telas
         await carregarStats?.();
         await carregarGraficoLogs?.();
         await carregarLogs?.();
 
     } catch (err) {
-        console.error("💥 Erro no registrarLog:", err);
+        console.error("Erro no registrarLog:", err);
     }
 }
 
-// Expor funções globalmente
 window.iniciarMonitor = iniciarMonitor;
 window.pararMonitor = pararMonitor;

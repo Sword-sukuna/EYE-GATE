@@ -10,7 +10,7 @@ async function carregarFaceAPI(){
         await faceapi.nets.faceRecognitionNet.loadFromUri("./models");
 
         window.faceApiPronta = true;
-        console.log("✅ Face API carregada com sucesso");
+        console.log("✅ Face API carregada");
     } catch(error){
         console.error("❌ Erro ao carregar Face API:", error);
     }
@@ -18,10 +18,7 @@ async function carregarFaceAPI(){
 
 async function carregarAlunosCache(){
     try {
-        if (!window.supabaseClient) {
-            console.error("❌ supabaseClient não encontrado em carregarAlunosCache");
-            return;
-        }
+        if (!window.supabaseClient) return;
 
         const { data: alunos, error } = await window.supabaseClient
             .from("alunos")
@@ -33,36 +30,16 @@ async function carregarAlunosCache(){
         }
 
         window.alunosCache = alunos || [];
-        
-        console.log(`✅ ${alunos.length} alunos carregados do banco`);
+        console.log(`✅ ${alunos.length} alunos carregados`);
 
-        alunos.forEach(aluno => {
-            console.log(`Aluno: ${aluno.nome} | Descriptor: ${aluno.descriptor ? aluno.descriptor.length : 0}`);
-        });
-
-        // Atualiza matcher depois de carregar alunos
         if (typeof criarMatcher === 'function') {
             await criarMatcher();
         }
     } catch (e) {
-        console.error("Erro geral em carregarAlunosCache:", e);
+        console.error("Erro em carregarAlunosCache:", e);
     }
 }
 
-window.validarPose = function(detection){
-    if (!detection || !detection.landmarks) return false;
-
-    const nariz = detection.landmarks.getNose()[3];
-    const olhoEsq = detection.landmarks.getLeftEye()[0];
-    const olhoDir = detection.landmarks.getRightEye()[3];
-    const centroOlhos = (olhoEsq.x + olhoDir.x) / 2;
-
-    switch(window.etapaCaptura || 0){
-        case 0: return true;
-        case 1: return nariz.x < centroOlhos - 10;
-        case 2: return nariz.x > centroOlhos + 10;
-        case 3: return nariz.y < olhoEsq.y - 5;
-        case 4: return nariz.y > olhoEsq.y + 15;
-        default: return false;
-    }
-};
+// Expor funções
+window.carregarFaceAPI = carregarFaceAPI;
+window.carregarAlunosCache = carregarAlunosCache;
