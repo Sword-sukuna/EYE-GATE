@@ -1,5 +1,5 @@
 // =========================
-// 📋 ADMIN LOGS (CORRIGIDO)
+// 📋 ADMIN LOGS (COMPLETO E CORRIGIDO)
 // =========================
 async function carregarLogsAdmin() {
     const container = document.getElementById("adminLogs");
@@ -52,6 +52,15 @@ async function carregarLogsAdmin() {
             `;
         });
 
+        // Botão de limpar todo histórico (só admin)
+        const btnLimpar = document.createElement("button");
+        btnLimpar.className = "delete-all-btn";
+        btnLimpar.innerHTML = "🗑 Limpar Todo Histórico";
+        btnLimpar.style.marginTop = "20px";
+        btnLimpar.style.background = "#e74c3c";
+        btnLimpar.onclick = limparTodoHistorico;
+        container.appendChild(btnLimpar);
+
         console.log(`✅ ${data.length} logs carregados no Admin`);
 
     } catch (e) {
@@ -60,15 +69,15 @@ async function carregarLogsAdmin() {
 }
 
 // =========================
-// 🗑 DELETE LOG
+// 🗑 DELETAR LOG INDIVIDUAL
 // =========================
 async function deletarLog(id) {
-    if (!(await verificarAdminLocal?.())) {
+    if (!confirm("Excluir este registro?")) return;
+
+    if (!await verificarAdminLocal()) {
         mostrarMensagem("Sem permissão");
         return;
     }
-
-    if (!confirm("Tem certeza que deseja excluir este registro?")) return;
 
     try {
         const { error } = await window.supabaseClient
@@ -82,22 +91,53 @@ async function deletarLog(id) {
             return;
         }
 
-        mostrarMensagem("Registro excluído com sucesso");
-        
-        // Atualiza as telas
+        mostrarMensagem("Registro excluído");
         await carregarLogsAdmin();
         await carregarStats();
         await carregarGraficoLogs();
-        await carregarLogs();
 
     } catch (err) {
         console.error("Erro ao deletar log:", err);
-        mostrarMensagem("Erro ao excluir");
+    }
+}
+
+// =========================
+// 🗑 LIMPAR TODO HISTÓRICO
+// =========================
+async function limparTodoHistorico() {
+    if (!confirm("⚠️ APAGAR TODO o histórico de entrada e saída?\nEssa ação não pode ser desfeita!")) {
+        return;
+    }
+
+    if (!await verificarAdminLocal()) {
+        mostrarMensagem("Apenas administradores podem fazer isso.");
+        return;
+    }
+
+    try {
+        const { error } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .delete()
+            .gt("id", 0); // Deleta todos
+
+        if (error) {
+            console.error(error);
+            mostrarMensagem("Erro ao limpar histórico");
+            return;
+        }
+
+        mostrarMensagem("✅ Histórico limpo com sucesso");
+        await carregarLogsAdmin();
+        await carregarStats();
+        await carregarGraficoLogs();
+
+    } catch (err) {
+        console.error("Erro ao limpar histórico:", err);
+        mostrarMensagem("Erro inesperado");
     }
 }
 
 // Expor funções globalmente
 window.carregarLogsAdmin = carregarLogsAdmin;
 window.deletarLog = deletarLog;
-
-//teste
+window.limparTodoHistorico = limparTodoHistorico;
