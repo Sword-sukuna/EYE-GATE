@@ -43,3 +43,5 @@ async function carregarAlunosCache(){
 // Expor funções
 window.carregarFaceAPI = carregarFaceAPI;
 window.carregarAlunosCache = carregarAlunosCache;
+// Expor funções globais
+window.validarPose = validarPose;
