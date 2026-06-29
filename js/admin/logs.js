@@ -1,5 +1,5 @@
 // =========================
-// 📋 ADMIN LOGS (COMPLETO E CORRIGIDO)
+// 📋 ADMIN LOGS (COM PROTEÇÃO SUPABASE)
 // =========================
 async function carregarLogsAdmin() {
     const container = document.getElementById("adminLogs");
@@ -7,7 +7,8 @@ async function carregarLogsAdmin() {
 
     try {
         if (!window.supabaseClient) {
-            console.error("supabaseClient não encontrado");
+            console.error("❌ supabaseClient não encontrado");
+            container.innerHTML = `<p style="color:red; text-align:center;">Erro: Supabase não carregado</p>`;
             return;
         }
 
@@ -52,7 +53,7 @@ async function carregarLogsAdmin() {
             `;
         });
 
-        // Botão de limpar todo histórico (só admin)
+        // Botão Limpar Todo Histórico
         const btnLimpar = document.createElement("button");
         btnLimpar.className = "delete-all-btn";
         btnLimpar.innerHTML = "🗑 Limpar Todo Histórico";
@@ -60,8 +61,6 @@ async function carregarLogsAdmin() {
         btnLimpar.style.background = "#e74c3c";
         btnLimpar.onclick = limparTodoHistorico;
         container.appendChild(btnLimpar);
-
-        console.log(`✅ ${data.length} logs carregados no Admin`);
 
     } catch (e) {
         console.error("Erro geral no carregarLogsAdmin:", e);
@@ -74,7 +73,7 @@ async function carregarLogsAdmin() {
 async function deletarLog(id) {
     if (!confirm("Excluir este registro?")) return;
 
-    if (!await verificarAdminLocal()) {
+    if (!await verificarAdminLocal?.()) {
         mostrarMensagem("Sem permissão");
         return;
     }
@@ -85,11 +84,7 @@ async function deletarLog(id) {
             .delete()
             .eq("id", id);
 
-        if (error) {
-            console.error(error);
-            mostrarMensagem("Erro ao excluir");
-            return;
-        }
+        if (error) throw error;
 
         mostrarMensagem("Registro excluído");
         await carregarLogsAdmin();
@@ -98,6 +93,7 @@ async function deletarLog(id) {
 
     } catch (err) {
         console.error("Erro ao deletar log:", err);
+        mostrarMensagem("Erro ao excluir");
     }
 }
 
@@ -105,11 +101,9 @@ async function deletarLog(id) {
 // 🗑 LIMPAR TODO HISTÓRICO
 // =========================
 async function limparTodoHistorico() {
-    if (!confirm("⚠️ APAGAR TODO o histórico de entrada e saída?\nEssa ação não pode ser desfeita!")) {
-        return;
-    }
+    if (!confirm("⚠️ APAGAR TODO o histórico?\nEssa ação não pode ser desfeita!")) return;
 
-    if (!await verificarAdminLocal()) {
+    if (!await verificarAdminLocal?.()) {
         mostrarMensagem("Apenas administradores podem fazer isso.");
         return;
     }
@@ -118,13 +112,9 @@ async function limparTodoHistorico() {
         const { error } = await window.supabaseClient
             .from("logs_reconhecimento")
             .delete()
-            .gt("id", 0); // Deleta todos
+            .gt("id", 0);
 
-        if (error) {
-            console.error(error);
-            mostrarMensagem("Erro ao limpar histórico");
-            return;
-        }
+        if (error) throw error;
 
         mostrarMensagem("✅ Histórico limpo com sucesso");
         await carregarLogsAdmin();
@@ -137,7 +127,7 @@ async function limparTodoHistorico() {
     }
 }
 
-// Expor funções globalmente
+// Expor funções
 window.carregarLogsAdmin = carregarLogsAdmin;
 window.deletarLog = deletarLog;
 window.limparTodoHistorico = limparTodoHistorico;
