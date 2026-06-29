@@ -1,14 +1,15 @@
 // =========================
-// 👁 MONITOR DE RECONHECIMENTO (MAIS PRECISO)
+// 👁 MONITOR DE RECONHECIMENTO (OTIMIZADO)
 // =========================
 let monitorInterval = null;
 let estaNoMonitor = false;
 
 function iniciarMonitor() {
     if (monitorInterval) return;
-    console.log("🔄 Monitor ATIVADO");
+    
+    console.log("🔄 Monitor de reconhecimento ATIVADO");
     estaNoMonitor = true;
-    monitorInterval = setInterval(reconhecerFace, 400); // intervalo um pouco maior
+    monitorInterval = setInterval(reconhecerFace, 5000); // 5 segundos (como você pediu)
 }
 
 function pararMonitor() {
@@ -17,9 +18,10 @@ function pararMonitor() {
         monitorInterval = null;
     }
     estaNoMonitor = false;
-    console.log("⏹ Monitor PAUSADO");
+    console.log("⏹ Monitor de reconhecimento PAUSADO");
 }
 
+// Função principal de reconhecimento
 async function reconhecerFace() {
     if (!estaNoMonitor) return;
     if (!window.faceApiPronta || !window.matcherPronto || !window.faceMatcher) return;
@@ -31,11 +33,11 @@ async function reconhecerFace() {
         const video = document.getElementById("monitorVideo");
         if (!video || video.readyState < 2) return;
 
-        // Configurações mais precisas
+        // Configuração mais precisa
         const detections = await faceapi
             .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ 
-                inputSize: 512,           // Maior = mais preciso (mas mais pesado)
-                scoreThreshold: 0.6 
+                inputSize: 512, 
+                scoreThreshold: 0.5 
             }))
             .withFaceLandmarks()
             .withFaceDescriptors();
@@ -45,10 +47,7 @@ async function reconhecerFace() {
         for (const detection of detections) {
             const resultado = window.faceMatcher.findBestMatch(detection.descriptor);
 
-            // MAIS PRECISO: threshold bem mais rigoroso
-            if (resultado.label === "unknown" || resultado.distance > 0.50) {
-                continue;
-            }
+            if (resultado.label === "unknown" || resultado.distance > 0.50) continue;
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
             if (!aluno) continue;
@@ -63,14 +62,14 @@ async function reconhecerFace() {
                 continue;
             }
 
-            console.log(`🎯 RECONHECIDO COM ALTA CONFIANÇA: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
+            console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
 
             // UI
             document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
             document.getElementById("statusTexto").innerText = nome;
 
             if (typeof mostrarMensagem === "function") {
-                mostrarMensagem(`✅ ${nome} reconhecido com sucesso!`);
+                mostrarMensagem(`✅ ${nome} reconhecido!`);
             }
 
             window.ultimoReconhecimento[nome] = agora;
@@ -83,7 +82,9 @@ async function reconhecerFace() {
     }
 }
 
-// Manter sua função registrarLog (não mexer)
+// =========================
+// REGISTRAR LOG
+// =========================
 async function registrarLog(aluno) {
     if (!aluno?.id || !aluno?.nome) return;
 
@@ -107,18 +108,22 @@ async function registrarLog(aluno) {
                 horario: new Date().toISOString()
             }]);
 
-        if (!error) {
-            console.log(`📝 ${statusAtual} → ${aluno.nome}`);
+        if (error) {
+            console.error("❌ Erro ao inserir log:", error.message);
+        } else {
+            console.log(`✅ ${statusAtual} → ${aluno.nome}`);
         }
 
+        // Atualiza telas
         await carregarStats?.();
         await carregarGraficoLogs?.();
         await carregarLogs?.();
 
     } catch (err) {
-        console.error("Erro no registrarLog:", err);
+        console.error("💥 Erro no registrarLog:", err);
     }
 }
 
+// Expor funções globalmente
 window.iniciarMonitor = iniciarMonitor;
 window.pararMonitor = pararMonitor;
