@@ -1,5 +1,5 @@
 // =========================
-// 📋 ADMIN LOGS (COM PROTEÇÃO SUPABASE)
+// 📋 ADMIN LOGS (COMPLETO)
 // =========================
 async function carregarLogsAdmin() {
     const container = document.getElementById("adminLogs");
@@ -62,6 +62,8 @@ async function carregarLogsAdmin() {
         btnLimpar.onclick = limparTodoHistorico;
         container.appendChild(btnLimpar);
 
+        console.log(`✅ ${data.length} logs carregados no Admin`);
+
     } catch (e) {
         console.error("Erro geral no carregarLogsAdmin:", e);
     }
@@ -101,7 +103,9 @@ async function deletarLog(id) {
 // 🗑 LIMPAR TODO HISTÓRICO
 // =========================
 async function limparTodoHistorico() {
-    if (!confirm("⚠️ APAGAR TODO o histórico?\nEssa ação não pode ser desfeita!")) return;
+    if (!confirm("⚠️ APAGAR TODO o histórico de entrada e saída?\nEssa ação NÃO pode ser desfeita!")) {
+        return;
+    }
 
     if (!await verificarAdminLocal?.()) {
         mostrarMensagem("Apenas administradores podem fazer isso.");
@@ -112,7 +116,7 @@ async function limparTodoHistorico() {
         const { error } = await window.supabaseClient
             .from("logs_reconhecimento")
             .delete()
-            .gt("id", 0);
+            .neq("id", "00000000-0000-0000-0000-000000000000"); // Deleta todos
 
         if (error) throw error;
 
@@ -127,7 +131,7 @@ async function limparTodoHistorico() {
     }
 }
 
-// Expor funções
+// Expor funções globalmente
 window.carregarLogsAdmin = carregarLogsAdmin;
 window.deletarLog = deletarLog;
 window.limparTodoHistorico = limparTodoHistorico;
