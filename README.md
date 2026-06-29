@@ -59,7 +59,6 @@ EYE-GATE/
 ├── models/            (modelos da face-api)
 └── README.md
 
-
 ---
 
 ## 🚀 Como Usar
