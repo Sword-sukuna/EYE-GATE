@@ -1,5 +1,5 @@
 /* =========================================================
-   DASHBOARD (MELHORADO)
+   DASHBOARD (MELHORADO PARA APRESENTAÇÃO)
 ========================================================= */
 
 .dashboard-layout {
@@ -10,12 +10,12 @@
 
 .sidebar {
   width: 260px;
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(15, 23, 42, 0.96);
   border-right: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -45,7 +45,7 @@
 .menu-item.active {
   background: linear-gradient(90deg, #6C5CE7, #a78bff);
   color: white;
-  box-shadow: 0 4px 15px rgba(108,92,231,0.3);
+  box-shadow: 0 4px 15px rgba(108,92,231,0.35);
 }
 
 .dashboard-content {
@@ -56,15 +56,15 @@
 }
 
 /* Cards do Dashboard */
-.card {
-  background: rgba(15, 23, 42, 0.8);
+.card, .stat-card {
+  background: rgba(15, 23, 42, 0.85);
   border-radius: 16px;
   padding: 24px;
   transition: all 0.3s ease;
   border: 1px solid rgba(255,255,255,0.05);
 }
 
-.card:hover {
+.card:hover, .stat-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.35);
 }
