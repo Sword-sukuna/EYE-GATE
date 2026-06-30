@@ -1,89 +1,89 @@
 /* =========================================================
-   BASE
+   EYE-GATE - MAIN CSS (VERSÃO ORGANIZADA E PROFISSIONAL)
 ========================================================= */
 
-@import url("./base/reset.css");
-@import url("./base/variables.css");
-@import url("./base/utilities.css");
-@import url("./base/animations.css");
-@import url("./base/background.css");
-@import url("./base/global.css");
+/* Base */
+@import url("./reset.css");
+@import url("./variables.css");
+@import url("./utilities.css");
+@import url("./animations.css");
+@import url("./background.css");
+@import url("./global.css");
 
-/* =========================================================
-   COMPONENTS
-========================================================= */
+/* Components */
+@import url("./buttons.css");
+@import url("./cards.css");
+@import url("./inputs.css");
+@import url("./loading.css");
+@import url("./toast.css");
 
-@import url("./components/buttons.css");
-@import url("./components/cards.css");
-@import url("./components/inputs.css");
-@import url("./components/loading.css");
-@import url("./components/startup.css");
-@import url("./components/toast.css");
+/* Layouts */
+@import url("./pages.css");
+@import url("./dashboard.css");
+@import url("./sidebar.css");
+@import url("./topbar.css");
 
-/* =========================================================
-   LAYOUTS
-========================================================= */
+/* Sections */
+@import url("./login.css");
+@import url("./stats.css");
+@import url("./chart.css");
+@import url("./camera.css");
+@import url("./users.css");
+@import url("./logs.css");
 
-@import url("./layouts/pages.css");
-@import url("./layouts/dashboard.css");
-@import url("./layouts/sidebar.css");
-@import url("./layouts/topbar.css");
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-@import url("./sections/login.css");
-@import url("./sections/stats.css");
-@import url("./sections/chart.css");
-@import url("./sections/camera.css");
-@import url("./sections/users.css");
-@import url("./sections/logs.css");
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
+/* Responsive */
 @import url("./responsive.css");
 
-/* =========================================================
-   MELHORIAS GERAIS (FINAL)
-========================================================= */
+/* ==================== MELHORIAS GERAIS ==================== */
 
 body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    line-height: 1.6;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .page-content {
-    animation: fadeIn 0.5s ease forwards;
+    animation: fadeIn 0.6s ease forwards;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+h1, h2, h3 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
-/* Cards e elementos interativos */
-.user-card, .camera-box, .stat-card, .card {
+/* Cards mais modernos */
+.card, .login-card, .form-card, .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
-.user-card:hover, .camera-box:hover, .stat-card:hover, .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+.card:hover, .stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(108, 92, 231, 0.3);
 }
 
-/* Botões */
-button {
-    transition: all 0.25s ease;
+/* Melhorias no Monitor */
+.camera-box {
+    position: relative;
+    border: 3px solid var(--primary);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
 }
 
-button:hover {
-    transform: scale(1.04);
-    box-shadow: 0 8px 20px rgba(108,92,231,0.3);
+.status-overlay {
+    background: rgba(0, 0, 0, 0.85);
+    border-top: 3px solid var(--primary);
 }
 
-.login-btn:hover {
-    background: linear-gradient(90deg, #5849c9, #00b8ff);
+/* Toast mais bonito */
+.toast {
+    background: rgba(15, 23, 42, 0.95);
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }

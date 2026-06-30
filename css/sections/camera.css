@@ -1,16 +1,73 @@
 /* =========================================================
-   CAMERA (MELHORADO PARA APRESENTAÇÃO)
+   CAMERA + MONITOR - VERSÃO PROFISSIONAL
 ========================================================= */
+
+.camera-selector {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.selector-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.camera-selector label {
+  font-weight: 600;
+  color: var(--soft);
+  font-size: 14px;
+}
+
+.camera-select {
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  border: 2px solid rgba(108,92,231,0.5);
+  font-size: 16px;
+  min-width: 320px;
+  transition: all 0.3s ease;
+}
+
+.camera-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(108,92,231,0.2);
+  outline: none;
+}
+
+.add-camera-btn {
+  padding: 14px 24px;
+  background: linear-gradient(90deg, var(--primary), var(--primary2));
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.add-camera-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(108,92,231,0.4);
+}
+
+/* ==================== ÁREA DA CÂMERA ==================== */
 
 .camera-box {
   width: 100%;
-  max-width: 720px;
-  margin: 25px auto;
-  border-radius: 20px;
+  max-width: 760px;
+  margin: 0 auto 30px;
+  border-radius: 24px;
   overflow: hidden;
   background: #000;
-  box-shadow: 0 15px 45px rgba(0,0,0,0.7);
-  border: 4px solid #6C5CE7;
+  border: 4px solid var(--primary);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
   position: relative;
 }
 
@@ -21,87 +78,80 @@
   display: block;
 }
 
+/* Overlay de Status */
 .status-overlay {
   position: absolute;
-  bottom: 25px;
-  left: 25px;
-  right: 25px;
-  background: rgba(0,0,0,0.85);
-  padding: 18px 24px;
-  border-radius: 14px;
-  color: white;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.95));
+  padding: 32px 28px 24px;
   text-align: center;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-}
-
-.camera-selector {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
-}
-
-.camera-select {
-  padding: 12px 20px;
-  border-radius: 12px;
-  background: #1e2937;
   color: white;
-  border: 2px solid #6C5CE7;
+}
+
+.status-overlay h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.status-overlay p {
   font-size: 16px;
-  min-width: 280px;
-  cursor: pointer;
+  opacity: 0.9;
 }
 
-.add-camera-btn {
-  padding: 12px 24px;
-  background: #6C5CE7;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.add-camera-btn:hover {
-  background: #5849c9;
-  transform: translateY(-2px);
-}
-
-.monitor-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #00ff88;
-  box-shadow: 0 0 8px #00ff88;
-  animation: pulse 2s infinite;
-}
-
+/* Indicador de processamento */
 .processing-indicator {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(108,92,231,0.9);
+  top: 24px;
+  right: 24px;
+  background: rgba(108,92,231,0.95);
   color: white;
-  padding: 6px 14px;
-  border-radius: 30px;
-  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
   display: none;
-  animation: fadeIn 0.3s;
+  animation: pulse 1.5s infinite;
 }
 
-.logs-container {
-  max-height: 300px;
-  overflow-y: auto;
+/* Info Cards do Monitor */
+.monitor-info {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.info-card {
+  background: var(--card);
+  padding: 20px 28px;
+  border-radius: 16px;
+  flex: 1;
+  min-width: 220px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.info-card strong {
+  font-size: 32px;
+  display: block;
+  margin-top: 8px;
+  color: var(--primary2);
+}
+
+.stop-btn {
+  background: #ff4d7a;
+  color: white;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.stop-btn:hover {
+  background: #ff3366;
+  transform: scale(1.05);
 }
