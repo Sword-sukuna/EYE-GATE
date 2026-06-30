@@ -1,5 +1,5 @@
 // =========================
-// 👁 MONITOR DE RECONHECIMENTO (COM CADASTRO REAL DE CÂMERAS)
+// 👁 MONITOR DE RECONHECIMENTO (COM CÂMERAS)
 // =========================
 let monitorInterval = null;
 let estaNoMonitor = false;
@@ -9,6 +9,7 @@ function iniciarMonitor() {
     if (monitorInterval) return;
     console.log("🔄 Monitor ATIVADO");
     estaNoMonitor = true;
+    carregarCameras();
     monitorInterval = setInterval(reconhecerFace, 5000);
 }
 
@@ -71,10 +72,46 @@ async function reconhecerFace() {
     }
 }
 
-async function registrarLog(aluno) { /* seu código original */ }
+async function registrarLog(aluno) {
+    if (!aluno?.id || !aluno?.nome) return;
+
+    try {
+        const { data: ultimoLog } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .select("status")
+            .eq("aluno_id", aluno.id)
+            .order("horario", { ascending: false })
+            .limit(1);
+
+        const ultimoStatus = ultimoLog?.[0]?.status;
+        const statusAtual = (ultimoStatus === "Entrada") ? "Saída" : "Entrada";
+
+        const { error } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .insert([{
+                aluno_id: aluno.id,
+                nome_aluno: aluno.nome,
+                status: statusAtual,
+                horario: new Date().toISOString()
+            }]);
+
+        if (error) {
+            console.error("❌ Erro ao inserir log:", error.message);
+        } else {
+            console.log(`✅ ${statusAtual} → ${aluno.nome}`);
+        }
+
+        await carregarStats?.();
+        await carregarGraficoLogs?.();
+        await carregarLogs?.();
+
+    } catch (err) {
+        console.error("💥 Erro no registrarLog:", err);
+    }
+}
 
 // =========================
-// CADASTRO DE CÂMERAS (REAL)
+// CADASTRO DE CÂMERAS
 // =========================
 async function cadastrarCamera() {
     const nome = prompt("Nome da câmera (ex: Porta Principal):");
@@ -96,7 +133,7 @@ async function cadastrarCamera() {
             console.error(error);
             mostrarMensagem("Erro ao cadastrar câmera");
         } else {
-            mostrarMensagem(`Câmera "${nome}" cadastrada com sucesso!`);
+            mostrarMensagem(`Câmera "${nome}" cadastrada!`);
             carregarCameras();
         }
     } catch (e) {
@@ -125,7 +162,7 @@ async function carregarCameras() {
             select.appendChild(option);
         });
     } catch (e) {
-        console.error(e);
+        console.error("Erro ao carregar câmeras:", e);
     }
 }
 
@@ -138,42 +175,6 @@ function selecionarCamera(id) {
     }, 500);
 }
 
-// Carregar câmeras ao iniciar o monitor
-async function carregarCameras() {
-    const select = document.getElementById("cameraSelect");
-    if (!select) return;
-
-    try {
-        const { data, error } = await window.supabaseClient
-            .from("cameras")
-            .select("*")
-            .eq("status", true);
-
-        if (error) throw error;
-
-        select.innerHTML = "";
-        data.forEach(cam => {
-            const option = document.createElement("option");
-            option.value = cam.id;
-            option.textContent = cam.nome;
-            if (cam.id === cameraAtual) option.selected = true;
-            select.appendChild(option);
-        });
-    } catch (e) {
-        console.error("Erro ao carregar câmeras:", e);
-    }
-}
-
-// Chame no iniciarMonitor
-function iniciarMonitor() {
-    if (monitorInterval) return;
-    console.log("🔄 Monitor ATIVADO");
-    estaNoMonitor = true;
-    carregarCameras(); // Carrega as câmeras
-    monitorInterval = setInterval(reconhecerFace, 5000);
-}
-
-// Expor
 window.iniciarMonitor = iniciarMonitor;
 window.pararMonitor = pararMonitor;
 window.cadastrarCamera = cadastrarCamera;
