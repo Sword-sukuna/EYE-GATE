@@ -83,22 +83,27 @@ async function cadastrarCamera() {
     if (!local?.trim()) return;
 
     try {
-        const { error } = await window.supabaseClient
+        const { data, error } = await window.supabaseClient
             .from("cameras")
             .insert([{
                 nome: nome.trim(),
                 local: local.trim(),
-                status: true,
-                created_at: new Date().toISOString()
-            }]);
+                status: true
+                // Removemos created_at para evitar erro de coluna
+            }])
+            .select();  // Para debug
 
-        if (error) throw error;
+        if (error) {
+            console.error("Erro Supabase:", error);
+            throw error;
+        }
 
-        mostrarMensagem(`✅ Câmera "${nome}" cadastrada!`, "success");
+        mostrarMensagem(`✅ Câmera "${nome}" cadastrada com sucesso!`, "success");
         await carregarCameras();
+
     } catch (e) {
-        console.error(e);
-        mostrarMensagem("❌ Erro ao cadastrar câmera", "danger");
+        console.error("Erro completo:", e);
+        mostrarMensagem("❌ Erro ao cadastrar câmera. Verifique o console.", "danger");
     }
 }
 
