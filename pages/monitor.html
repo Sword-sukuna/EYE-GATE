@@ -1,68 +1,56 @@
 <!-- ========================= -->
-<!-- 👀 MONITOR -->
+<!-- 👀 MONITOR (COMPLETO E MELHORADO) -->
 <!-- ========================= -->
-<section
-  id="monitorPage"
-  class="page"
->
+<section id="monitorPage" class="page">
 
- <div class="page-content">
+  <div class="page-content">
 
     <div class="topbar">
-
-      <h1>
-        Monitoramento
-      </h1>
-
+      <h1>🎥 Monitoramento em Tempo Real</h1>
+      <p class="subtitle">Sistema de Reconhecimento Facial</p>
     </div>
-
 
     <div class="activity-section">
 
-      <h2>
-        👁 Sistema Facial
-      </h2>
+      <!-- Seleção de Câmera -->
+      <div class="camera-selector">
+        <label><strong>Câmera Atual:</strong></label>
+        <select id="cameraSelect" onchange="selecionarCamera(this.value)" class="camera-select">
+          <!-- Opções carregadas via JS -->
+        </select>
+        <button onclick="cadastrarCamera()" class="add-camera-btn">+ Nova Câmera</button>
+      </div>
 
-      <p>
-        Sistema aguardando câmera...
-      </p>
+      <!-- Área do Vídeo -->
+      <div class="camera-box">
+        <video id="monitorVideo" autoplay muted playsinline></video>
+        
+        <!-- Overlay de Status -->
+        <div class="status-overlay">
+          <h3 id="statusTitulo">Aguardando detecção...</h3>
+          <p id="statusTexto">Posicione o rosto na câmera</p>
+        </div>
+      </div>
 
-<div class="camera-box">
+      <!-- Info -->
+      <div class="monitor-info">
+        <div class="info-card">
+          <span>Alunos Reconhecidos Hoje</span>
+          <strong id="alunosHoje">0</strong>
+        </div>
+        <button onclick="pararMonitor()" class="stop-btn">⏹ Parar Monitor</button>
+      </div>
 
-  <video
-  id="monitorVideo"
-  autoplay
-  muted
-  playsinline
-  width="320"
-  height="240"
-></video>
-
-</div>
-
-<div class="recognition-box">
-
-  <h3 id="statusTitulo">
-    Nenhum rosto detectado
-  </h3>
-
-  <p id="statusTexto">
-    Aguardando reconhecimento...
-  </p>
-
-</div>
-
-<div class="logs-list"></div>
+      <!-- Logs recentes -->
+      <div class="logs-list">
+        <h3>Últimos Reconhecimentos</h3>
+        <!-- Logs serão carregados via JS -->
+      </div>
 
     </div>
 
-
-    <button
-      class="logout-btn"
-      onclick="abrirPagina('dashboardPage')"
-      style="margin-top:20px;"
-    >
-      ← Voltar
+    <button class="logout-btn" onclick="abrirPagina('dashboardPage')">
+      ← Voltar ao Dashboard
     </button>
 
   </div>
