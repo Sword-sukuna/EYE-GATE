@@ -1,5 +1,5 @@
 /* =========================================================
-   DASHBOARD
+   DASHBOARD (MELHORADO)
 ========================================================= */
 
 .dashboard-layout {
@@ -11,49 +11,60 @@
 .sidebar {
   width: 260px;
   padding: 20px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   min-height: 100vh;
+  background: rgba(15, 23, 42, 0.95);
+  border-right: 1px solid rgba(255,255,255,0.08);
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .menu-item {
-  padding: 12px;
+  padding: 14px 18px;
   border-radius: 12px;
   text-decoration: none;
   color: var(--text);
-  transition: 0.2s;
-
-  display:flex;
-  align-items:center;
-  gap:10px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
 }
 
 .menu-item:hover {
-
-  background:
-    rgba(255,255,255,0.06);
-
-  transform:
-    translateX(6px);
-
+  background: rgba(255,255,255,0.08);
+  transform: translateX(8px);
 }
 
 .menu-item.active {
-  background: linear-gradient(90deg, var(--primary), var(--primary2));
+  background: linear-gradient(90deg, #6C5CE7, #a78bff);
   color: white;
+  box-shadow: 0 4px 15px rgba(108,92,231,0.3);
 }
 
 .dashboard-content {
   flex: 1;
   padding: 30px;
   overflow-y: auto;
+  background: #0f172a;
+}
+
+/* Cards do Dashboard */
+.card {
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
