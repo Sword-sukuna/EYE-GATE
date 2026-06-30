@@ -1,35 +1,35 @@
 /* =========================================================
-   EYE-GATE - MAIN CSS (VERSÃO ORGANIZADA E PROFISSIONAL)
+   EYE-GATE - MAIN CSS (IMPORTS COM SUBPASTAS)
 ========================================================= */
 
 /* Base */
-@import url("./reset.css");
-@import url("./variables.css");
-@import url("./utilities.css");
-@import url("./animations.css");
-@import url("./background.css");
-@import url("./global.css");
+@import url("./base/reset.css");
+@import url("./base/variables.css");
+@import url("./base/utilities.css");
+@import url("./base/animations.css");
+@import url("./base/background.css");
+@import url("./base/global.css");
 
 /* Components */
-@import url("./buttons.css");
-@import url("./cards.css");
-@import url("./inputs.css");
-@import url("./loading.css");
-@import url("./toast.css");
+@import url("./components/buttons.css");
+@import url("./components/cards.css");
+@import url("./components/inputs.css");
+@import url("./components/loading.css");
+@import url("./components/toast.css");
 
 /* Layouts */
-@import url("./pages.css");
-@import url("./dashboard.css");
-@import url("./sidebar.css");
-@import url("./topbar.css");
+@import url("./layouts/pages.css");
+@import url("./layouts/dashboard.css");
+@import url("./layouts/sidebar.css");
+@import url("./layouts/topbar.css");
 
 /* Sections */
-@import url("./login.css");
-@import url("./stats.css");
-@import url("./chart.css");
-@import url("./camera.css");
-@import url("./users.css");
-@import url("./logs.css");
+@import url("./sections/login.css");
+@import url("./sections/stats.css");
+@import url("./sections/chart.css");
+@import url("./sections/camera.css");
+@import url("./sections/users.css");
+@import url("./sections/logs.css");
 
 /* Responsive */
 @import url("./responsive.css");
@@ -69,7 +69,7 @@ h1, h2, h3 {
     border-color: rgba(108, 92, 231, 0.3);
 }
 
-/* Melhorias no Monitor */
+/* Monitor */
 .camera-box {
     position: relative;
     border: 3px solid var(--primary);
@@ -81,7 +81,6 @@ h1, h2, h3 {
     border-top: 3px solid var(--primary);
 }
 
-/* Toast mais bonito */
 .toast {
     background: rgba(15, 23, 42, 0.95);
     border-left: 4px solid var(--primary);

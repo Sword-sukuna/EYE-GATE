@@ -3,9 +3,9 @@
 // =========================
 window.debugLogs = [];
 
-let streamCadastro = null;
+//let streamCadastro = null;
 
-let streamMonitor = null;
+//let streamMonitor = null;
 
 let faceMatcher = null;
 
