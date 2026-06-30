@@ -1,139 +1,34 @@
+
 /* =========================================================
-   📱 MOBILE PROFISSIONAL (SEM CONFLITO)
+   LOGIN
 ========================================================= */
 
- @media (max-width: 900px) {
-
-  body{
-    overflow-x:hidden;
-  }
-
-  .dashboard-layout{
-    flex-direction:column;
-  }
-
-  .sidebar{
-
-    width:100%;
-
-    min-height:auto;
-
-    padding:14px;
-
-    gap:14px;
-
-    border-radius:0 0 20px 20px;
-
-  }
-
-  .menu{
-
-    display:flex;
-
-    flex-direction:row;
-
-    gap:12px;
-
-    overflow-x:auto;
-
-    padding-bottom:6px;
-
-    scrollbar-width:none;
-
-  }
-
-  .menu::-webkit-scrollbar{
-    display:none;
-  }
-
-  .menu-item{
-
-    flex:none;
-
-    min-width:max-content;
-
-    padding:12px 16px;
-
-    font-size:14px;
-
-    justify-content:center;
-
-  }
-
-  .dashboard-content{
-
-    padding:16px;
-
-  }
-
-  .topbar{
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-    gap:10px;
-
-    padding:18px;
-
-  }
-
-  .topbar h1{
-
-    font-size:24px;
-
-  }
-
-  .stats-grid{
-
-    grid-template-columns:1fr;
-
-    gap:16px;
-
-  }
-
-  .stat-card{
-
-    padding: 24px;
-
-  }
-
-  .login-card{
-
-    width:100%;
-
-    padding:28px 22px;
-
-  }
-
-  input{
-
-    font-size:16px;
-
-    padding:14px;
-
-  }
-
-  button{
-
-    min-height:48px;
-
-  }
-
-  .grafico-container{
-
-    height:300px;
-
-  }
-
-  .toast{
-
-    left:12px;
-
-    right:12px;
-
-    top:15px;
-
-  }
-
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-logo h1 {
+  font-size: 36px;
+  background: linear-gradient(90deg, var(--primary), var(--primary2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-logo p {
+  color: var(--soft);
 }
