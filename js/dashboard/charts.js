@@ -1,5 +1,5 @@
 // =========================
-// 📈 GRAFICO LOGS - VERSÃO FINAL
+// 📈 GRÁFICO DE LOGS - VERSÃO ESTÁVEL
 // =========================
 async function carregarGraficoLogs() {
     const canvas = document.getElementById("graficoLogs");
@@ -9,14 +9,9 @@ async function carregarGraficoLogs() {
     }
 
     try {
-        // Destruir gráfico anterior se existir
+        // Destruir gráfico anterior
         if (window.graficoLogs instanceof Chart) {
             window.graficoLogs.destroy();
-        }
-
-        if (!window.supabaseClient) {
-            console.warn("supabaseClient não disponível");
-            return;
         }
 
         const { data, error } = await window.supabaseClient
@@ -24,19 +19,14 @@ async function carregarGraficoLogs() {
             .select("horario")
             .order("horario", { ascending: true });
 
-        if (error) {
-            console.error("Erro ao buscar dados do gráfico:", error);
-            return;
-        }
-
-        if (!data || data.length === 0) {
-            console.log("Nenhum dado para o gráfico ainda");
+        if (error || !data || data.length === 0) {
+            console.log("Nenhum dado para o gráfico");
             return;
         }
 
         const dias = {};
         data.forEach(log => {
-            const dia = new Date(log.horario).toLocaleDateString("pt-BR");
+            const dia = new Date(log.horario).toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' });
             dias[dia] = (dias[dia] || 0) + 1;
         });
 
@@ -52,36 +42,28 @@ async function carregarGraficoLogs() {
                     borderWidth: 3,
                     tension: 0.4,
                     fill: true,
-                    pointRadius: 4,
-                    pointHoverRadius: 7
+                    pointRadius: 4
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        labels: { color: "#fff", font: { size: 14 } }
-                    }
+                    legend: { labels: { color: "#fff", font: { size: 14 } } }
                 },
                 scales: {
-                    x: {
-                        ticks: { color: "#aaa" },
-                        grid: { color: "rgba(255,255,255,0.05)" }
-                    },
-                    y: {
-                        ticks: { color: "#aaa", stepSize: 1 },
+                    x: { ticks: { color: "#aaa" }, grid: { color: "rgba(255,255,255,0.05)" } },
+                    y: { 
+                        ticks: { color: "#aaa", stepSize: 1 }, 
                         grid: { color: "rgba(255,255,255,0.05)" },
-                        beginAtZero: true
+                        beginAtZero: true 
                     }
                 }
             }
         });
 
-        console.log(`✅ Gráfico carregado com ${data.length} registros`);
-
     } catch (e) {
-        console.error("❌ Erro grave no gráfico:", e);
+        console.error("Erro no gráfico:", e);
     }
 }
 
