@@ -7,11 +7,11 @@ let estaNoMonitor = false;
 let cameraAtual = null;
 
 function iniciarMonitor() {
-    if (monitorInterval) return;
+    if (monitorInterval) return; // Já está rodando
     console.log("🔄 Monitor ATIVADO");
     estaNoMonitor = true;
     carregarCameras();
-    monitorInterval = setInterval(reconhecerFace, 4000);
+    monitorInterval = setInterval(reconhecerFace, 5000);
 }
 
 function pararMonitor() {
