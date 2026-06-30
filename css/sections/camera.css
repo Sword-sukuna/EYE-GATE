@@ -68,3 +68,40 @@
   background: #5849c9;
   transform: translateY(-2px);
 }
+
+.monitor-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 8px #00ff88;
+  animation: pulse 2s infinite;
+}
+
+.processing-indicator {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(108,92,231,0.9);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  display: none;
+  animation: fadeIn 0.3s;
+}
+
+.logs-container {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

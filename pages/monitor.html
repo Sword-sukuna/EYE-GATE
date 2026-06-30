@@ -1,24 +1,34 @@
 <!-- ========================= -->
-<!-- 👀 MONITOR (COMPLETO E MELHORADO) -->
+<!-- 👀 MONITORAMENTO EM TEMPO REAL - VERSÃO PROFISSIONAL -->
 <!-- ========================= -->
 <section id="monitorPage" class="page">
 
   <div class="page-content">
 
     <div class="topbar">
-      <h1>🎥 Monitoramento em Tempo Real</h1>
-      <p class="subtitle">Sistema de Reconhecimento Facial</p>
+      <div>
+        <h1>🎥 Monitoramento em Tempo Real</h1>
+        <p class="subtitle">Sistema de Reconhecimento Facial Inteligente</p>
+      </div>
+      <div class="monitor-status">
+        <span class="status-dot online"></span>
+        <span id="cameraStatus">Câmera Ativa</span>
+      </div>
     </div>
 
     <div class="activity-section">
 
       <!-- Seleção de Câmera -->
       <div class="camera-selector">
-        <label><strong>Câmera Atual:</strong></label>
-        <select id="cameraSelect" onchange="selecionarCamera(this.value)" class="camera-select">
-          <!-- Opções carregadas via JS -->
-        </select>
-        <button onclick="cadastrarCamera()" class="add-camera-btn">+ Nova Câmera</button>
+        <div class="selector-group">
+          <label><strong>Câmera Atual:</strong></label>
+          <select id="cameraSelect" onchange="selecionarCamera(this.value)" class="camera-select">
+            <!-- Opções carregadas via JS -->
+          </select>
+        </div>
+        <button onclick="cadastrarCamera()" class="add-camera-btn">
+          <i data-lucide="plus-circle"></i> Nova Câmera
+        </button>
       </div>
 
       <!-- Área do Vídeo -->
@@ -30,21 +40,34 @@
           <h3 id="statusTitulo">Aguardando detecção...</h3>
           <p id="statusTexto">Posicione o rosto na câmera</p>
         </div>
+
+        <!-- Indicador de processamento -->
+        <div id="processingIndicator" class="processing-indicator">
+          Processando...
+        </div>
       </div>
 
-      <!-- Info -->
+      <!-- Informações Rápidas -->
       <div class="monitor-info">
         <div class="info-card">
-          <span>Alunos Reconhecidos Hoje</span>
+          <span>Alunos Hoje</span>
           <strong id="alunosHoje">0</strong>
         </div>
-        <button onclick="pararMonitor()" class="stop-btn">⏹ Parar Monitor</button>
+        <div class="info-card">
+          <span>Último Reconhecimento</span>
+          <strong id="ultimoReconhecimento">-</strong>
+        </div>
+        <button onclick="pararMonitor()" class="stop-btn">
+          ⏹ Parar Monitor
+        </button>
       </div>
 
-      <!-- Logs recentes -->
+      <!-- Logs Recentes -->
       <div class="logs-list">
         <h3>Últimos Reconhecimentos</h3>
-        <!-- Logs serão carregados via JS -->
+        <div id="logsRecentes" class="logs-container">
+          <!-- Preenchido via JS -->
+        </div>
       </div>
 
     </div>
