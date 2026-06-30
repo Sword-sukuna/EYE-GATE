@@ -1,5 +1,5 @@
 // =========================
-// 🚀 START - EYE-GATE (VERSÃO FINAL LIMPA)
+// 🚀 START - EYE-GATE (LIMPO)
 // =========================
 window.addEventListener("DOMContentLoaded", async () => {
     console.log("[EYE-GATE] Sistema iniciado");
