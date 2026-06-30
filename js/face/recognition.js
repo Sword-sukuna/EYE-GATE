@@ -1,17 +1,15 @@
 // =========================
-// 👁 MONITOR + CADASTRO DE CÂMERAS - VERSÃO PROFISSIONAL
+// 👁 MONITOR DE RECONHECIMENTO (OTIMIZADO)
 // =========================
-
 let monitorInterval = null;
 let estaNoMonitor = false;
-let cameraAtual = null;
 
 function iniciarMonitor() {
-    if (monitorInterval) return; // Já está rodando
-    console.log("🔄 Monitor ATIVADO");
+    if (monitorInterval) return;
+    
+    console.log("🔄 Monitor de reconhecimento ATIVADO");
     estaNoMonitor = true;
-    carregarCameras();
-    monitorInterval = setInterval(reconhecerFace, 5000);
+    monitorInterval = setInterval(reconhecerFace, 5000); // 5 segundos (como você pediu)
 }
 
 function pararMonitor() {
@@ -20,11 +18,13 @@ function pararMonitor() {
         monitorInterval = null;
     }
     estaNoMonitor = false;
-    console.log("⏹ Monitor PAUSADO");
+    console.log("⏹ Monitor de reconhecimento PAUSADO");
 }
 
+// Função principal de reconhecimento
 async function reconhecerFace() {
-    if (!estaNoMonitor || !window.faceApiPronta || !window.matcherPronto || !window.faceMatcher) return;
+    if (!estaNoMonitor) return;
+    if (!window.faceApiPronta || !window.matcherPronto || !window.faceMatcher) return;
     if (window.reconhecendo) return;
 
     window.reconhecendo = true;
@@ -33,9 +33,10 @@ async function reconhecerFace() {
         const video = document.getElementById("monitorVideo");
         if (!video || video.readyState < 2) return;
 
+        // Configuração mais precisa
         const detections = await faceapi
             .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({ 
-                inputSize: 416, 
+                inputSize: 512, 
                 scoreThreshold: 0.5 
             }))
             .withFaceLandmarks()
@@ -45,21 +46,34 @@ async function reconhecerFace() {
 
         for (const detection of detections) {
             const resultado = window.faceMatcher.findBestMatch(detection.descriptor);
+
             if (resultado.label === "unknown" || resultado.distance > 0.50) continue;
 
             const aluno = window.alunosCache.find(a => a.id === resultado.label);
             if (!aluno) continue;
 
             const nome = aluno.nome;
+
+            // Cooldown forte
             const agora = Date.now();
-
-            if (window.ultimoReconhecimento?.[nome] && agora - window.ultimoReconhecimento[nome] < 12000) continue;
-
-            atualizarStatusUI(nome);
-            await registrarLog(aluno);
-
             window.ultimoReconhecimento = window.ultimoReconhecimento || {};
+
+            if (window.ultimoReconhecimento[nome] && agora - window.ultimoReconhecimento[nome] < 15000) {
+                continue;
+            }
+
+            console.log(`🎉 RECONHECIDO: ${nome} (Dist: ${resultado.distance.toFixed(3)})`);
+
+            // UI
+            document.getElementById("statusTitulo").innerText = "✅ Aluno reconhecido";
+            document.getElementById("statusTexto").innerText = nome;
+
+            if (typeof mostrarMensagem === "function") {
+                mostrarMensagem(`✅ ${nome} reconhecido!`);
+            }
+
             window.ultimoReconhecimento[nome] = agora;
+            await registrarLog(aluno);
         }
     } catch (error) {
         console.error("Erro no reconhecimento:", error);
@@ -68,93 +82,48 @@ async function reconhecerFace() {
     }
 }
 
-function atualizarStatusUI(nome) {
-    document.getElementById("statusTitulo").innerText = "✅ Aluno Reconhecido";
-    document.getElementById("statusTexto").innerText = nome;
-    mostrarMensagem(`✅ ${nome} registrado com sucesso!`, "success");
-}
-
-// ==================== CADASTRO PROFISSIONAL DE CÂMERAS ====================
-async function cadastrarCamera() {
-    const nome = prompt("📍 Nome da câmera (ex: Porta Principal):");
-    if (!nome?.trim()) return;
-
-    const local = prompt("📍 Local da câmera (ex: Entrada Bloco A):");
-    if (!local?.trim()) return;
+// =========================
+// REGISTRAR LOG
+// =========================
+async function registrarLog(aluno) {
+    if (!aluno?.id || !aluno?.nome) return;
 
     try {
-        const { data, error } = await window.supabaseClient
-            .from("cameras")
+        const { data: ultimoLog } = await window.supabaseClient
+            .from("logs_reconhecimento")
+            .select("status")
+            .eq("aluno_id", aluno.id)
+            .order("horario", { ascending: false })
+            .limit(1);
+
+        const ultimoStatus = ultimoLog?.[0]?.status;
+        const statusAtual = (ultimoStatus === "Entrada") ? "Saída" : "Entrada";
+
+        const { error } = await window.supabaseClient
+            .from("logs_reconhecimento")
             .insert([{
-                nome: nome.trim(),
-                local: local.trim(),
-                status: true
-                // Removemos created_at para evitar erro de coluna
-            }])
-            .select();  // Para debug
+                aluno_id: aluno.id,
+                nome_aluno: aluno.nome,
+                status: statusAtual,
+                horario: new Date().toISOString()
+            }]);
 
         if (error) {
-            console.error("Erro Supabase:", error);
-            throw error;
+            console.error("❌ Erro ao inserir log:", error.message);
+        } else {
+            console.log(`✅ ${statusAtual} → ${aluno.nome}`);
         }
 
-        mostrarMensagem(`✅ Câmera "${nome}" cadastrada com sucesso!`, "success");
-        await carregarCameras();
+        // Atualiza telas
+        await carregarStats?.();
+        await carregarGraficoLogs?.();
+        await carregarLogs?.();
 
-    } catch (e) {
-        console.error("Erro completo:", e);
-        mostrarMensagem("❌ Erro ao cadastrar câmera. Verifique o console.", "danger");
+    } catch (err) {
+        console.error("💥 Erro no registrarLog:", err);
     }
 }
 
-async function carregarCameras() {
-    const select = document.getElementById("cameraSelect");
-    if (!select) return;
-
-    try {
-        const { data, error } = await window.supabaseClient
-            .from("cameras")
-            .select("*")
-            .eq("status", true)
-            .order("nome");
-
-        if (error) throw error;
-
-        select.innerHTML = '<option value="">Selecione uma câmera...</option>';
-
-        data.forEach(cam => {
-            const option = document.createElement("option");
-            option.value = cam.id;
-            option.textContent = `${cam.nome} — ${cam.local}`;
-            if (cam.id === cameraAtual) option.selected = true;
-            select.appendChild(option);
-        });
-    } catch (e) {
-        console.error("Erro ao carregar câmeras:", e);
-    }
-}
-
-function selecionarCamera(id) {
-    if (!id) return;
-    
-    cameraAtual = id;
-    pararMonitor();
-    
-    // Força recarregar a câmera
-    setTimeout(async () => {
-        const video = document.getElementById("monitorVideo");
-        if (video) video.srcObject = null; // Limpa anterior
-        
-        iniciarCameraMonitor();
-        iniciarMonitor();
-        
-        mostrarMensagem("📹 Câmera alterada com sucesso!", "success");
-    }, 700);
-}
-
-// Expor funções globais
+// Expor funções globalmente
 window.iniciarMonitor = iniciarMonitor;
 window.pararMonitor = pararMonitor;
-window.cadastrarCamera = cadastrarCamera;
-window.selecionarCamera = selecionarCamera;
-window.carregarCameras = carregarCameras;

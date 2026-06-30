@@ -1,49 +1,122 @@
-<section id="cadastroPage" class="page">
+<!-- ========================= -->
+<!-- 👤 CADASTRO -->
+<!-- ========================= -->
+<section
+  id="cadastroPage"
+  class="page"
+>
+
   <div class="page-content">
+
     <div class="topbar">
-      <h1>👤 Cadastro de Aluno</h1>
-      <p class="subtitle">Captura Facial - 5 Posições</p>
+
+      <h1>
+        Cadastro Facial
+      </h1>
+
     </div>
 
-    <div class="form-card" style="max-width: 680px; margin: 0 auto;">
+
+    <div class="form-card">
+
+      <h2>
+        👤 Novo Aluno
+      </h2>
+
+
       <div class="input-group">
-        <label>Nome Completo</label>
-        <input type="text" id="nome" placeholder="Ex: João Silva Santos" />
+
+        <label>Nome</label>
+
+        <input
+          type="text"
+          id="nome"
+          placeholder="Nome do aluno"
+        />
+
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-        <div class="input-group">
-          <label>Matrícula</label>
-          <input type="text" id="matricula" placeholder="000000" />
-        </div>
-        <div class="input-group">
-          <label>Turma</label>
-          <input type="text" id="turma" placeholder="3º Ano A" />
-        </div>
+
+      <div class="input-group">
+
+        <label>Matrícula</label>
+
+        <input
+          type="text"
+          id="matricula"
+          placeholder="Matrícula"
+        />
+
       </div>
 
-      <!-- Camera -->
-      <div class="camera-box" style="margin: 30px 0;">
-        <video id="video" autoplay muted playsinline></video>
+
+      <div class="input-group">
+
+        <label>Turma</label>
+
+        <input
+          type="text"
+          id="turma"
+          placeholder="Turma"
+        />
+
       </div>
 
-      <div id="instrucaoFace" class="face-guide">Olhe para frente 👀</div>
+      <!-- CAMERA -->
+<div class="camera-box">
 
-      <div class="progress-box">
-        <div id="faceProgress" class="progress-fill"></div>
-      </div>
+  <video
+    id="video"
+    autoplay
+    muted
+    playsinline
+    width="100%"
+  ></video>
 
-      <button class="login-btn" onclick="capturarFace()" style="width:100%; margin:15px 0;">
-        👁 Capturar Pose Atual
-      </button>
+</div>
 
-      <button class="cadastro-btn login-btn" style="width:100%;">
-        <i data-lucide="user-plus"></i> Finalizar Cadastro
-      </button>
+<div id="instrucaoFace" class="face-guide">
+  Olhe para frente 👀
+</div>
 
-      <button class="logout-btn" onclick="abrirPagina('dashboardPage')" style="margin-top:15px; width:100%;">
-        ← Voltar ao Dashboard
-      </button>
-    </div>
+<div class="progress-box">
+
+  <div
+    id="faceProgress"
+    class="progress-fill">
   </div>
+
+</div>
+
+<button
+  class="login-btn"
+  onclick="capturarFace()"
+  style="margin-bottom:15px;"
+>
+
+  👁 Capturar Face
+
+</button>
+
+      <button
+  class="cadastro-btn login-btn"
+>
+  <i data-lucide="user-plus"></i>
+Cadastro
+</button>
+
+
+      <button
+        class="logout-btn"
+        onclick="abrirPagina('dashboardPage')"
+        style="margin-top:15px;"
+      >
+        ← Voltar
+
+      </button>
+
+    </div>
+
+  </div>
+
 </section>

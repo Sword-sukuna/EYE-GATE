@@ -1,81 +1,47 @@
 /* =========================================================
-   EYE-GATE - MAIN CSS (IMPORTS CORRETOS COM SUBPASTAS)
+   BASE
 ========================================================= */
 
-/* Base */
-@import url("base/reset.css");
-@import url("base/variables.css");
-@import url("base/utilities.css");
-@import url("base/animations.css");
-@import url("base/background.css");
-@import url("base/global.css");
+@import url("./base/reset.css");
+@import url("./base/variables.css");
+@import url("./base/utilities.css");
+@import url("./base/animations.css");
+@import url("./base/background.css");
+@import url("./base/global.css");
 
-/* Components */
-@import url("components/buttons.css");
-@import url("components/cards.css");
-@import url("components/inputs.css");
-@import url("components/loading.css");
-@import url("components/toast.css");
+/* =========================================================
+   COMPONENTS
+========================================================= */
 
-/* Layouts */
-@import url("layouts/pages.css");
-@import url("layouts/dashboard.css");
-@import url("layouts/sidebar.css");
-@import url("layouts/topbar.css");
+@import url("./components/buttons.css");
+@import url("./components/cards.css");
+@import url("./components/inputs.css");
+@import url("./components/loading.css");
+@import url("./components/startup.css");
+@import url("./components/toast.css");
 
-/* Sections */
-@import url("sections/login.css");
-@import url("sections/stats.css");
-@import url("sections/chart.css");
-@import url("sections/camera.css");
-@import url("sections/users.css");
-@import url("sections/logs.css");
+/* =========================================================
+   LAYOUTS
+========================================================= */
 
-/* Responsive */
-@import url("responsive.css");
+@import url("./layouts/pages.css");
+@import url("./layouts/dashboard.css");
+@import url("./layouts/sidebar.css");
+@import url("./layouts/topbar.css");
 
-/* ==================== ESTILOS GERAIS ==================== */
+/* =========================================================
+   SECTIONS
+========================================================= */
 
-body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+@import url("./sections/login.css");
+@import url("./sections/stats.css");
+@import url("./sections/chart.css");
+@import url("./sections/camera.css");
+@import url("./sections/users.css");
+@import url("./sections/logs.css");
 
-.page-content {
-    animation: fadeIn 0.6s ease forwards;
-}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-/* Cards e elementos principais */
-.card, .login-card, .form-card, .stat-card, .user-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-}
-
-.card:hover, .stat-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-/* Monitor */
-.camera-box {
-    position: relative;
-    border: 3px solid var(--primary);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-}
-
-.status-overlay {
-    background: rgba(0,0,0,0.85);
-    border-top: 3px solid var(--primary);
-}
-
-.toast {
-    background: rgba(15,23,42,0.95);
-    border-left: 4px solid var(--primary);
-}
+@import url("./responsive.css");

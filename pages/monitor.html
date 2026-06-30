@@ -1,79 +1,68 @@
 <!-- ========================= -->
-<!-- 👀 MONITORAMENTO EM TEMPO REAL - VERSÃO PROFISSIONAL -->
+<!-- 👀 MONITOR -->
 <!-- ========================= -->
-<section id="monitorPage" class="page">
+<section
+  id="monitorPage"
+  class="page"
+>
 
-  <div class="page-content">
+ <div class="page-content">
 
     <div class="topbar">
-      <div>
-        <h1>🎥 Monitoramento em Tempo Real</h1>
-        <p class="subtitle">Sistema de Reconhecimento Facial Inteligente</p>
-      </div>
-      <div class="monitor-status">
-        <span class="status-dot online"></span>
-        <span id="cameraStatus">Câmera Ativa</span>
-      </div>
+
+      <h1>
+        Monitoramento
+      </h1>
+
     </div>
+
 
     <div class="activity-section">
 
-      <!-- Seleção de Câmera -->
-      <div class="camera-selector">
-        <div class="selector-group">
-          <label><strong>Câmera Atual:</strong></label>
-          <select id="cameraSelect" onchange="selecionarCamera(this.value)" class="camera-select">
-            <!-- Opções carregadas via JS -->
-          </select>
-        </div>
-        <button onclick="cadastrarCamera()" class="add-camera-btn">
-          <i data-lucide="plus-circle"></i> Nova Câmera
-        </button>
-      </div>
+      <h2>
+        👁 Sistema Facial
+      </h2>
 
-      <!-- Área do Vídeo -->
-      <div class="camera-box">
-        <video id="monitorVideo" autoplay muted playsinline></video>
-        
-        <!-- Overlay de Status -->
-        <div class="status-overlay">
-          <h3 id="statusTitulo">Aguardando detecção...</h3>
-          <p id="statusTexto">Posicione o rosto na câmera</p>
-        </div>
+      <p>
+        Sistema aguardando câmera...
+      </p>
 
-        <!-- Indicador de processamento -->
-        <div id="processingIndicator" class="processing-indicator">
-          Processando...
-        </div>
-      </div>
+<div class="camera-box">
 
-      <!-- Informações Rápidas -->
-      <div class="monitor-info">
-        <div class="info-card">
-          <span>Alunos Hoje</span>
-          <strong id="alunosHoje">0</strong>
-        </div>
-        <div class="info-card">
-          <span>Último Reconhecimento</span>
-          <strong id="ultimoReconhecimento">-</strong>
-        </div>
-        <button onclick="pararMonitor()" class="stop-btn">
-          ⏹ Parar Monitor
-        </button>
-      </div>
+  <video
+  id="monitorVideo"
+  autoplay
+  muted
+  playsinline
+  width="320"
+  height="240"
+></video>
 
-      <!-- Logs Recentes -->
-      <div class="logs-list">
-        <h3>Últimos Reconhecimentos</h3>
-        <div id="logsRecentes" class="logs-container">
-          <!-- Preenchido via JS -->
-        </div>
-      </div>
+</div>
+
+<div class="recognition-box">
+
+  <h3 id="statusTitulo">
+    Nenhum rosto detectado
+  </h3>
+
+  <p id="statusTexto">
+    Aguardando reconhecimento...
+  </p>
+
+</div>
+
+<div class="logs-list"></div>
 
     </div>
 
-    <button class="logout-btn" onclick="abrirPagina('dashboardPage')">
-      ← Voltar ao Dashboard
+
+    <button
+      class="logout-btn"
+      onclick="abrirPagina('dashboardPage')"
+      style="margin-top:20px;"
+    >
+      ← Voltar
     </button>
 
   </div>
