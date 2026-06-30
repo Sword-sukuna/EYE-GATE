@@ -47,17 +47,17 @@ Sistema inteligente que utiliza **reconhecimento facial** para registrar automat
 ## 📁 Estrutura do Projeto
 
 EYE-GATE/
-├── index.html
-├── css/
-├── js/
-│   ├── core/          (supabase, pages)
-│   ├── face/          (reconhecimento, cadastro)
-│   ├── dashboard/     (stats, charts, logs)
-│   ├── admin/         (gerenciamento)
-│   ├── auth/          (login, sessão)
-│   └── ui/            (navegação, loading)
-├── models/            (modelos da face-api)
-└── README.md
+├── index.html---
+├── css/---
+├── js/---
+│   ├── core/          (supabase, pages)---
+│   ├── face/          (reconhecimento, cadastro)---
+│   ├── dashboard/     (stats, charts, logs)---
+│   ├── admin/         (gerenciamento)---
+│   ├── auth/          (login, sessão)---
+│   └── ui/            (navegação, loading)---
+├── models/            (modelos da face-api)---
+└── README.md---
 
 ---
 
@@ -81,5 +81,5 @@ EYE-GATE/
 
 ---
 
-**Desenvolvido por: [RAUL, JULIO, VICENTE, RICHARD]**
+**Desenvolvido por: [RAUL, JULIO, VICENTE, GIAN, RICHARD]**
 **Data: Junho 2026**
