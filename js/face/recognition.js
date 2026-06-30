@@ -136,12 +136,20 @@ async function carregarCameras() {
 
 function selecionarCamera(id) {
     if (!id) return;
+    
     cameraAtual = id;
     pararMonitor();
-    setTimeout(() => {
+    
+    // Força recarregar a câmera
+    setTimeout(async () => {
+        const video = document.getElementById("monitorVideo");
+        if (video) video.srcObject = null; // Limpa anterior
+        
+        iniciarCameraMonitor();
         iniciarMonitor();
-        mostrarMensagem("📹 Câmera alterada com sucesso", "success");
-    }, 500);
+        
+        mostrarMensagem("📹 Câmera alterada com sucesso!", "success");
+    }, 700);
 }
 
 // Expor funções globais

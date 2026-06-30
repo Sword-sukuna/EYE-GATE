@@ -1,107 +1,76 @@
 // =========================
-// 📷 CAMERA CADASTRO
+// 📷 GERENCIAMENTO DE CÂMERAS (VERSÃO PROFISSIONAL)
 // =========================
-async function iniciarCameraCadastro(){
 
- const video =
- document.getElementById("video");
+let streamCadastro = null;
+let streamMonitor = null;
 
- if(!video)
-   return;
+// ==================== CÂMERA PARA CADASTRO DE ALUNO ====================
+async function iniciarCameraCadastro() {
+    const video = document.getElementById("video");
+    if (!video) return;
+    if (streamCadastro) return; // Já está rodando
 
- if(streamCadastro)
-   return;
-
- try{
-
-   streamCadastro =
-   await navigator.mediaDevices.getUserMedia({
-
-     video:true,
-
-     audio:false
-
-   });
-
-   video.srcObject =
-   streamCadastro;
-
-  }catch(error){
-
-  console.log(error);
-
-  mostrarMensagem(
-    "Permita acesso à câmera para continuar."
-  );
-
+    try {
+        streamCadastro = await navigator.mediaDevices.getUserMedia({
+            video: { 
+                facingMode: "user",
+                width: { ideal: 640 },
+                height: { ideal: 480 }
+            },
+            audio: false
+        });
+        video.srcObject = streamCadastro;
+        console.log("✅ Câmera de cadastro iniciada");
+    } catch (error) {
+        console.error("Erro ao acessar câmera de cadastro:", error);
+        mostrarMensagem("❌ Permita o acesso à câmera para cadastrar alunos", "danger");
+    }
 }
 
+function pararCameraCadastro() {
+    if (streamCadastro) {
+        streamCadastro.getTracks().forEach(track => track.stop());
+        streamCadastro = null;
+    }
 }
 
-// =========================
-// 📷 CAMERA MONITOR
-// =========================
-async function iniciarCameraMonitor(){
+// ==================== CÂMERA PARA MONITORAMENTO ====================
+async function iniciarCameraMonitor() {
+    const video = document.getElementById("monitorVideo");
+    if (!video) return;
 
- const video =
- document.getElementById(
-   "monitorVideo"
- );
+    // Para qualquer stream anterior
+    pararCameraMonitor();
 
- if(!video)
-   return;
-
- if(streamMonitor)
-   return;
-
- try{
-
-   streamMonitor =
-   await navigator.mediaDevices.getUserMedia({
-
-     video:true,
-
-     audio:false
-
-   });
-
-   video.srcObject =
-   streamMonitor;
-
-  }catch(error){
-
-  console.log(error);
-
-  mostrarMensagem(
-    "Permita acesso à câmera para continuar."
-  );
-
+    try {
+        streamMonitor = await navigator.mediaDevices.getUserMedia({
+            video: { 
+                facingMode: "user",
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
+                frameRate: { ideal: 30 }
+            },
+            audio: false
+        });
+        
+        video.srcObject = streamMonitor;
+        console.log("📹 Stream do Monitor iniciada com sucesso");
+    } catch (error) {
+        console.error("Erro ao iniciar câmera do monitor:", error);
+        mostrarMensagem("❌ Não foi possível acessar a câmera do monitor", "danger");
+    }
 }
 
+function pararCameraMonitor() {
+    if (streamMonitor) {
+        streamMonitor.getTracks().forEach(track => track.stop());
+        streamMonitor = null;
+    }
 }
 
-function pararCameraCadastro(){
-
- if(!streamCadastro)
-   return;
-
- streamCadastro
-   .getTracks()
-   .forEach(track => track.stop());
-
- streamCadastro = null;
-
-}
-
-function pararCameraMonitor(){
-
- if(!streamMonitor)
-   return;
-
- streamMonitor
-   .getTracks()
-   .forEach(track => track.stop());
-
- streamMonitor = null;
-
-}
+// Expor funções globais
+window.iniciarCameraCadastro = iniciarCameraCadastro;
+window.pararCameraCadastro = pararCameraCadastro;
+window.iniciarCameraMonitor = iniciarCameraMonitor;
+window.pararCameraMonitor = pararCameraMonitor;
