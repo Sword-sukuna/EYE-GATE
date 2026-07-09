@@ -81,5 +81,5 @@ EYE-GATE/
 
 ---
 
-**Desenvolvido por: [RAUL, JULIO, VICENTE, GIAN, RICHARD, MOZER]**
+**Desenvolvido por: [GIAN, JULIO, MOZER, RAUL, RICHARD, VICENTE]**
 **Data: Junho 2026**
