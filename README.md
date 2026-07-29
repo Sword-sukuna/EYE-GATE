@@ -86,7 +86,7 @@ EYE-GATE e a LGPD – Como seguimos a lei?
 
 ##O EYE-GATE trata dados biométricos faciais, que pela LGPD [Lei nº 13.709/2018] são dados pessoais sensíveis [Art. 5º, II].
 
-##Como a maioria dos alunos são crianças e adolescentes, seguimos especialmente o Art. 14 [melhor interesse do menor] e o Art. 11 [tratamento de dados sensíveis].
+## Como a maioria dos alunos são crianças e adolescentes, seguimos especialmente o Art. 14 [melhor interesse do menor] e o Art. 11 [tratamento de dados sensíveis].
 Objetivo do sistema
 
 ##O EYE-GATE tem como finalidade otimizar a entrada e saída dos alunos, tornando o processo mais rápido e organizado, sem prejudicar a segurança.
